@@ -1,3 +1,13 @@
+/* This file contains the definition for the Sponge Mechanics
+To create the sponge, #include "sponge.h" and use sponge_init() to spawn the sponge in
+
+Controls: 
+To equip the sponge, hover over the sponge and press "E", the sponge will now follow the players mouse.
+Press "E" again to unequip the sponge
+
+While holding the sponge, hold down left mouse button and drag across the screen to "Scrub"
+*/
+
 // Requires CProcessing library
 #include "CProcessing.h"
 #include "utils.h"
