@@ -4,6 +4,8 @@
 
 // testing sponge
 #include "sponge.h"
+// testing timer
+#include "timer.h"
 
 CP_Font myFont;
 CP_Color buttons;
@@ -46,6 +48,8 @@ void Main_Menu_Update(void)
 
 	// sponge initialisation
 	sponge_init();
+	timer_init();
+	
 }
 
 void Main_Menu_Exit(void)
