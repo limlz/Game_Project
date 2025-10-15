@@ -1,6 +1,10 @@
 #include "cprocessing.h"
 #include "utils.h"
 #include "game.h"
+
+// testing sponge
+#include "sponge.h"
+
 CP_Font myFont;
 CP_Color buttons;
 CP_Color button_text;
@@ -39,8 +43,9 @@ void Main_Menu_Update(void)
 			CP_Engine_Terminate();
 		}
 	}
-	
 
+	// sponge initialisation
+	sponge_init();
 }
 
 void Main_Menu_Exit(void)

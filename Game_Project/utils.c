@@ -25,3 +25,14 @@ int IsCircleClicked(float circle_center_x, float circle_center_y, float diameter
 	return dist_between_click_and_center < radius*radius;
 }
 
+
+// Function to check whether circles are intersecting
+// Inputs are as followed :
+// - The radius, center x and y of the player circle
+// - The radius, center x and y of the "zonal" circle
+int AreCirclesIntersecting(float c1_center_x, float c1_center_y, float c1_radius, float c2_center_x, float c2_center_y, float c2_center_radius)
+{
+	float total_radius = c1_radius + c2_center_radius;
+	float pointsDist = CP_Math_Distance(c1_center_x, c1_center_y, c2_center_x, c2_center_y);
+	return (pointsDist <= total_radius) ? 1 : 0;
+}
