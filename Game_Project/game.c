@@ -20,13 +20,7 @@ void Game_Init(void)
 void Game_Update(void)
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(250, 250, 250, 255));
-
-	//Draws the plate 
-	// P.S. Added floats to prevent implicit conversion warnings of int to float from compiler
-	CP_Settings_Fill(CP_Color_Create(230, 230, 230, 255));
-	CP_Graphics_DrawCircle((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, 600);
-	CP_Settings_Fill(CP_Color_Create(210, 210, 210, 255));
-	CP_Graphics_DrawCircle((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, 400);
+	draw_plate();
 
 	//Function to spawn dirts on plate, takes 1 or 0 to decide if it should spawn new dirt in random spots
 	spawn_dirt(new_game);
@@ -38,6 +32,12 @@ void Game_Update(void)
 	else {
 		new_game = 0;
 	}
+
+	// temporary function to run the random function to change plate (can be linked to shop in the future)
+	if (CP_Input_KeyTriggered(KEY_P)) {
+		change_plate();
+	}
+
 	// displays current money
 	money_display();
 	

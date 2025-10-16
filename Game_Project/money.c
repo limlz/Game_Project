@@ -34,8 +34,8 @@ void decrement_money(int money_change) {
 }
 
 // function to increase or reduce value of plates
-void increment_decrement_plate_value(int plate_change) {
-	dollars_per_plate += plate_change;
+void set_plate_value(int plate_change) {
+	dollars_per_plate = plate_change;
 }
 
 // function to draw current money
