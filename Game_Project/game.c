@@ -11,6 +11,7 @@ int new_game = 0;
 void Game_Init(void)
 {
 	new_game = 1;
+	// Initialise random variable required for bubble production
 	Bubbles_Init();
 }
 
@@ -50,6 +51,8 @@ void Game_Update(void)
 	}
 
 	shop_init();
+
+	// Bubble drawing function
 	Bubbles_UpdateAndDraw();
 	sponge_init();
 	timer_init();
