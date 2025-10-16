@@ -105,6 +105,7 @@ xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /
     <ClCompile Include="sponge.c" />
     <ClCompile Include="timer.c" />
     <ClCompile Include="utils.c" />
+    <ClCompile Include="money.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bubbles.h" />
@@ -115,6 +116,7 @@ xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /
     <ClInclude Include="sponge.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="money.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

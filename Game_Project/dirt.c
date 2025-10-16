@@ -29,6 +29,7 @@ void spawn_dirt(new_game) {
 		CP_Settings_Fill(CP_Color_Create(dirt_rgb[0], dirt_rgb[1], dirt_rgb[2], opacities[i]));
 		CP_Graphics_DrawCircle(dirt_x[i], dirt_y[i], 100);
 		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
+		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	}
 
 }

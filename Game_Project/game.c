@@ -6,6 +6,7 @@
 #include "timer.h"
 #include "dirt.h"
 #include "shop.h"
+#include "money.h"
 
 int new_game = 0;
 void Game_Init(void)
@@ -38,6 +39,8 @@ void Game_Update(void)
 		new_game = 0;
 	}
 
+	money_display();
+	
 	/*
 	If the player is scrubbing, call the dirt_scrubbed function to reduce opacity of dirt
 	Also checks to see if the game is running to prevent scrubbing while paused
@@ -52,6 +55,7 @@ void Game_Update(void)
 
 	shop_init();
 
+	
 	// Bubble drawing function
 	Bubbles_UpdateAndDraw();
 	sponge_init();
