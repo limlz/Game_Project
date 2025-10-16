@@ -5,6 +5,7 @@
 #include "sponge.h"
 #include "timer.h"
 #include "dirt.h"
+#include "shop.h"
 
 int new_game = 0;
 void Game_Init(void)
@@ -47,6 +48,7 @@ void Game_Update(void)
 		dirt_scrubbed(is_SpongeEquipped(), get_SpongePower());
 	}
 
+	shop_init();
 	sponge_init();
 	timer_init();
 }

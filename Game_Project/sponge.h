@@ -8,3 +8,6 @@ int is_SpongeEquipped(void);
 
 //Get the sponge current power (Returns an int based on the power)
 int get_SpongePower(void);
+
+// Upgrade the sponge power by 5, max power is 100
+void upgrade_Sponge(void);

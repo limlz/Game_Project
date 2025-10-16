@@ -35,6 +35,12 @@ int get_SpongePower(void) {
 	return sponge_power;
 }
 
+void upgrade_Sponge(void) {
+	if (sponge_power < 100) {
+		sponge_power += 5;
+	}
+}
+
 
 
 static void sponge_input(void) {
