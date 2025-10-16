@@ -38,7 +38,7 @@ void Game_Update(void)
 	else {
 		new_game = 0;
 	}
-
+	// displays current money
 	money_display();
 	
 	/*

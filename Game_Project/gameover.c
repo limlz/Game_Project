@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "game.h"
 #include "mainmenu.h"
+#include "money.h"
 
 #include <stdio.h>
 
@@ -40,7 +41,7 @@ void Game_Over_Update(void)
 
 	// Have to find a way to link the final score to this score
 	// Temp value i
-	sprintf_s(ScoreText, sizeof(ScoreText), "Final Score : %d", 1);
+	sprintf_s(ScoreText, sizeof(ScoreText), "Final Score : %d", get_total_earned());
 	CP_Font_DrawText(ScoreText, 800, 100);
 
 

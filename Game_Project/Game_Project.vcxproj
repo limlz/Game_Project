@@ -99,6 +99,7 @@ xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /
     <ClCompile Include="bubbles.c" />
     <ClCompile Include="dirt.c" />
     <ClCompile Include="game.c" />
+    <ClCompile Include="gameover.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mainmenu.c" />
     <ClCompile Include="shop.c" />
@@ -111,6 +112,7 @@ xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /
     <ClInclude Include="bubbles.h" />
     <ClInclude Include="dirt.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="gameover.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="shop.h" />
     <ClInclude Include="sponge.h" />
