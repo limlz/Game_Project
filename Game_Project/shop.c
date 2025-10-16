@@ -39,7 +39,7 @@ void upgrade_sponge_button(void) {
 			
 			// Check if player has enough money to upgrade sponge
 			if (get_current_money() >= upgradeCost) {
-				increment_decrement_money(-upgradeCost);
+				decrement_money(upgradeCost);
 				upgrade_Sponge();
 
 				// Increase cost for next upgrade
