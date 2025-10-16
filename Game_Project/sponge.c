@@ -41,8 +41,6 @@ void upgrade_Sponge(void) {
 	}
 }
 
-
-
 static void sponge_input(void) {
 	// Check if 'E' key is pressed and mouse is over the sponge
 	if (CP_Input_KeyTriggered(KEY_E) && IsAreaClicked(sponge_x, sponge_y, sponge_height, sponge_width, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
