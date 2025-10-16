@@ -36,6 +36,12 @@
     <ClCompile Include="dirt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="shop.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bubbles.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -54,6 +60,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="dirt.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shop.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bubbles.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

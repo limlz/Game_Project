@@ -11,6 +11,7 @@ int new_game = 0;
 void Game_Init(void)
 {
 	new_game = 1;
+	Bubbles_Init();
 }
 
 
@@ -49,6 +50,7 @@ void Game_Update(void)
 	}
 
 	shop_init();
+	Bubbles_UpdateAndDraw();
 	sponge_init();
 	timer_init();
 }

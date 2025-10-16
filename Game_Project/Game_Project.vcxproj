@@ -96,18 +96,22 @@ xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bubbles.c" />
     <ClCompile Include="dirt.c" />
     <ClCompile Include="game.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mainmenu.c" />
+    <ClCompile Include="shop.c" />
     <ClCompile Include="sponge.c" />
     <ClCompile Include="timer.c" />
     <ClCompile Include="utils.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bubbles.h" />
     <ClInclude Include="dirt.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="mainmenu.h" />
+    <ClInclude Include="shop.h" />
     <ClInclude Include="sponge.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="utils.h" />
