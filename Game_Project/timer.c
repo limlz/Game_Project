@@ -1,4 +1,5 @@
 #include "cprocessing.h"
+#include "gameover.h"
 
 // Timer variable as 100%
 static float timer = 100.0f;
@@ -52,8 +53,8 @@ static void time_update(void) {
 		// Timer has reached zero, TODO: Handle end-of-timer event here
 		// 
 		// 
-		//CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
-		//timeReset();
+		CP_Engine_SetNextGameState(Game_Over_Init, Game_Over_Update, Game_Over_Exit);
+		timeReset();
 	}
 }
 

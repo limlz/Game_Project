@@ -58,6 +58,7 @@ void shop_init(void) {
 		shop_menu();
 	}
 	else {
+		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
 		CP_Font_DrawText("Press [F] to open Shop", x_pos, y_pos - 200);
 	}
 }
