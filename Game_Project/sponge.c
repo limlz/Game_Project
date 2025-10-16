@@ -11,6 +11,7 @@ While holding the sponge, hold down left mouse button and drag across the screen
 // Requires CProcessing library
 #include "CProcessing.h"
 #include "utils.h"
+#include "timer.h"
 
 // Bool to check if sponge is equipped by player
 int sponge_equipped;
@@ -26,41 +27,48 @@ int is_Scrubbing(void) {
 	return (sponge_equipped == 1 && CP_Input_MouseDragged(MOUSE_BUTTON_LEFT));
 }
 
+int is_SpongeEquipped(void) {
+	return sponge_equipped;
+}
+
+int get_SpongePower(void) {
+	return sponge_power;
+}
+
+
+
 static void sponge_input(void) {
 	// Check if 'E' key is pressed and mouse is over the sponge
 	if (CP_Input_KeyTriggered(KEY_E) && IsAreaClicked(sponge_x, sponge_y, sponge_height, sponge_width, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 		// Toggle sponge equipped state
 		sponge_equipped = sponge_equipped == 0 ? 1 : 0;
 	}
-
-	if (is_Scrubbing()) {
-		// TODO: Make the sponge scrubbing mechanics
-		CP_Settings_TextSize(20.0f);
-		CP_Font_DrawText("Scrubbing in progress...", sponge_x, sponge_y - 125);
-	}
 }
 
 void sponge_init(void) {
-	// Sponge not equipped by player, sets its location back to the original position
-	if (sponge_equipped != 1) {
-		sponge_x = 100.0f;
-		sponge_y = 100.0f;
+	if (checkGameRunning()) {
+		// Sponge not equipped by player, sets its location back to the original position
+		if (sponge_equipped != 1) {
+			sponge_x = 100.0f;
+			sponge_y = 100.0f;
 
-		CP_Settings_TextSize(20.0f);
-		CP_Font_DrawText("Equip [E]", sponge_x, sponge_y - 75);
-	} 
-	// player is now equipped with the sponge, sponge will follow the mouse
-	else {
-		sponge_x = CP_Input_GetMouseX();
-		sponge_y = CP_Input_GetMouseY();
+			CP_Settings_TextSize(20.0f);
+			CP_Font_DrawText("Equip [E]", sponge_x, sponge_y - 75);
+		} 
+		// player is now equipped with the sponge, sponge will follow the mouse
+		else {
+			sponge_x = CP_Input_GetMouseX();
+			sponge_y = CP_Input_GetMouseY();
 
-		CP_Settings_TextSize(20.0f);
-		CP_Font_DrawText("Unequip [E]", sponge_x, sponge_y - 75);
+			CP_Settings_TextSize(20.0f);
+			CP_Font_DrawText("Unequip [E]", sponge_x, sponge_y - 75);
+		}
+		// Handle input for the sponge
+		sponge_input();
 	}
+	
 	// Draw the sponge
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255)); 
 	CP_Graphics_DrawRect(sponge_x, sponge_y, sponge_height, sponge_width);
 
-	// Handle input for the sponge
-	sponge_input();
 }

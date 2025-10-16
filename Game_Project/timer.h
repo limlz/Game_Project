@@ -2,4 +2,6 @@ void timer_init();
 
 void timeReset();
 
-int isGamePausedFunc();
+
+// Return`s 1 if the game is running, 0 if paused
+int checkGameRunning();

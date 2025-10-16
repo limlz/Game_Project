@@ -2,11 +2,6 @@
 #include "utils.h"
 #include "game.h"
 
-// testing sponge
-#include "sponge.h"
-// testing timer
-#include "timer.h"
-
 CP_Font myFont;
 CP_Color buttons;
 CP_Color button_text;
@@ -44,12 +39,7 @@ void Main_Menu_Update(void)
 		else if (IsAreaClicked(center_x, button_y + offset, 300, 200, mx, my)) {
 			CP_Engine_Terminate();
 		}
-	}
-
-	// sponge initialisation
-	sponge_init();
-	timer_init();
-	
+	}	
 }
 
 void Main_Menu_Exit(void)

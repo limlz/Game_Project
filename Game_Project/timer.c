@@ -4,7 +4,7 @@
 static float timer = 100.0f;
 
 // Bool to check if the game is paused
-int isGamePaused = 0;
+int isGameRunning = 1;
 
 // Function to start the timer countdown, when started timer will decrease
 static void timeStart(void) {
@@ -25,18 +25,18 @@ static void timeReset(void) {
 
 // Function to check if the game is paused, can be used in other files so that
 // players cannot move while the game is paused
-int isGamePausedFunc(void) {
-	return isGamePaused;
+int checkGameRunning(void) {
+	return isGameRunning;
 }
 
 // Handles the timer update and pause functionality
 static void time_update(void) {
 	if (CP_Input_KeyTriggered(KEY_ESCAPE)) {
-		isGamePaused = (isGamePaused == 0) ? 1 : 0;
+		isGameRunning = (isGameRunning == 1) ? 0 : 1;
 	}
 
 
-	if (isGamePausedFunc()) {
+	if (!checkGameRunning()) {
 		timeStop();
 
 		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 200));
@@ -60,6 +60,8 @@ static void time_update(void) {
 void timer_init() {
 	time_update();
 
+
+	CP_Settings_Fill(CP_Color_Create(timer, timer * 2, 255 - timer, 200));
 	// Draw the timer bar 
 	CP_Graphics_DrawQuadAdvanced(
 		50, 800,								50 + (1500 * (timer/100.0f)), 800, 
