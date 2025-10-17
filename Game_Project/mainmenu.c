@@ -10,6 +10,7 @@ float mx, my;
 void Main_Menu_Init(void)
 {
 	myFont = CP_Font_Load("Assets/Exo2-Regular.ttf");
+	scrub = CP_Sound_Load("Assets/scrubbing.wav");
 	button_text = CP_Color_Create(0, 0, 0, 255);
 	buttons = CP_Color_Create(255, 102, 102, 255);
 }
