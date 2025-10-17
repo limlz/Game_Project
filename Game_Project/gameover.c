@@ -28,7 +28,7 @@ void Game_Over_Update(void)
 
 	CP_Settings_Fill(buttons);
 	CP_Settings_TextSize(70.0f);
-	CP_Graphics_DrawRect(center_x, button_y + offset, 300, 200);
+	CP_Graphics_DrawRect(center_x, button_y + offset, 400, 200);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 	CP_Graphics_DrawRect(center_x, button_y - offset, 300, 200);
 	CP_Font_Set(myFont);
@@ -39,8 +39,6 @@ void Game_Over_Update(void)
 
 
 
-	// Have to find a way to link the final score to this score
-	// Temp value i
 	sprintf_s(ScoreText, sizeof(ScoreText), "Final Score : %d", get_total_earned());
 	CP_Font_DrawText(ScoreText, 800, 100);
 

@@ -7,7 +7,7 @@
 #include "dirt.h"
 #include "shop.h"
 #include "money.h"
-
+CP_Sound scrubbing = NULL;
 int new_game = 0;
 void Game_Init(void)
 {
