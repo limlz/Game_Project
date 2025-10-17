@@ -6,19 +6,18 @@ float dirt_x[] = { 0,0,0,0,0 };
 // initialise array containing all the y coords for dirt
 float dirt_y[] = { 0,0,0,0,0 };
 // initialise array contianing all the opacity values for dirt
-int opacities[] = { 200,200,200,200,200 };
+int opacities[] = { 220,220,220,220,220 };
 // initialise array that contains the dirt RGB values (done this way so that opacity values can be
 // edited separately.)
-int dirt_rgb[] = { 76,92,48 };
+int dirt_rgb[] = { 157,92,61 };
 
 // function to spawn new dirt
 void spawn_dirt(new_game) {
-	int dirt_rgb[] = { 76,92,48 };
 		// Checks if new game variable is true, if so, reset all opacity values to 200 and generate
 		// new x y values for all dirt 
 		if(new_game) {
 			for (int i = 0; i < 5; i++) {
-				opacities[i] = 200;
+				opacities[i] = 220;
 				dirt_x[i] = (float)CP_System_GetWindowWidth() / 2 - 250 + CP_Random_RangeInt(0, 500);
 				dirt_y[i] = (float)CP_System_GetWindowHeight() / 2 - 250 + CP_Random_RangeInt(0, 500);
 			}

@@ -7,7 +7,7 @@
 #include "dirt.h"
 #include "shop.h"
 #include "money.h"
-CP_Sound scrubbing = NULL;
+
 int new_game = 0;
 void Game_Init(void)
 {
@@ -19,7 +19,7 @@ void Game_Init(void)
 
 void Game_Update(void)
 {
-	CP_Graphics_ClearBackground(CP_Color_Create(250, 250, 250, 255));
+	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
 	draw_plate();
 
 	//Function to spawn dirts on plate, takes 1 or 0 to decide if it should spawn new dirt in random spots
