@@ -1,6 +1,7 @@
 #include "cprocessing.h"
 #include "utils.h"
 #include "game.h"
+#include "settings.h"
 
 #define OFFSET		100
 #define MOVE_DOWN   200
@@ -27,9 +28,14 @@ void Main_Menu_Update(void)
 	// Draw rectangles for buttons
 	CP_Settings_Fill(buttons);
 	CP_Settings_NoStroke();
-	CP_Graphics_DrawRectAdvanced(center_x, button_y + OFFSET + MOVE_DOWN, 300, 150,0,50);
-	CP_Graphics_DrawRectAdvanced(center_x, button_y - OFFSET + MOVE_DOWN, 300, 150,0,50);
+	CP_Graphics_DrawRectAdvanced(center_x, button_y + OFFSET + MOVE_DOWN, 300, 150, 0, 50);
+	CP_Graphics_DrawRectAdvanced(center_x, button_y - OFFSET + MOVE_DOWN, 300, 150, 0, 50);
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
+
+	// Draw settings button
+	CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120, 100, 100, 0, 20);
+	CP_Settings_Fill(button_text);
+	CP_Graphics_DrawCircle(120, CP_System_GetWindowHeight() - 120, 50);
 
 	// Draw text for buttons
 	CP_Font_Set(myFont);
@@ -53,6 +59,9 @@ void Main_Menu_Update(void)
 		}
 		else if (IsAreaClicked(center_x, button_y + OFFSET + MOVE_DOWN, 300, 150, mx, my)) {
 			CP_Engine_Terminate();
+		}
+		else if (IsAreaClicked(120, CP_System_GetWindowHeight() - 120, 100, 100, mx, my)) {
+			CP_Engine_SetNextGameState(Settings_Init, Settings_Update, Settings_Exit);
 		}
 	}	
 }

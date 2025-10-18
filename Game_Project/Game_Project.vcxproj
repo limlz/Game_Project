@@ -103,6 +103,8 @@ xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /
     <ClCompile Include="main.c" />
     <ClCompile Include="mainmenu.c" />
     <ClCompile Include="plate.c" />
+    <ClCompile Include="settings.c" />
+    <ClCompile Include="settings_options.c" />
     <ClCompile Include="shop.c" />
     <ClCompile Include="splashscreen.c" />
     <ClCompile Include="sponge.c" />
@@ -117,6 +119,8 @@ xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /
     <ClInclude Include="gameover.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="plate.h" />
+    <ClInclude Include="settings.h" />
+    <ClInclude Include="settings_options.h" />
     <ClInclude Include="shop.h" />
     <ClInclude Include="splashscreen.h" />
     <ClInclude Include="sponge.h" />

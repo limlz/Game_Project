@@ -1,0 +1,1 @@
+int setting_bar(int y_value);

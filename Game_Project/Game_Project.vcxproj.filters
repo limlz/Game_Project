@@ -45,6 +45,21 @@
     <ClCompile Include="money.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gameover.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="plate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="settings.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="splashscreen.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="settings_options.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -72,6 +87,21 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="money.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gameover.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="plate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="splashscreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="settings_options.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
