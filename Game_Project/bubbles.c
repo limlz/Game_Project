@@ -30,20 +30,18 @@ typedef struct Bubble {
 static Bubble bubbleList[MAX_BUBBLES];
 static float  spawnCooldownTimer = 0.0f;
 
-static float RandomRange(float a, float b) {
-    return CP_Random_RangeFloat(a, b);
-}
+
 
 // Spawn one bubble near the mouse
 static void SpawnBubble(float mouseX, float mouseY) {
     for (int i = 0; i < MAX_BUBBLES; ++i) {
         if (!bubbleList[i].isAlive) {
 
-            float angle = RandomRange(0.0f, 6.2831853f);  // 0 to 2*pi
-            float spawnOffset = RandomRange(0.0f, 18.0f);
-            float speed = RandomRange(SPEED_MIN, SPEED_MAX);
-            float radius = RandomRange(BASE_RADIUS_MIN, BASE_RADIUS_MAX);
-            float lifetime = RandomRange(LIFETIME_MIN, LIFETIME_MAX);
+            float angle = CP_Random_RangeFloat(0.0f, 6.2831853f);  // 0 to 2*pi
+            float spawnOffset = CP_Random_RangeFloat(0.0f, 18.0f);
+            float speed = CP_Random_RangeFloat(SPEED_MIN, SPEED_MAX);
+            float radius = CP_Random_RangeFloat(BASE_RADIUS_MIN, BASE_RADIUS_MAX);
+            float lifetime = CP_Random_RangeFloat(LIFETIME_MIN, LIFETIME_MAX);
 
             bubbleList[i].positionX = mouseX + cosf(angle) * spawnOffset;
             bubbleList[i].positionY = mouseY + sinf(angle) * spawnOffset;
@@ -97,7 +95,7 @@ void Bubbles_UpdateAndDraw(void) {
         bubble->velocityY -= UPWARD_FORCE * deltaTime;
 
         // apply side-to-side wobble
-        bubble->velocityX += RandomRange(-WOBBLE_STRENGTH, WOBBLE_STRENGTH) * deltaTime;
+        bubble->velocityX += CP_Random_RangeFloat(-WOBBLE_STRENGTH, WOBBLE_STRENGTH) * deltaTime;
 
         // apply drag
         bubble->velocityX *= powf(DRAG, deltaTime);
