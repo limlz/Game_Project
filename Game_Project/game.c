@@ -7,13 +7,19 @@
 #include "dirt.h"
 #include "shop.h"
 #include "money.h"
+#include "sounds.h"
+#include "bubbles.h"
+#include "plate.h"
 
 int new_game = 0;
+
 void Game_Init(void)
 {
 	new_game = 1;
 	// Initialise random variable required for bubble production
 	Bubbles_Init();
+	init_scrubbing_sounds();
+	update_volumes();
 }
 
 
@@ -51,6 +57,10 @@ void Game_Update(void)
 	*/ 
 	if (is_Scrubbing() && checkGameRunning()) {
 		dirt_scrubbed(is_SpongeEquipped(), get_SpongePower());
+		start_scrubbing_sound();
+	}
+	else {
+		stop_scrubbing_sound();
 	}
 
 	shop_init();
@@ -64,6 +74,6 @@ void Game_Update(void)
 
 void Game_Exit(void)
 {
-
+	clear_sounds();
 }
 

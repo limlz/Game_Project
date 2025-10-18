@@ -60,6 +60,9 @@
     <ClCompile Include="settings_options.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sounds.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -102,6 +105,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="settings_options.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sounds.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

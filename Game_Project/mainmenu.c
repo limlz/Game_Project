@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "game.h"
 #include "settings.h"
+#include "sounds.h"
 
 #define OFFSET		100
 #define MOVE_DOWN   200
@@ -16,6 +17,8 @@ void Main_Menu_Init(void)
 	myFont = CP_Font_Load("Assets/Exo2-Regular.ttf");
 	button_text = CP_Color_Create(255, 255, 255, 255);
 	buttons = CP_Color_Create(123, 183, 220 , 255);
+	init_background_music();
+	update_volumes();
 }
 
 void Main_Menu_Update(void)
