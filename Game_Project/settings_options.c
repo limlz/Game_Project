@@ -71,6 +71,7 @@ void music_volume_setting_bar(int y_value) {
 		my = CP_Input_GetMouseY();
 		if (IsAreaClicked(rightBaseX + 62.5, arrowY, 20, 20, mx, my)) {
 			music_level++;
+
 		}
 		else if (IsAreaClicked(leftBaseX - 62.5, arrowY, 20, 20, mx, my)) {
 			music_level--;

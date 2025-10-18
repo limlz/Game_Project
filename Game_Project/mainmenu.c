@@ -37,12 +37,21 @@ void Main_Menu_Update(void)
 	// Interactive aspect of buttons
 	if (IsAreaClicked(center_x, button_y - OFFSET + MOVE_DOWN, 300, 150, mx, my)) {
 		play_pop = 10;
+		if (CP_Input_MouseClicked()) {
+			CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
+		}
 	}
 	else if (IsAreaClicked(center_x, button_y + OFFSET + MOVE_DOWN, 300, 150, mx, my)) {
 		exit_pop = 10;
+		if (CP_Input_MouseClicked()) {
+			CP_Engine_Terminate();
+		}
 	}
 	else if (IsAreaClicked(120, CP_System_GetWindowHeight() - 120, 100, 100, mx, my)) {
 		settings_pop = 10;
+		if (CP_Input_MouseClicked()) {
+			CP_Engine_SetNextGameState(Settings_Init, Settings_Update, Settings_Exit);
+		}
 	}
 
 	// Draw rectangles for buttons
@@ -70,18 +79,7 @@ void Main_Menu_Update(void)
 	CP_Settings_TextSize(300.0f);
 	CP_Font_DrawText("WEWASHPL8", center_x, button_y - 200);
 
-	// Check for which buttons are clicked
-	if (CP_Input_MouseClicked()) {
-		if (IsAreaClicked(center_x, button_y - OFFSET + MOVE_DOWN, 300, 150, mx, my)) {
-			CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
-		}
-		else if (IsAreaClicked(center_x, button_y + OFFSET + MOVE_DOWN, 300, 150, mx, my)) {
-			CP_Engine_Terminate();
-		}
-		else if (IsAreaClicked(120, CP_System_GetWindowHeight() - 120, 100, 100, mx, my)) {
-			CP_Engine_SetNextGameState(Settings_Init, Settings_Update, Settings_Exit);
-		}
-	}	
+
 }
 
 void Main_Menu_Exit(void)
