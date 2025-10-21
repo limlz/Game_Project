@@ -41,9 +41,17 @@ void sfx_volume_setting_bar(int y_value) {
 		}
 	}
 	sfx_level = CP_Math_ClampInt(sfx_level, 0, 10);
-	while (boxes > 0) {
-		boxes -= 1;
-		CP_Graphics_DrawRect(Settings_Boxes.positionX + Settings_Boxes.width * (boxes * 2), y_value, Settings_Boxes.width, Settings_Boxes.height);
+	int index = 10;
+	while (index > 0) {
+		index -= 1;
+		// draw background (empty box)
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		CP_Graphics_DrawRect(Settings_Boxes.positionX + Settings_Boxes.width * (index * 2), y_value, Settings_Boxes.width, Settings_Boxes.height);
+		// draw filled box if within the "boxes" count
+		if (index < boxes) {
+			CP_Settings_Fill(Settings_Boxes.color);
+			CP_Graphics_DrawRect(Settings_Boxes.positionX + Settings_Boxes.width * (index * 2), y_value, Settings_Boxes.width, Settings_Boxes.height);
+		}
 	}
 }
 
@@ -78,9 +86,17 @@ void music_volume_setting_bar(int y_value) {
 		}
 	}
 	music_level = CP_Math_ClampInt(music_level, 0, 10);
-	while (boxes > 0) {
-		boxes -= 1;
-		CP_Graphics_DrawRect(Settings_Boxes.positionX + Settings_Boxes.width * (boxes * 2), y_value, Settings_Boxes.width, Settings_Boxes.height);
+	int index = 10;
+	while (index > 0) {
+		index -= 1;
+		// draw background (empty box)
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		CP_Graphics_DrawRect(Settings_Boxes.positionX + Settings_Boxes.width * (index * 2), y_value, Settings_Boxes.width, Settings_Boxes.height);
+		// draw filled box if within the "boxes" count
+		if (index < boxes) {
+			CP_Settings_Fill(Settings_Boxes.color);
+			CP_Graphics_DrawRect(Settings_Boxes.positionX + Settings_Boxes.width * (index * 2), y_value, Settings_Boxes.width, Settings_Boxes.height);
+		}
 	}
 }
 

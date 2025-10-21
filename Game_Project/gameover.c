@@ -31,24 +31,25 @@ void Game_Over_Update(void)
 	my = CP_Input_GetMouseY();
 	int try_pop = 0;
 	int menu_pop = 0;
-	if (IsAreaClicked(center_x, button_y - OFFSET, 500, 200, mx, my)) {
+	if (IsAreaClicked(center_x, button_y - OFFSET, 300, 200, mx, my)) {
 		try_pop = 10;
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
 		}
 	}
-	else if (IsAreaClicked(center_x, button_y + OFFSET, 300, 200, mx, my)) {
+	else if (IsAreaClicked(center_x, button_y + OFFSET, 500, 200, mx, my)) {
 		menu_pop = 10;
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_SetNextGameState(Main_Menu_Exit, Main_Menu_Update, Main_Menu_Exit);
 		}
+
 	}
 
 	// Draw rectangles for buttons
 	CP_Settings_Fill(buttons);
 	CP_Settings_NoStroke();
-	CP_Graphics_DrawRectAdvanced(center_x, button_y + OFFSET, 500 + menu_pop, 200 + menu_pop, 0, 50);
 	CP_Graphics_DrawRectAdvanced(center_x, button_y - OFFSET, 300 + try_pop, 200 + try_pop, 0, 50);
+	CP_Graphics_DrawRectAdvanced(center_x, button_y + OFFSET, 500 + menu_pop, 200 + menu_pop, 0, 50);
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 
 	// Draw text for buttons

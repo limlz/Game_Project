@@ -59,7 +59,6 @@ void Main_Menu_Update(void)
 	CP_Settings_NoStroke();
 	CP_Graphics_DrawRectAdvanced(center_x, button_y - OFFSET + MOVE_DOWN, 300 + play_pop, 150 + play_pop, 0, 50);
 	CP_Graphics_DrawRectAdvanced(center_x, button_y + OFFSET + MOVE_DOWN, 300 + exit_pop, 150 + exit_pop, 0, 50);
-	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 
 	// Draw settings button
 	CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120, 100 + settings_pop, 100 + settings_pop, 0, 20);

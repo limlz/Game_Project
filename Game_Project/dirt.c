@@ -1,5 +1,6 @@
 #include "cprocessing.h"
 #include "utils.h"
+#include "bubbles.h"
 
 // initialise array containing all the x coords for dirt
 float dirt_x[] = { 0,0,0,0,0 };
@@ -92,7 +93,7 @@ void init_roomba(void) {
 	roomba_y = CP_System_GetWindowHeight() / 2;
 	roomba_color = CP_Color_Create(255, 255, 255, 200);
 }
-int roomba(void) {
+void roomba(void) {
 	// target and position vectors
 	CP_Vector roomba_v = CP_Vector_Set(roomba_x, roomba_y);
 	CP_Vector dirt_v;
@@ -130,6 +131,7 @@ int roomba(void) {
 	else {
 		opacities[closest_dirt] -= roomba_strength;
 		opacities[closest_dirt] = CP_Math_ClampInt(opacities[closest_dirt], 0, 200);
+		SpawnBubble(dirt_x[closest_dirt], dirt_y[closest_dirt]);
 	}
 
 	// draw da roomba

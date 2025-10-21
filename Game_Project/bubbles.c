@@ -33,7 +33,7 @@ static float  spawnCooldownTimer = 0.0f;
 
 
 // Spawn one bubble near the mouse
-static void SpawnBubble(float mouseX, float mouseY) {
+void SpawnBubble(float mouseX, float mouseY) {
     for (int i = 0; i < MAX_BUBBLES; ++i) {
         if (!bubbleList[i].isAlive) {
 

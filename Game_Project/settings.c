@@ -3,6 +3,7 @@
 #include "game.h"
 #include "settings.h"
 #include "mainmenu.h"
+#include "sounds.h"
 
 int volume_level = 0;
 CP_Color button_text, buttons;
@@ -24,7 +25,7 @@ void Settings_Update(void)
 	// Draw settings logo
 	CP_Settings_Fill(buttons);
 	CP_Settings_TextSize(150.0f);
-	CP_Font_DrawText("Settings", CP_System_GetWindowWidth()/2, 50);
+	CP_Font_DrawText("Settings", CP_System_GetWindowWidth()/2, 70);
 
 	CP_Settings_TextSize(60.0f);
 	CP_Font_DrawText("SFX Volume", CP_System_GetWindowWidth() / 2, 230);
@@ -43,9 +44,11 @@ void Settings_Update(void)
 	}
 
 	// Draw settings button
+	CP_Settings_NoStroke();
 	CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120, 100 + settings_pop, 100 + settings_pop, 0, 20);
 	CP_Settings_Fill(button_text);
 	CP_Graphics_DrawCircle(120, CP_System_GetWindowHeight() - 120, 50);
+	update_volumes();
 }
 
 void Settings_Exit(void)
