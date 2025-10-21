@@ -52,6 +52,7 @@ static void sponge_input(void) {
 void sponge_init(void) {
 	if (checkGameRunning()) {
 		// Sponge not equipped by player, sets its location back to the original position
+		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
 		if (sponge_equipped != 1) {
 			sponge_x = 100.0f;
 			sponge_y = 100.0f;

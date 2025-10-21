@@ -66,6 +66,8 @@ void Game_Update(void)
 	}
 
 	shop_init();
+	
+	//temporary roomba functions
 	if (CP_Input_KeyTriggered(KEY_R)) {
 		roomba_activated = 1;
 	}
