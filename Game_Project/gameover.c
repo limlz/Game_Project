@@ -27,12 +27,28 @@ void Game_Over_Update(void)
 
 	float center_x = CP_System_GetWindowWidth() * 0.5f;
 	float button_y = CP_System_GetWindowHeight() * 0.5f;
+	mx = CP_Input_GetMouseX();
+	my = CP_Input_GetMouseY();
+	int try_pop = 0;
+	int menu_pop = 0;
+	if (IsAreaClicked(center_x, button_y - OFFSET, 500, 200, mx, my)) {
+		try_pop = 10;
+		if (CP_Input_MouseClicked()) {
+			CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
+		}
+	}
+	else if (IsAreaClicked(center_x, button_y + OFFSET, 300, 200, mx, my)) {
+		menu_pop = 10;
+		if (CP_Input_MouseClicked()) {
+			CP_Engine_SetNextGameState(Main_Menu_Exit, Main_Menu_Update, Main_Menu_Exit);
+		}
+	}
 
 	// Draw rectangles for buttons
 	CP_Settings_Fill(buttons);
 	CP_Settings_NoStroke();
-	CP_Graphics_DrawRectAdvanced(center_x, button_y + OFFSET, 500, 200, 0, 50);
-	CP_Graphics_DrawRectAdvanced(center_x, button_y - OFFSET, 300, 200, 0, 50);
+	CP_Graphics_DrawRectAdvanced(center_x, button_y + OFFSET, 500 + menu_pop, 200 + menu_pop, 0, 50);
+	CP_Graphics_DrawRectAdvanced(center_x, button_y - OFFSET, 300 + try_pop, 200 + try_pop, 0, 50);
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 
 	// Draw text for buttons
@@ -49,16 +65,6 @@ void Game_Over_Update(void)
 	CP_Font_DrawText(ScoreText, 800, 100);
 
 	// Check for which buttons are clicked
-	if (CP_Input_MouseClicked()) {
-		mx = CP_Input_GetMouseX();
-		my = CP_Input_GetMouseY();
-		if (IsAreaClicked(center_x, button_y - OFFSET, 500, 200, mx, my)) {
-			CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
-		}
-		else if (IsAreaClicked(center_x, button_y + OFFSET, 300, 200, mx, my)) {
-			CP_Engine_SetNextGameState(Main_Menu_Exit,Main_Menu_Update,Main_Menu_Exit);
-		}
-	}
 }
 
 void Game_Over_Exit(void)

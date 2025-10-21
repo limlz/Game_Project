@@ -12,6 +12,7 @@
 #include "plate.h"
 
 int new_game = 0;
+int roomba_activated = 0;
 
 void Game_Init(void)
 {
@@ -20,6 +21,7 @@ void Game_Init(void)
 	Bubbles_Init();
 	init_scrubbing_sounds();
 	update_volumes();
+	init_roomba();
 }
 
 
@@ -64,7 +66,15 @@ void Game_Update(void)
 	}
 
 	shop_init();
-
+	if (CP_Input_KeyTriggered(KEY_R)) {
+		roomba_activated = 1;
+	}
+	else if (CP_Input_KeyTriggered(KEY_T)) {
+		roomba_activated = 0;
+	}
+	if (roomba_activated) {
+		roomba();
+	}
 	
 	// Bubble drawing function
 	Bubbles_UpdateAndDraw();
