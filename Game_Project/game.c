@@ -13,9 +13,11 @@
 
 int new_game = 0;
 int roomba_activated = 0;
+CP_Font gameFont;
 
 void Game_Init(void)
 {
+	gameFont = CP_Font_Load("Assets/Exo2-Regular.ttf");
 	new_game = 1;
 	// Initialise random variable required for bubble production
 	Bubbles_Init();
@@ -27,6 +29,7 @@ void Game_Init(void)
 
 void Game_Update(void)
 {
+	CP_Font_Set(gameFont);
 	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
 	draw_plate();
 
@@ -86,6 +89,7 @@ void Game_Update(void)
 
 void Game_Exit(void)
 {
+	CP_Font_Free(gameFont);
 	clear_sounds();
 }
 

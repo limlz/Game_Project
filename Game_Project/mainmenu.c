@@ -86,5 +86,6 @@ void Main_Menu_Update(void)
 
 void Main_Menu_Exit(void)
 {
-	void CP_Font_Free(CP_Font myFont);
+	CP_Font_Free(myFont);
+	CP_Font_Free(titleFont);
 }
