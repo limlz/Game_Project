@@ -17,7 +17,7 @@ int shopToggle = 0;
 char currentLvlText[20];
 char upgradeText[20];
 
-int upgradeCost = 5;
+int upgradeCost = 3;
 int increment = 1;
 
 void upgrade_sponge_button(void) {

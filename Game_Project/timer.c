@@ -10,7 +10,7 @@ int isGameRunning = 1;
 // Function to start the timer countdown, when started timer will decrease
 static void timeStart(void) {
 	if (timer > 0.0f) {
-		timer -= (CP_System_GetDt());
+		timer -= (3 * (CP_System_GetDt()));
 	}
 }
 
