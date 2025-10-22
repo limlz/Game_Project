@@ -10,6 +10,7 @@
 #include "sounds.h"
 #include "bubbles.h"
 #include "plate.h"
+#include "roomba.h"
 
 int new_game = 0;
 int roomba_activated = 0;

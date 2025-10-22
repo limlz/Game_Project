@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 CP_Font myFont;
+CP_Font titleFont;
 CP_Color buttons;
 CP_Color button_text;
 float mx, my;
@@ -16,6 +17,8 @@ char ScoreText[50];
 
 void Game_Over_Init(void)
 {
+
+	titleFont = CP_Font_Load("Assets/SuperWater.ttf");
 	myFont = CP_Font_Load("Assets/Exo2-Regular.ttf");
 	button_text = CP_Color_Create(255, 255, 255, 255);
 	buttons = CP_Color_Create(123, 183, 220, 255);
@@ -40,7 +43,7 @@ void Game_Over_Update(void)
 	else if (IsAreaClicked(center_x, button_y + OFFSET, 500, 200, mx, my)) {
 		menu_pop = 10;
 		if (CP_Input_MouseClicked()) {
-			CP_Engine_SetNextGameState(Main_Menu_Exit, Main_Menu_Update, Main_Menu_Exit);
+			CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 		}
 
 	}
@@ -61,6 +64,7 @@ void Game_Over_Update(void)
 	CP_Font_DrawText("Exit to Main Menu", center_x, button_y + OFFSET);
 
 	// Draw score
+	CP_Font_Set(titleFont);
 	CP_Settings_Fill(buttons);
 	sprintf_s(ScoreText, sizeof(ScoreText), "Final Score : %d", get_total_earned());
 	CP_Font_DrawText(ScoreText, 800, 100);
@@ -70,5 +74,6 @@ void Game_Over_Update(void)
 
 void Game_Over_Exit(void)
 {
-	void CP_Font_Free(CP_Font myFont);
+	CP_Font_Free(myFont);
+	CP_Font_Free(titleFont);
 }

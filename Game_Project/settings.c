@@ -6,11 +6,15 @@
 #include "sounds.h"
 
 int volume_level = 0;
+CP_Font myFont;
+CP_Font titleFont;
 CP_Color button_text, buttons;
 float mousex = 0, mousey = 0;
 
 void Settings_Init(void)
 {
+	myFont = CP_Font_Load("Assets/Exo2-Regular.ttf");
+	titleFont = CP_Font_Load("Assets/SuperWater.ttf");
 	button_text = CP_Color_Create(255, 255, 255, 255);
 	buttons = CP_Color_Create(123, 183, 220, 255);
 }
@@ -23,6 +27,7 @@ void Settings_Update(void)
 	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
 
 	// Draw settings logo
+	CP_Font_Set(myFont);
 	CP_Settings_Fill(buttons);
 	CP_Settings_TextSize(150.0f);
 	CP_Font_DrawText("Settings", CP_System_GetWindowWidth()/2, 70);
@@ -53,5 +58,6 @@ void Settings_Update(void)
 
 void Settings_Exit(void)
 {
-	
+	CP_Font_Free(myFont);
+	CP_Font_Free(titleFont);
 }
