@@ -35,10 +35,12 @@ void Settings_Update(void)
 	CP_Settings_TextSize(60.0f);
 	CP_Font_DrawText("SFX Volume", CP_System_GetWindowWidth() / 2, 230);
 	sfx_volume_setting_bar(300);
+	CP_Settings_Fill(buttons);
 
 	CP_Settings_TextSize(60.0f);
 	CP_Font_DrawText("Music Volume", CP_System_GetWindowWidth() / 2, 380);
 	music_volume_setting_bar(450);
+	CP_Settings_Fill(buttons);
 
 
 	if (IsAreaClicked(120, CP_System_GetWindowHeight() - 120, 100, 100, mousex, mousey)) {
