@@ -8,15 +8,15 @@
 int volume_level = 0;
 CP_Font myFont;
 CP_Font titleFont;
-CP_Color button_text, buttons;
+CP_Color White, ButtonBlue;
 float mousex = 0, mousey = 0;
 
 void Settings_Init(void)
 {
 	myFont = CP_Font_Load("Assets/Exo2-Regular.ttf");
 	titleFont = CP_Font_Load("Assets/SuperWater.ttf");
-	button_text = CP_Color_Create(255, 255, 255, 255);
-	buttons = CP_Color_Create(123, 183, 220, 255);
+	White = CP_Color_Create(255, 255, 255, 255);
+	ButtonBlue = CP_Color_Create(123, 183, 220, 255);
 }
 
 void Settings_Update(void)
@@ -28,7 +28,7 @@ void Settings_Update(void)
 
 	// Draw settings logo
 	CP_Font_Set(myFont);
-	CP_Settings_Fill(buttons);
+	CP_Settings_Fill(ButtonBlue);
 	CP_Settings_TextSize(150.0f);
 	CP_Font_DrawText("Settings", CP_System_GetWindowWidth()/2, 70);
 
@@ -53,7 +53,7 @@ void Settings_Update(void)
 	// Draw settings button
 	CP_Settings_NoStroke();
 	CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120, 100 + settings_pop, 100 + settings_pop, 0, 20);
-	CP_Settings_Fill(button_text);
+	CP_Settings_Fill(White);
 	CP_Graphics_DrawCircle(120, CP_System_GetWindowHeight() - 120, 50);
 	update_volumes();
 }
