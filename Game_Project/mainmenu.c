@@ -8,6 +8,7 @@
 #define MOVE_DOWN   200
 
 CP_Font myFont;
+CP_Font titleFont;
 CP_Color buttons;
 CP_Color button_text;
 float mx, my;
@@ -15,6 +16,7 @@ float mx, my;
 void Main_Menu_Init(void)
 {
 	myFont = CP_Font_Load("Assets/Exo2-Regular.ttf");
+	titleFont = CP_Font_Load("Assets/SuperWater.ttf");
 	button_text = CP_Color_Create(255, 255, 255, 255);
 	buttons = CP_Color_Create(123, 183, 220 , 255);
 	init_background_music();
@@ -47,7 +49,7 @@ void Main_Menu_Update(void)
 			CP_Engine_Terminate();
 		}
 	}
-	else if (IsAreaClicked(120, CP_System_GetWindowHeight() - 120, 100, 100, mx, my)) {
+	else if (IsAreaClicked(120.0, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
 		settings_pop = 10;
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_SetNextGameState(Settings_Init, Settings_Update, Settings_Exit);
@@ -57,13 +59,13 @@ void Main_Menu_Update(void)
 	// Draw rectangles for buttons
 	CP_Settings_Fill(buttons);
 	CP_Settings_NoStroke();
-	CP_Graphics_DrawRectAdvanced(center_x, button_y - OFFSET + MOVE_DOWN, 300 + play_pop, 150 + play_pop, 0, 50);
-	CP_Graphics_DrawRectAdvanced(center_x, button_y + OFFSET + MOVE_DOWN, 300 + exit_pop, 150 + exit_pop, 0, 50);
+	CP_Graphics_DrawRectAdvanced(center_x, button_y - OFFSET + MOVE_DOWN, 300.0f + play_pop, 150.0f + play_pop, 0.0f, 50.0f);
+	CP_Graphics_DrawRectAdvanced(center_x, button_y + OFFSET + MOVE_DOWN, 300.0f + exit_pop, 150.0f + exit_pop, 0.0f, 50.0f);
 
 	// Draw settings button
-	CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120, 100 + settings_pop, 100 + settings_pop, 0, 20);
+	CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120.0f, 100.0f + settings_pop, 100.0f + settings_pop, 0.0f, 20.0f);
 	CP_Settings_Fill(button_text);
-	CP_Graphics_DrawCircle(120, CP_System_GetWindowHeight() - 120, 50);
+	CP_Graphics_DrawCircle(120, CP_System_GetWindowHeight() - 120.0f, 50.0f);
 
 	// Draw text for buttons
 	CP_Font_Set(myFont);
@@ -74,8 +76,9 @@ void Main_Menu_Update(void)
 	CP_Font_DrawText("Exit", center_x, button_y + OFFSET + MOVE_DOWN);
 
 	// Draw game logo
+	CP_Font_Set(titleFont);
 	CP_Settings_Fill(buttons);
-	CP_Settings_TextSize(300.0f);
+	CP_Settings_TextSize(250.0f);
 	CP_Font_DrawText("WEWASHPL8", center_x, button_y - 200);
 
 

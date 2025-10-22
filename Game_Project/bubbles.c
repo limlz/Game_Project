@@ -16,6 +16,7 @@
 #define SPAWN_COOLDOWN      0.016f  // about 60 FPS
 #define WOBBLE_STRENGTH     20.0f
 
+
 typedef struct Bubble {
     float positionX;
     float positionY;
