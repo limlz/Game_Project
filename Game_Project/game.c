@@ -12,14 +12,13 @@
 #include "plate.h"
 #include "roomba.h"
 
-int new_game = 0;
+
 int roomba_activated = 0;
 CP_Font gameFont;
 
 void Game_Init(void)
 {
 	gameFont = CP_Font_Load("Assets/Exo2-Regular.ttf");
-	new_game = 1;
 	// Initialise random variable required for bubble production
 	Bubbles_Init();
 	init_scrubbing_sounds();
@@ -36,21 +35,14 @@ void Game_Update(void)
 	draw_plate();
 
 	//Function to spawn dirts on plate, takes 1 or 0 to decide if it should spawn new dirt in random spots
-	draw_dirt(new_game);
+	draw_dirt();
 
 	//Check if N key is clicked, dirt_removed function to check if all dirt is removed. If any true, start new game
 	if (CP_Input_KeyTriggered(KEY_N) || dirt_removed()) {
-		new_game = 1;
 		init_dirt();
-	}
-	else {
-		new_game = 0;
-	}
-
-	// temporary function to run the random function to change plate (can be linked to shop in the future)
-	if (CP_Input_KeyTriggered(KEY_P)) {
 		change_plate();
 	}
+
 
 	// displays current money
 	money_display();

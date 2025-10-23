@@ -29,7 +29,7 @@ void init_dirt(void) {
 	}
 }
 
-void draw_dirt(int new_game)
+void draw_dirt(void)
 {
 	for (int i = 0; i < num_of_dirt; i++) {
 		CP_Settings_NoStroke();
