@@ -3,6 +3,7 @@
 #include "game.h"
 #include "settings.h"
 #include "sounds.h"
+#include "plate.h"
 
 #define OFFSET		100
 #define MOVE_DOWN   200
@@ -12,6 +13,8 @@ CP_Font titleFont;
 CP_Font subFont;
 CP_Color ButtonBlue;
 CP_Color White;
+CP_Color plate_outer;
+CP_Color plate_inner;
 float mx, my;
 
 void Main_Menu_Init(void)
@@ -21,8 +24,11 @@ void Main_Menu_Init(void)
 	subFont = CP_Font_Load("Assets/MontserratBlackItalic.otf");
 	White = CP_Color_Create(255, 255, 255, 255);
 	ButtonBlue = CP_Color_Create(123, 183, 220 , 255);
+	plate_outer = CP_Color_Create(230, 230, 230, 255);
+	plate_inner = CP_Color_Create(210, 210, 210, 255);
 	init_background_music();
 	update_volumes();
+	change_plate();
 }
 
 void Main_Menu_Update(void)
@@ -57,6 +63,12 @@ void Main_Menu_Update(void)
 			CP_Engine_SetNextGameState(Settings_Init, Settings_Update, Settings_Exit);
 		}
 	}
+	
+	// UI decor - randomised plates, utilising change_plate() function in plate.c
+	CP_Settings_Fill(plate_outer);
+	CP_Graphics_DrawCircle((float)CP_System_GetWindowWidth() / 2, 1050.0f, 1200.0f);
+	CP_Settings_Fill(plate_inner);
+	CP_Graphics_DrawCircle((float)CP_System_GetWindowWidth() / 2, 1050.f, 900.0f);
 
 	// Draw rectangles for ButtonBlue
 	CP_Settings_Fill(ButtonBlue);
@@ -77,18 +89,28 @@ void Main_Menu_Update(void)
 	CP_Font_DrawText("Play", center_x, button_y - OFFSET + MOVE_DOWN);
 	CP_Font_DrawText("Exit", center_x, button_y + OFFSET + MOVE_DOWN);
 
+	// UI decor - text shadow
+	CP_Font_Set(titleFont);
+	CP_Settings_Fill(White);
+	CP_Settings_TextSize(250.0f);
+	CP_Font_DrawText("WEWASHPL8", center_x + 15, button_y - 215);
+
 	// Draw game logo
 	CP_Font_Set(titleFont);
 	CP_Settings_Fill(ButtonBlue);
 	CP_Settings_TextSize(250.0f);
 	CP_Font_DrawText("WEWASHPL8", center_x, button_y - 200);
 
+	// Draw Subtext below Game Title
 	CP_Font_Set(subFont);
 	CP_Settings_Fill(ButtonBlue);
 	CP_Settings_TextSize(70.0f);
 	CP_Font_DrawText("Be the best dish-washer in town!", center_x, button_y - 70);
 
-	
+	float sponge_x, sponge_y;
+	// UI decor - wobble sponge :D
+	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
+	CP_Graphics_DrawRectAdvanced(1490.0f, 320.0f, 70.0f, 50.0f, 45.0f, 0.0f);
 }
 
 void Main_Menu_Exit(void)
@@ -97,3 +119,4 @@ void Main_Menu_Exit(void)
 	CP_Font_Free(titleFont);
 	CP_Font_Free(subFont);
 }
+
