@@ -1,9 +1,6 @@
 #include "cprocessing.h"
-
 #include <stdio.h>
-
 #include "utils.h"
-
 #include "dirt.h"
 
 
@@ -38,12 +35,12 @@ void set_plate_value(int plate_change) {
 	dollars_per_plate = plate_change;
 }
 
+int get_plate_value(void) {
+	return dollars_per_plate;
+}
+
 // function to draw current money
 void money_display(void) {
-	if (dirt_removed()) {
-		current_dollars += dollars_per_plate;
-		total_earned += dollars_per_plate;
-	}
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 	CP_Settings_TextSize(30);
 	sprintf_s(money_text,32, "Money: %d",current_dollars);

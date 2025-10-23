@@ -25,6 +25,7 @@ void Game_Init(void)
 	init_scrubbing_sounds();
 	update_volumes();
 	init_roomba();
+	init_dirt();
 }
 
 
@@ -35,11 +36,12 @@ void Game_Update(void)
 	draw_plate();
 
 	//Function to spawn dirts on plate, takes 1 or 0 to decide if it should spawn new dirt in random spots
-	spawn_dirt(new_game);
+	draw_dirt(new_game);
 
 	//Check if N key is clicked, dirt_removed function to check if all dirt is removed. If any true, start new game
 	if (CP_Input_KeyTriggered(KEY_N) || dirt_removed()) {
 		new_game = 1;
+		init_dirt();
 	}
 	else {
 		new_game = 0;

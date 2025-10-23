@@ -3,10 +3,6 @@
 #include "bubbles.h"
 #include "dirt.h"
 
-extern int opacities[] ;
-extern float dirt_x[] ;
-extern float dirt_y[] ;
-
 // ROOMBA
 float roomba_x = 0, roomba_y = 0, roomba_angle = 0;
 int roomba_width = 50;
@@ -27,12 +23,12 @@ void minus_roomba_strength(int minus_roomba) {
 	roomba_strength -= minus_roomba;
 }
 
-void add_roomba_speed(int add_roomba) {
-	roomba_speed += add_roomba;
+void add_roomba_speed(int add_roomba_speed) {
+	roomba_speed += add_roomba_speed;
 }
 
-void minus_roomba_speed(int minus_roomba) {
-	roomba_speed -= minus_roomba;
+void minus_roomba_speed(int minus_roomba_speed) {
+	roomba_speed -= minus_roomba_speed;
 }
 
 void init_roomba(void) {
@@ -46,16 +42,16 @@ void roomba(void) {
 	CP_Vector dirt_v;
 	closest_dirt = -1;
 	float closestDist = 999999.0f;
-	for (int i = 0; i < 5; i++) { // 5 dirt spots: 0–4
-		if (opacities[i] > 0) { // only consider visible dirt
-			float d = CP_Math_Distance(roomba_x, roomba_y, dirt_x[i], dirt_y[i]);
+	for (int i = 0; i < get_number_of_dirt(); i++) { // 5 dirt spots: 0–4
+		if (dirtList[i].opacity > 0) { // only consider visible dirt
+			float d = CP_Math_Distance(roomba_x, roomba_y, dirtList[i].positionX, dirtList[i].positionY);
 			if (d < closestDist) {
 				closestDist = d;
 				closest_dirt = i;
 			}
 		}
 	}
-	dirt_v = CP_Vector_Set(dirt_x[closest_dirt], dirt_y[closest_dirt]);
+	dirt_v = CP_Vector_Set(dirtList[closest_dirt].positionX, dirtList[closest_dirt].positionY);
 
 	// compute direction (from roomba -> dirt)
 	CP_Vector dir = CP_Vector_Subtract(dirt_v, roomba_v);
@@ -76,9 +72,9 @@ void roomba(void) {
 		roomba_y = roomba_v.y;
 	}
 	else {
-		opacities[closest_dirt] -= roomba_strength;
-		opacities[closest_dirt] = CP_Math_ClampInt(opacities[closest_dirt], 0, 200);
-		SpawnBubble(dirt_x[closest_dirt], dirt_y[closest_dirt]);
+		dirtList[closest_dirt].opacity -= roomba_strength;
+		dirtList[closest_dirt].opacity = CP_Math_ClampInt(dirtList[closest_dirt].opacity, 0, 200);
+		SpawnBubble(dirtList[closest_dirt].positionX, dirtList[closest_dirt].positionY);
 	}
 
 	// draw da roomba
