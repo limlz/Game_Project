@@ -108,6 +108,7 @@ void Main_Menu_Update(void)
 	CP_Font_DrawText("Be the best dish-washer in town!", center_x, button_y - 70);
 
 	float sponge_x, sponge_y;
+
 	// UI decor - wobble sponge :D
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 	CP_Graphics_DrawRectAdvanced(1490.0f, 320.0f, 70.0f, 50.0f, 45.0f, 0.0f);
@@ -119,4 +120,3 @@ void Main_Menu_Exit(void)
 	CP_Font_Free(titleFont);
 	CP_Font_Free(subFont);
 }
-
