@@ -1,5 +1,6 @@
 #include "cprocessing.h"
 #include "money.h"
+#include "dirt.h"
 
 
 int random_num = 0;
@@ -12,21 +13,25 @@ void change_plate(void) {
 	if (random_num >= 90 && random_num <= 100) {
 		plate_outer = CP_Color_Create(224, 160, 220, 255);
 		plate_inner = CP_Color_Create(227, 199, 225, 255);
+		set_number_of_dirt(30);
 		set_plate_value(10);
 	}
 	else if (random_num >= 70 && random_num <= 90) {
 		plate_outer = CP_Color_Create(140, 242, 245, 255);
 		plate_inner = CP_Color_Create(166, 245, 247, 255);
+		set_number_of_dirt(20);
 		set_plate_value(5);
 	}
 	else if (random_num >= 40 && random_num <= 70) {
 		plate_outer = CP_Color_Create(255, 158, 170, 255);
 		plate_inner = CP_Color_Create(252, 192, 199, 255);
+		set_number_of_dirt(10);
 		set_plate_value(2);
 	}
 	else if (random_num >= 0 && random_num <= 40) {
 		plate_outer = CP_Color_Create(230, 230, 230, 255);
 		plate_inner = CP_Color_Create(210, 210, 210, 255);
+		set_number_of_dirt(5);
 		set_plate_value(1);
 	}
 }

@@ -5,13 +5,13 @@
 #include "money.h"
 #include "plate.h"
 
-#define MAX_DIRT			200
+#define MAX_DIRT			50
 #define DIRT_RADIUS			50
 #define SPONGE_RADIUS		50		
 
 dirt dirtList[MAX_DIRT];
 
-int num_of_dirt = 30;
+int num_of_dirt = 5;
 
 void set_number_of_dirt(int num) {
 	num_of_dirt = num;
