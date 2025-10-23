@@ -22,7 +22,7 @@ int get_number_of_dirt(void) {
 }
 
 void init_dirt(void) {
-	for (int i = 0; i < num_of_dirt; i++) {
+	for (int i = 0; i < MAX_DIRT; i++) {
 		dirtList[i].positionX = (float)CP_System_GetWindowWidth() / 2 - 250 + CP_Random_RangeInt(0, 500);
 		dirtList[i].positionY = (float)CP_System_GetWindowHeight() / 2 - 250 + CP_Random_RangeInt(0, 500);
 		dirtList[i].opacity = 220;
