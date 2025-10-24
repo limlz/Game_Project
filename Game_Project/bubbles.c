@@ -145,7 +145,6 @@ void Bubbles_Draw(void) {
             drawRadius * 2.0f,
             drawRadius * 2.0f
         );
-        CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
 
         // remove bubble if done
         if (bubble->lifeRemaining <= 0.0f ||
