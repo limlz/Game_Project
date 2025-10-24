@@ -1,5 +1,6 @@
 #include "cprocessing.h"
 #include "utils.h"
+#include "bubbles.h"
 
 typedef struct {
 	float positionX, height, width;
@@ -29,10 +30,10 @@ static int draw_volume_bar(int y_value, int level) {
         mx = CP_Input_GetMouseX();
         my = CP_Input_GetMouseY();
         if (IsAreaClicked(rightBaseX + 62.5, arrowY, 20, 20, mx, my)) {
-            level++;
+            Bubbles_Manual(Settings_Boxes.positionX + Settings_Boxes.width * (level++ * 2), y_value);
         }
         else if (IsAreaClicked(leftBaseX - 62.5, arrowY, 20, 20, mx, my)) {
-            level--;
+            Bubbles_Manual(Settings_Boxes.positionX + Settings_Boxes.width * (--level * 2), y_value);
         }
     }
 
@@ -43,6 +44,7 @@ static int draw_volume_bar(int y_value, int level) {
         index -= 1;
         CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
         CP_Graphics_DrawRect(Settings_Boxes.positionX + Settings_Boxes.width * (index * 2), y_value, Settings_Boxes.width, Settings_Boxes.height);
+
         if (index < level) {
             CP_Settings_Fill(Settings_Boxes.color);
             CP_Graphics_DrawRect(Settings_Boxes.positionX + Settings_Boxes.width * (index * 2), y_value, Settings_Boxes.width, Settings_Boxes.height);
