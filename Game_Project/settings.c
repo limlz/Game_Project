@@ -50,6 +50,7 @@ void Settings_Update(void)
 
 	if (IsAreaClicked(120, CP_System_GetWindowHeight() - 120, 100, 100, mousex, mousey)) {
 		settings_pop = 10;
+		Bubbles_Manual(mousex, mousey);
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 		}
