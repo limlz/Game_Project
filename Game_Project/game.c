@@ -77,6 +77,11 @@ void Game_Update(void)
 
 	shop_init();
 	
+	
+	// Bubble drawing function
+	Bubbles_Draw();
+
+
 	//temporary roomba functions
 	if (CP_Input_KeyTriggered(KEY_R)) {
 		roomba_activated = 1;
@@ -87,9 +92,8 @@ void Game_Update(void)
 	if (roomba_activated) {
 		roomba();
 	}
-	
-	// Bubble drawing function
-	Bubbles_Draw();
+
+
 	sponge_init();
 	timer_init();
 	Day_DrawPopup();
