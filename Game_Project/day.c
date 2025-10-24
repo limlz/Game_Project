@@ -15,6 +15,8 @@ static int g_day = 0;
 static int g_goal = 5;
 static int g_cleaned = 0;
 static int g_inGameplay = 1; // 1 = washing, 0 = popup/shop
+static int g_readyForNextDay = 0;   // 1 means: show Next Day button in Shop
+
 
 /* ---------------- Core Day Functions ---------------- */
 void Day_Init(void)
@@ -58,15 +60,15 @@ int Day_IsInGameplay(void)
 void Day_DrawHUD(float x, float y)
 {
     char buffer[64];
-    CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_TOP);
+    CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
     CP_Settings_TextSize(28.0f);
-    CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+    CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 
     snprintf(buffer, sizeof(buffer), "Day: %d", g_day);
     CP_Font_DrawText(buffer, x, y);
 
     snprintf(buffer, sizeof(buffer), "Plates: %d / %d", g_cleaned, g_goal);
-    CP_Font_DrawText(buffer, x, y + 30.0f);
+    CP_Font_DrawText(buffer, x + 32.5f, y + 30.0f);
 }
 
 int Day_GetDay(void) { return g_day; }
@@ -134,12 +136,14 @@ void Day_DrawPopup(void)
                     init_dirt();
                     change_plate();
                     show_day_complete_popup = 0;
+                    g_readyForNextDay = 0;          // <-- clear
                     break;
 
-                case 1: // Head to Shop (toggle shop overlay)
+                case 1: // Head to Shop
                     show_day_complete_popup = 0;
-                    extern int shopToggle;  // already defined in shop.c
-                    shopToggle = 1;         // open overlay
+                    g_readyForNextDay = 1;          // <-- tell shop to show Next Day button
+                    extern int shopToggle;
+                    shopToggle = 1;
                     break;
 
                 case 2: // Save & Exit
@@ -151,4 +155,7 @@ void Day_DrawPopup(void)
         }
     }
 }
+int Day_IsReadyForNextDay(void) { return g_readyForNextDay; }
+void Day_ClearReadyForNextDay(void) { g_readyForNextDay = 0; }
+
 

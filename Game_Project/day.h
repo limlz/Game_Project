@@ -9,3 +9,6 @@ int Day_IsInGameplay(void);
 int Day_GetDay(void);
 int Day_GetCleaned(void);
 int Day_GetGoal(void);
+
+int Day_IsReadyForNextDay(void);
+void Day_ClearReadyForNextDay(void);
