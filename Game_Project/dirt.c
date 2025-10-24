@@ -21,12 +21,15 @@ int get_number_of_dirt(void) {
 	return num_of_dirt;
 }
 
+static int plate_awarded = 0;   // 0 = not yet awarded for this plate
+
 void init_dirt(void) {
 	for (int i = 0; i < MAX_DIRT; i++) {
 		dirtList[i].positionX = (float)CP_System_GetWindowWidth() / 2 - 250 + CP_Random_RangeInt(0, 500);
 		dirtList[i].positionY = (float)CP_System_GetWindowHeight() / 2 - 250 + CP_Random_RangeInt(0, 500);
 		dirtList[i].opacity = 220;
 	}
+	plate_awarded = 0;  // <-- reset award latch when new dirt/plate is created
 }
 
 void draw_dirt(void)
@@ -61,11 +64,14 @@ int dirt_removed(void) {
 		total_opacity += dirtList[i].opacity;
 	}
 	if (total_opacity < 1) {
-		increment_money(get_plate_value());
-		return 1;
+		if (!plate_awarded) {                  // <-- only pay once
+			increment_money(get_plate_value());
+			plate_awarded = 1;
+			return 1;
+		}
+		return 0;                              // already paid; don't trigger again
 	}
 	else {
 		return 0;
 	}
 }
-

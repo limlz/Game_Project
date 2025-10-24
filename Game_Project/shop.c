@@ -9,6 +9,11 @@
 
 // Handles transactions
 #include "money.h"
+#include "day.h"
+#include "dirt.h"
+#include "plate.h"
+#include "timer.h"
+
 
 // X and Y position of the shop menu (temporary)
 float x_pos = 1400, y_pos = 300;
@@ -61,6 +66,25 @@ void shop_menu(void) {
 	upgrade_sponge_button();
 	sprintf_s(currentLvlText, sizeof(currentLvlText), "Current Level : %d", get_SpongePower());
 	CP_Font_DrawText(currentLvlText, x_pos - 50, y_pos);
+
+	// Example "Next Day" button within shop_menu()
+	CP_Settings_Fill(CP_Color_Create(100, 255, 100, 100));
+	CP_Graphics_DrawRect(x_pos, y_pos + 350, 150, 100);
+	CP_Settings_TextSize(25.0f);
+	CP_Font_DrawText("Next Day", x_pos - 20, y_pos + 350);
+
+	if (CP_Input_MouseClicked() &&
+		IsAreaClicked(x_pos, y_pos + 350, 150, 100, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+
+		timeReset();          // <-- important: reset bar AND unfreeze it
+		Day_StartCurrentDay();
+		init_dirt();
+		change_plate();
+
+		// close the shop overlay so gameplay resumes
+		extern int shopToggle;
+		shopToggle = 0;
+	}
 }
 
 

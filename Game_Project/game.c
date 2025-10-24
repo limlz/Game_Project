@@ -11,6 +11,7 @@
 #include "bubbles.h"
 #include "plate.h"
 #include "roomba.h"
+#include "day.h"
 
 
 int roomba_activated = 0;
@@ -25,6 +26,9 @@ void Game_Init(void)
 	update_volumes();
 	init_roomba();
 	init_dirt();
+	Day_Init();
+	Day_StartCurrentDay();   // begin Day 0 (goal = 5 plates)
+
 }
 
 
@@ -38,14 +42,22 @@ void Game_Update(void)
 	draw_dirt();
 
 	//Check if N key is clicked, dirt_removed function to check if all dirt is removed. If any true, start new game
-	if (CP_Input_KeyTriggered(KEY_N) || dirt_removed()) {
-		init_dirt();
-		change_plate();
+	if (Day_IsInGameplay() && (CP_Input_KeyTriggered(KEY_N) || dirt_removed())) {
+		Day_OnPlateCleaned();
+
+		// Only spawn a new plate if still in gameplay (not in shop phase)
+		if (Day_IsInGameplay()) {
+			init_dirt();
+			change_plate();
+		}
 	}
+
 
 
 	// displays current money
 	money_display();
+	Day_DrawHUD(50.0f, 80.0f);
+
 	
 	/*
 	If the player is scrubbing, call the dirt_scrubbed function to reduce opacity of dirt
@@ -80,6 +92,7 @@ void Game_Update(void)
 	Bubbles_Draw();
 	sponge_init();
 	timer_init();
+	Day_DrawPopup();
 }
 
 void Game_Exit(void)

@@ -66,6 +66,9 @@
     <ClCompile Include="roomba.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="day.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -114,6 +117,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="roomba.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="day.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

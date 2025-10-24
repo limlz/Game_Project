@@ -7,21 +7,25 @@ static float timer = 100.0f;
 // Bool to check if the game is paused
 int isGameRunning = 1;
 
+// NEW: freezes countdown when set (e.g., end-of-day)
+static int isTimerStopped = 0;
+
 // Function to start the timer countdown, when started timer will decrease
 static void timeStart(void) {
-	if (timer > 0.0f) {
+	if (timer > 0.0f && !isTimerStopped) {
 		timer -= (3 * (CP_System_GetDt()));
 	}
 }
 
 // Function to stop the timer countdown, when stopped timer will not decrease
-static void timeStop(void) {
-	timer += 0;
+void timeStop(void) {
+	isTimerStopped = 1;
 }
 
 // Function to reset the timer back to 100%
-static void timeReset(void) {
+void timeReset(void) {
 	timer = 100.0f;
+	isTimerStopped = 0;
 }
 
 // Function to check if the game is paused, can be used in other files so that
@@ -38,15 +42,15 @@ static void time_update(void) {
 
 
 	if (!checkGameRunning()) {
-		timeStop();
-
+		// Do not decrement; do not touch isTimerStopped here
 		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 200));
 		CP_Settings_TextSize(100.0f);
 		CP_Font_DrawText("GAME PAUSED", 800, 200);
 	}
 	else {
-		timeStart();
+		timeStart(); // will only tick if !isTimerStopped
 	}
+
 
 
 	if (timer <= 0.0f) {
