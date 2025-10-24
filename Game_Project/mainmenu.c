@@ -4,6 +4,7 @@
 #include "settings.h"
 #include "sounds.h"
 #include "plate.h"
+#include "bubbles.h"
 
 #define OFFSET		100
 #define MOVE_DOWN   200
@@ -16,6 +17,9 @@ CP_Color White;
 CP_Color plate_outer;
 CP_Color plate_inner;
 float mx, my;
+float sponge_arc = 20.0f;
+int dir = 1;
+
 
 void Main_Menu_Init(void)
 {
@@ -28,12 +32,12 @@ void Main_Menu_Init(void)
 	plate_inner = CP_Color_Create(210, 210, 210, 255);
 	init_background_music();
 	update_volumes();
+	Bubbles_Init();
 	change_plate();
 }
 
 void Main_Menu_Update(void)
 {
-
 	int play_pop = 0, exit_pop = 0, settings_pop = 0;
 	// Get mouse x y
 	mx = CP_Input_GetMouseX();
@@ -47,22 +51,27 @@ void Main_Menu_Update(void)
 	// Interactive aspect of ButtonBlue
 	if (IsAreaClicked(center_x, button_y - OFFSET + MOVE_DOWN, 300, 150, mx, my)) {
 		play_pop = 10;
+		Bubbles_Manual(mx, my);
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
 		}
 	}
 	else if (IsAreaClicked(center_x, button_y + OFFSET + MOVE_DOWN, 300, 150, mx, my)) {
 		exit_pop = 10;
+		Bubbles_Manual(mx, my);
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_Terminate();
 		}
 	}
 	else if (IsAreaClicked(120.0, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
 		settings_pop = 10;
+		Bubbles_Manual(mx, my);
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_SetNextGameState(Settings_Init, Settings_Update, Settings_Exit);
 		}
 	}
+
+	Bubbles_Manual(1520.0f, 300.0f);
 	
 	// UI decor - randomised plates, utilising change_plate() function in plate.c
 	CP_Settings_Fill(plate_outer);
@@ -107,11 +116,23 @@ void Main_Menu_Update(void)
 	CP_Settings_TextSize(70.0f);
 	CP_Font_DrawText("Be the best dish-washer in town!", center_x, button_y - 70);
 
-	float sponge_x = 1490.0f, sponge_y = 320.0f;
-
 	// UI decor - wobble sponge :D
+	if (dir == 1) {
+		sponge_arc += 30.0f * CP_System_GetDt();
+	} else if (dir == 0) {
+		sponge_arc -= 30.0f * CP_System_GetDt();
+	}
+
+	if (sponge_arc >= 90.0f) {
+		dir = 0;
+	} else if (sponge_arc <= 20.0f) {
+		dir = 1;
+	}
+	Bubbles_Draw();
+	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
-	CP_Graphics_DrawRectAdvanced(sponge_x, sponge_y, 70.0f, 50.0f, 45.0f, 0.0f);
+	CP_Graphics_DrawRectAdvanced(1520.0f, 300.0f, 70.0f, 50.0f, sponge_arc, 0.0f);
+
 }
 
 void Main_Menu_Exit(void)

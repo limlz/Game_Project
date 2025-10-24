@@ -77,7 +77,7 @@ void Game_Update(void)
 	}
 	
 	// Bubble drawing function
-	Bubbles_UpdateAndDraw();
+	Bubbles_Draw();
 	sponge_init();
 	timer_init();
 }

@@ -69,8 +69,7 @@ void Bubbles_Init(void) {
     CP_Settings_NoStroke();
 }
 
-// Update and draw bubbles 
-void Bubbles_UpdateAndDraw(void) {
+void Bubbles_Update(void) {
     float mouseX = CP_Input_GetMouseX();
     float mouseY = CP_Input_GetMouseY();
     float deltaTime = CP_System_GetDt();
@@ -83,6 +82,26 @@ void Bubbles_UpdateAndDraw(void) {
             SpawnBubble(mouseX, mouseY);
         }
     }
+}
+
+void Bubbles_Manual(float manualX, float manualY) {
+    float deltaTime = CP_System_GetDt();
+    spawnCooldownTimer -= deltaTime;
+
+    // Spawn new bubbles if mouse is dragged and cooldown is done
+    if (spawnCooldownTimer <= 0.0f) {
+        spawnCooldownTimer = 0.07f;
+        for (int i = 0; i < 2; ++i) {
+            SpawnBubble(manualX, manualY);
+        }
+    }
+}
+
+// Update and draw bubbles 
+void Bubbles_Draw(void) {
+
+    float deltaTime = CP_System_GetDt();
+    Bubbles_Update();
 
     CP_Settings_BlendMode(CP_BLEND_ALPHA);
 
