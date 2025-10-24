@@ -12,6 +12,7 @@
 #include "plate.h"
 #include "roomba.h"
 #include "day.h"
+#include "faucet.h"
 
 
 int roomba_activated = 0;
@@ -27,6 +28,7 @@ void Game_Init(void)
 	init_roomba();
 	init_dirt();
 	Day_Init();
+	stream_init();
 	Day_StartCurrentDay();   // begin Day 0 (goal = 5 plates)
 
 }
@@ -36,7 +38,9 @@ void Game_Update(void)
 {
 	CP_Font_Set(gameFont);
 	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
+	draw_sink();
 	draw_plate();
+	draw_faucet();
 
 	//Function to spawn dirts on plate, takes 1 or 0 to decide if it should spawn new dirt in random spots
 	draw_dirt();
@@ -93,7 +97,7 @@ void Game_Update(void)
 		roomba();
 	}
 
-
+	// update_stream();
 	sponge_init();
 	timer_init();
 	Day_DrawPopup();

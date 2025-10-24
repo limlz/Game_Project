@@ -42,6 +42,7 @@ void draw_plate(void) {
 		plate_outer = CP_Color_Create(230, 230, 230, 255);
 		plate_inner = CP_Color_Create(210, 210, 210, 255);
 	}
+	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_Fill(plate_outer);
 	CP_Graphics_DrawCircle((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, 600);
 	CP_Settings_Fill(plate_inner);
