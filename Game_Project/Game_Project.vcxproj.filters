@@ -69,6 +69,9 @@
     <ClCompile Include="day.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="credits.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -120,6 +123,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="day.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="credits.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
