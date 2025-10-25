@@ -19,7 +19,7 @@ void Game_Over_Init(void)
 {
 
 	titleFont = CP_Font_Load("Assets/SuperWater.ttf");
-	myFont = CP_Font_Load("Assets/Exo2-Regular.ttf");
+	myFont = CP_Font_Load("Assets/MontserratLight.ttf");
 	White = CP_Color_Create(255, 255, 255, 255);
 	ButtonBlue = CP_Color_Create(123, 183, 220, 255);
 }
@@ -58,13 +58,14 @@ void Game_Over_Update(void)
 	// Draw text for ButtonBlue
 	CP_Font_Set(myFont);
 	CP_Settings_Fill(White);
-	CP_Settings_TextSize(70.0f);
+	CP_Settings_TextSize(60.0f);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 	CP_Font_DrawText("Try Again?", center_x, button_y - OFFSET);
 	CP_Font_DrawText("Exit to Main Menu", center_x, button_y + OFFSET);
 
 	// Draw score
 	CP_Font_Set(titleFont);
+	CP_Settings_TextSize(80.0f);
 	CP_Settings_Fill(ButtonBlue);
 	sprintf_s(ScoreText, sizeof(ScoreText), "Final Score : %d", get_total_earned());
 	CP_Font_DrawText(ScoreText, 800, 100);

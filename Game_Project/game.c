@@ -20,7 +20,7 @@ CP_Font gameFont;
 
 void Game_Init(void)
 {	
-	gameFont = CP_Font_Load("Assets/Exo2-Regular.ttf");
+	gameFont = CP_Font_Load("Assets/MontserratLight.ttf");
 	// Initialise random variable required for bubble production
 	Bubbles_Init();
 	init_scrubbing_sounds();
@@ -39,13 +39,11 @@ void Game_Update(void)
 	CP_Font_Set(gameFont);
 
 	//General UI - scene setting (sink base)
-	CP_Graphics_ClearBackground(CP_Color_Create(246, 248, 255, 255));
+	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
 	CP_Settings_Fill(CP_Color_Create(186, 191, 197, 255));
 	CP_Settings_NoStroke();
 	CP_Graphics_DrawRect((float)CP_System_GetWindowWidth() * 0.5f, 30.0f, (float)CP_System_GetWindowWidth(), 60.0f);
 	CP_Graphics_DrawRect((float)CP_System_GetWindowWidth() * 0.5f, 850.0f, (float)CP_System_GetWindowWidth(), 100.0f);
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawEllipse((float)CP_System_GetWindowWidth() * 0.5f, 100.0f, (float)CP_System_GetWindowWidth() - 500.0f, 40.0f);
 
 	draw_plate();
 	draw_faucet();

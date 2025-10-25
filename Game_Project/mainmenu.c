@@ -23,7 +23,7 @@ int dir = 1;
 
 void Main_Menu_Init(void)
 {
-	myFont = CP_Font_Load("Assets/Exo2-Regular.ttf");
+	myFont = CP_Font_Load("Assets/MontserratLight.ttf");
 	titleFont = CP_Font_Load("Assets/SuperWater.ttf");
 	subFont = CP_Font_Load("Assets/MontserratBlackItalic.otf");
 	White = CP_Color_Create(255, 255, 255, 255);
