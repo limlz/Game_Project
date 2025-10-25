@@ -55,7 +55,7 @@ void sponge_init(void) {
 		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
 		if (sponge_equipped != 1) {
 			sponge_x = 100.0f;
-			sponge_y = 100.0f;
+			sponge_y = 220.0f;
 
 			CP_Settings_TextSize(20.0f);
 			CP_Font_DrawText("Equip [E]", sponge_x, sponge_y - 75);

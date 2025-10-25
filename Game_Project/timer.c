@@ -69,7 +69,7 @@ void timer_init() {
 	CP_Settings_Fill(CP_Color_Create(timer, timer * 2, 255 - timer, 200));
 	// Draw the timer bar 
 	CP_Graphics_DrawQuadAdvanced(
-		50, 800,								50 + (1500 * (timer/100.0f)), 800, 
+		50, 820,								50 + (1500 * (timer/100.0f)), 820, 
 		50 + (1500 * (timer/100.0f)), 880,		50, 880,
 		0);
 

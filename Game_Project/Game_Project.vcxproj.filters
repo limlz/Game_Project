@@ -72,35 +72,11 @@
     <ClCompile Include="credits.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="faucet.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="game.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mainmenu.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sponge.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="timer.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="utils.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="dirt.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="shop.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bubbles.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="money.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="gameover.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -113,17 +89,47 @@
     <ClInclude Include="splashscreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="settings_options.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="faucet.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sounds.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="roomba.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="bubbles.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="day.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dirt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mainmenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="money.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="roomba.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="settings_options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sounds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sponge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="credits.h">
       <Filter>Source Files</Filter>
