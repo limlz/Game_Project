@@ -46,7 +46,7 @@ void draw_sink (void) {
 	float center_x = CP_System_GetWindowWidth() * 0.5f;
 	float center_y = CP_System_GetWindowHeight() * 0.5f;
 
-	CP_Settings_Stroke(CP_Color_Create(161, 161, 161, 100));
+	CP_Settings_Stroke(CP_Color_Create(161, 161, 161, 10));
 	CP_Settings_Fill(CP_Color_Create(205, 205, 205, 100));
 	CP_Graphics_DrawRectAdvanced(center_x, center_y, 1150.0f, 650.0f, 0.0f, 0.0f);
 	CP_Settings_Fill(CP_Color_Create(245, 245, 245, 100));
@@ -54,8 +54,8 @@ void draw_sink (void) {
 }
 
 void draw_faucet(void) {
-	float faucet_x = CP_System_GetWindowWidth() * 0.5f - 575.0f;
-	float faucet_y = CP_System_GetWindowHeight() * 0.5f;
+	float faucet_x = CP_System_GetWindowWidth() * 0.5f;
+	float faucet_y = 35.0f;
 	float radius = 140.0f;
 
 
@@ -71,7 +71,7 @@ void draw_faucet(void) {
 		}
 	} 
 
-	CP_Settings_NoStroke();
+	CP_Settings_Stroke(CP_Color_Create(206, 216, 220, 250));
 	CP_Settings_Fill(CP_Color_Create(164, 164, 164, 255));
 	CP_Graphics_DrawRectAdvanced(faucet_x, faucet_y, radius, radius, rotation1, 5.0f);
 	CP_Graphics_DrawRectAdvanced(faucet_x, faucet_y, radius, radius, rotation2, 5.0f);

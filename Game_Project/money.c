@@ -44,5 +44,5 @@ void money_display(void) {
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 	CP_Settings_TextSize(30);
 	sprintf_s(money_text,32, "Money: %d",current_dollars);
-	CP_Font_DrawTextBox(money_text, 750, 50, 90);
+	CP_Font_DrawTextBox(money_text, 755, 35, 90);
 }
