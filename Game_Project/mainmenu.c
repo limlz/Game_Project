@@ -5,6 +5,7 @@
 #include "sounds.h"
 #include "plate.h"
 #include "bubbles.h"
+#include "credits.h"
 
 #define OFFSET		100
 #define MOVE_DOWN   200
@@ -132,7 +133,11 @@ void Main_Menu_Update(void)
 	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 	CP_Graphics_DrawRectAdvanced(1520.0f, 300.0f, 70.0f, 50.0f, sponge_arc, 0.0f);
-
+	
+	//go to credits (temporary)
+	if (CP_Input_KeyTriggered(KEY_C)) {
+		CP_Engine_SetNextGameState(credits_Init, credits_Update, credits_Exit);
+	}
 }
 
 void Main_Menu_Exit(void)
