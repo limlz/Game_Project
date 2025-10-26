@@ -75,6 +75,9 @@
     <ClCompile Include="faucet.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="soap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameover.h">
@@ -132,6 +135,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="credits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="soap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

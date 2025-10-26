@@ -14,7 +14,14 @@ dirt dirtList[MAX_DIRT];
 int num_of_dirt = 5;
 
 void set_number_of_dirt(int num) {
-	num_of_dirt = num;
+	int current_day = Day_GetDay();
+
+	// Increase dirt count by 1% each day to progressively raise difficulty.
+	float difficulty_multiplier = 1.0f + 0.01f * current_day;
+	int adjusted_amount = (int)(num * difficulty_multiplier);
+	adjusted_amount = CP_Math_ClampInt(adjusted_amount, 1, MAX_DIRT);
+
+	num_of_dirt = adjusted_amount;
 }
 
 int get_number_of_dirt(void) {

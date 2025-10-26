@@ -13,6 +13,7 @@
 #include "roomba.h"
 #include "day.h"
 #include "faucet.h"
+#include "soap.h"
 
 
 int roomba_activated = 0;
@@ -30,6 +31,7 @@ void Game_Init(void)
 	Day_Init();
 	stream_init();
 	Day_StartCurrentDay();   // begin Day 0 (goal = 5 plates)
+	Soap_Init();
 
 }
 
@@ -78,13 +80,20 @@ void Game_Update(void)
 		- Check sponge power level
 	*/ 
 	if (is_Scrubbing() && checkGameRunning()) {
-		dirt_scrubbed(is_SpongeEquipped(), get_SpongePower());
-		start_scrubbing_sound();
+		if (Soap_CanScrub()) {
+			dirt_scrubbed(is_SpongeEquipped(), get_SpongePower());
+			Soap_ConsumeOnScrub();
+			start_scrubbing_sound();
+		}
+		else {
+			stop_scrubbing_sound();
+		}
 	}
 	else {
 		stop_scrubbing_sound();
 	}
 
+	Soap_Update();
 	shop_init();
 	
 	
@@ -114,4 +123,5 @@ void Game_Exit(void)
 	CP_Font_Free(gameFont);
 	clear_sounds();
 }
+
 
