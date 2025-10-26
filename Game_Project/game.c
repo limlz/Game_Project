@@ -110,8 +110,9 @@ void Game_Update(void)
 	if (roomba_activated) {
 		roomba();
 	}
+	int attack_opacity = 1; // set as variable to be upgraded
 
-	AOE_stream();
+	AOE_stream(attack_opacity);
 	sponge_init();
 
 	//General UI - scene setting (sink base) pt 2

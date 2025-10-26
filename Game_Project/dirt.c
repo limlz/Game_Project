@@ -39,6 +39,13 @@ void init_dirt(void) {
 	plate_awarded = 0;  // <-- reset award latch when new dirt/plate is created
 }
 
+void reduce_all_dirt_opacity(int amount) {
+	for (int i = 0; i < num_of_dirt; i++) {
+		dirtList[i].opacity -= amount;
+		dirtList[i].opacity = CP_Math_ClampInt(dirtList[i].opacity, 0, 220);
+	}
+}
+
 void draw_dirt(void)
 {
 	for (int i = 0; i < num_of_dirt; i++) {
