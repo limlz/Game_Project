@@ -16,7 +16,7 @@
 #include "soap.h"
 
 
-int roomba_activated = 0;
+int debugging = 0;
 CP_Font gameFont;
 CP_Font subFont;
 
@@ -98,8 +98,18 @@ void Game_Update(void)
 	Bubbles_Draw();
 	purchase_roomba();
 	if (roomba_purchase()) {
-		if (CP_input    )
 		roomba();
+	}
+
+	if (CP_Input_KeyTriggered(KEY_D) && debugging == 0) {
+		debugging = 1;
+	}
+	else if (CP_Input_KeyTriggered(KEY_D)) {
+		debugging = 0;
+	}
+
+	if (debugging) {
+		debug_roomba_dirt();
 	}
 
 	Soap_Update();
