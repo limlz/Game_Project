@@ -6,7 +6,7 @@
 #include "day.h"
 #include "debug.h"
 
-#define ROOMBA_PRICE         0
+#define ROOMBA_PRICE         20
 
 // ROOMBA
 float roomba_x = 0, roomba_y = 0, roomba_angle = 0;
@@ -37,6 +37,7 @@ void minus_roomba_strength(int minus_roomba) {
 
 void add_roomba_speed(int add_roomba_speed) {
 	roomba_speed += add_roomba_speed;
+	roomba_speed = CP_Math_ClampInt(roomba_speed, 0, 400);
 }
 
 void minus_roomba_speed(int minus_roomba_speed) {
@@ -45,6 +46,8 @@ void minus_roomba_speed(int minus_roomba_speed) {
 
 void sell_roomba(void) {
 	ham_purchased = 0;
+	roomba_strength = 3;
+	roomba_speed = 100.0f;
 }
 
 void init_roomba(void) {
@@ -108,7 +111,7 @@ void roomba(void) {
 
 	// move directly toward dirt if not close enough
 	if (checkGameRunning() && Day_IsInGameplay()) {
-		if (CP_Vector_Distance(dirt_v, roomba_v) > 1) {
+		if (CP_Vector_Distance(dirt_v, roomba_v) > 3) {
 			dir = CP_Vector_Normalize(dir);
 			float speed = roomba_speed * CP_System_GetDt();
 			CP_Vector move = CP_Vector_Scale(dir, speed);

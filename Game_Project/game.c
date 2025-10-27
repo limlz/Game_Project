@@ -101,10 +101,10 @@ void Game_Update(void)
 		roomba();
 	}
 
-	if (CP_Input_KeyTriggered(KEY_D) && is_currently_debugging() == 0) {
+	if (CP_Input_KeyDown(KEY_6) && CP_Input_KeyTriggered(KEY_7) && is_currently_debugging() == 0) {
 		start_debugging();
 	}
-	else if (CP_Input_KeyTriggered(KEY_D)) {
+	else if (CP_Input_KeyTriggered(KEY_6)) {
 		stop_debugging();
 	}
 
