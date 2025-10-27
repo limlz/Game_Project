@@ -7,14 +7,16 @@
 // ROOMBA
 float roomba_x = 0, roomba_y = 0, roomba_angle = 0;
 int roomba_width = 50;
+int ham_purchased = 0;
 int closest_dirt = 0;
 int roomba_strength = 3;
 float roomba_speed = 100.0f;
 int current_frame = 0;
 float anitimer = 0.0f;
+float elapsed = 2.0f;
 float frame_duration = 0.1f; // seconds per frame
 CP_Color roomba_color;
-CP_Image jiggle1, jiggle2, jiggle3;
+CP_Image jiggle1, jiggle2, jiggle3, front;
 
 int get_roomba_strength(void) {
 	return roomba_strength;
@@ -36,14 +38,41 @@ void minus_roomba_speed(int minus_roomba_speed) {
 	roomba_speed -= minus_roomba_speed;
 }
 
+int roomba_purchase (void) {
+	return ham_purchased;
+}
+
 void init_roomba(void) {
 	roomba_x = CP_System_GetWindowWidth() / 2;
 	roomba_y = CP_System_GetWindowHeight() / 2;
 	roomba_color = CP_Color_Create(255, 255, 255, 200);
+	front = CP_Image_Load("Assets/hamface.gif");
 	jiggle1 = CP_Image_Load("Assets/jiggle1.gif");
 	jiggle2 = CP_Image_Load("Assets/jiggle2.gif");
 	jiggle3 = CP_Image_Load("Assets/jiggle3.gif");
 }
+
+void purchase_roomba(void) {
+	if (!ham_purchased) {
+		CP_Image_Draw(front, CP_System_GetWindowWidth()- 125, CP_System_GetWindowHeight() - 250, 190, 150, 255);
+		CP_Font_DrawText("Cost: 20$", CP_System_GetWindowWidth() - 125, CP_System_GetWindowHeight() - 150);
+		if (IsAreaClicked(CP_System_GetWindowWidth() - 125, CP_System_GetWindowHeight() - 250, 190, 150, CP_Input_GetMouseX(), CP_Input_GetMouseY()) && CP_Input_MouseClicked()) {
+			if (get_current_money() >= 20) {
+				decrement_money(20);
+				ham_purchased = 1;
+			}
+			else {
+				elapsed = 0.0f;
+			}
+		}
+	}
+	elapsed += CP_System_GetDt();
+	if (elapsed < 2.0f)
+	{
+		CP_Font_DrawText("Not enough money!", CP_System_GetWindowWidth() - 125, CP_System_GetWindowHeight() - 350);
+	}
+}
+
 void roomba(void) {
 	// target and position vectors
 	CP_Vector roomba_v = CP_Vector_Set(roomba_x, roomba_y);

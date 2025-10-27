@@ -12,6 +12,7 @@
 #include "plate.h"
 #include "timer.h"
 #include "soap.h"
+#include "roomba.h"
 
 #define CENTER_X_POS CP_System_GetWindowWidth() / 2.0f
 #define CENTER_Y_POS CP_System_GetWindowHeight() / 2.0f
@@ -34,11 +35,11 @@ int upgradeCost = 3;
 int increment = 1;
 int soapCost = 2;
 
-CP_Image jiggle1;
+int roombaUpgradeCost = 20;
+int incrementRoomba = 5;
 
-int isRoombaPurchased(void) {
-	return roomba_purchased;
-}
+CP_Image hamsta;
+
 
 void upgrade_sponge_button(void) {
 	// Check if player has enough money to upgrade sponge
@@ -49,6 +50,19 @@ void upgrade_sponge_button(void) {
 		// Increase cost for next upgrade
 		upgradeCost += increment;
 		increment++;
+	}
+}
+
+void upgrade_roomba_button(void) {
+	// Check if player has enough money to upgrade sponge
+	if (get_current_money() >= roombaUpgradeCost) {
+		decrement_money(roombaUpgradeCost);
+		add_roomba_strength(2);
+		add_roomba_speed(20.0f);
+
+		// Increase cost for next upgrade
+		roombaUpgradeCost += incrementRoomba;
+		incrementRoomba++;
 	}
 }
 
@@ -96,7 +110,7 @@ void draw_shop_item(int itemNum, char* name, char* description, int cost, float 
 	case 1:
 		break;
 	case 2:
-		CP_Image_Draw(jiggle1, CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 150, 150, 255);
+		CP_Image_Draw(hamsta, CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 150, 120, 255);
 		break;
 
 	}
@@ -137,7 +151,7 @@ void draw_shop_item(int itemNum, char* name, char* description, int cost, float 
 			soap_purchase_button();
 			break;
 		case 2:
-			roomba_purchased = 1;
+			upgrade_roomba_button();
 			break;
 		}
 	}
@@ -165,7 +179,9 @@ void draw_shop(void) {
 
 	draw_shop_item(1, "Soap Refill", "Refills soap to MAX", soapCost, -100, !Soap_IsFull());
 
-	draw_shop_item(2, "Cleaning Robot", "Activates robot that auto cleans", 100, 50, !roomba_purchased);
+	if (roomba_purchase()) {
+		draw_shop_item(2, "Cleaning Robot", "Upgrades robot that auto cleans", roombaUpgradeCost, 50, !roomba_purchased);
+	}
 }
 
 void shop_menu(void) {
@@ -205,7 +221,7 @@ void shop_menu(void) {
 }
 
 void shop_init(void) {
-	jiggle1 = CP_Image_Load("Assets/jiggle1.gif");
+	hamsta = CP_Image_Load("Assets/hamstermugshot.gif");
 	if (CP_Input_KeyTriggered(KEY_F)) {
 		shopToggle = (shopToggle == 0) ? 1 : 0;
 	}

@@ -94,8 +94,8 @@ void Game_Update(void)
 
 	// Bubble drawing function
 	Bubbles_Draw();
-
-	if (isRoombaPurchased()) {
+	purchase_roomba();
+	if (roomba_purchase()) {
 		roomba();
 	}
 
