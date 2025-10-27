@@ -98,6 +98,7 @@ xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /
   <ItemGroup>
     <ClCompile Include="bubbles.c" />
     <ClCompile Include="credits.c" />
+    <ClCompile Include="debug.c" />
     <ClCompile Include="dirt.c" />
     <ClCompile Include="faucet.c" />
     <ClCompile Include="game.c" />
@@ -122,6 +123,7 @@ xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /
   <ItemGroup>
     <ClInclude Include="bubbles.h" />
     <ClInclude Include="credits.h" />
+    <ClInclude Include="debug.h" />
     <ClInclude Include="dirt.h" />
     <ClInclude Include="faucet.h" />
     <ClInclude Include="game.h" />

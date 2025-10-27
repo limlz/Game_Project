@@ -1,6 +1,8 @@
 #include "cprocessing.h"
 #include <stdio.h>
 #include "dirt.h"
+#include "timer.h"
+#include "day.h"
 
 #define MAX_DROPLETS		220
 #define AOE_DURATION		3.0f
@@ -39,16 +41,17 @@ void draw_faucet(void) {
 
 	if (CP_Input_KeyTriggered(KEY_W))
 		faucet_on = 1;
-
-	if (faucet_on == 1) {
-		rotation1 += 60.0f * CP_System_GetDt() * movement;
-		rotation2 += 60.0f * CP_System_GetDt() * movement;
-		if (rotation1 >= rotation1_max && rotation2 >= rotation2_max) {
-			movement = -1;
-		}
-		if (movement == -1 && rotation1 <= 45.0f && rotation2 <= 90.0f) {
-			movement = 1;
-			faucet_on = 0;
+	if (checkGameRunning() && Day_IsInGameplay()) {
+		if (faucet_on == 1) {
+			rotation1 += 60.0f * CP_System_GetDt() * movement;
+			rotation2 += 60.0f * CP_System_GetDt() * movement;
+			if (rotation1 >= rotation1_max && rotation2 >= rotation2_max) {
+				movement = -1;
+			}
+			if (movement == -1 && rotation1 <= 45.0f && rotation2 <= 90.0f) {
+				movement = 1;
+				faucet_on = 0;
+			}
 		}
 	}
 
@@ -84,6 +87,7 @@ void update_stream(void) {
 		if (streamlist[i].position.y > CP_System_GetWindowHeight())
 			streamlist[i].position.y = CP_Random_RangeFloat(-100.0f, 0.0f);
 	}
+	
 }
 
 // function to stop the stream but ensure the droplets keep falling; to reset their position, 
@@ -190,23 +194,24 @@ void clean_dirt_with_stream(void) {
 void AOE_stream(void) {
 	draw_stream_timer();
 	draw_stream();
-	clean_dirt_with_stream();
 
 	if (CP_Input_KeyTriggered(KEY_W) && attack_ready == 1) {
 		stream_on = 1;
 		aoe_time_left = AOE_DURATION;
 	}
 	//set to 3 seconds for AOE attack
-	if (stream_on == 1) {
-		update_stream();
-		aoe_time_left -= CP_System_GetDt();
-		if (aoe_time_left <= 0.0f) {
-			stream_on = 0;
-			attack_ready = 0;
-			cooldown_left = cooldown;
+
+	if (checkGameRunning() && Day_IsInGameplay()) {
+		clean_dirt_with_stream(attack_opacity);
+		if (stream_on == 1) {
+			update_stream();
+			aoe_time_left -= CP_System_GetDt();
+			if (aoe_time_left <= 0.0f)
+				stream_on = 0;
 		}
-	} else {	
-		stop_stream();
+		else {
+			stop_stream();
+		}
 	}
 }
 

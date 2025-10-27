@@ -101,15 +101,15 @@ void Game_Update(void)
 		roomba();
 	}
 
-	if (CP_Input_KeyTriggered(KEY_D) && debugging == 0) {
-		debugging = 1;
+	if (CP_Input_KeyTriggered(KEY_D) && is_currently_debugging() == 0) {
+		start_debugging();
 	}
 	else if (CP_Input_KeyTriggered(KEY_D)) {
-		debugging = 0;
+		stop_debugging();
 	}
 
-	if (debugging) {
-		debug_roomba_dirt();
+	if (is_currently_debugging()) {
+		debug_print();
 	}
 
 	Soap_Update();
@@ -139,6 +139,7 @@ void Game_Exit(void)
 	CP_Font_Free(subFont);
 	clear_sounds();
 	reset_money();
+	sell_roomba();
 }
 
 

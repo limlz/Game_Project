@@ -4,13 +4,13 @@
 #include "dirt.h"
 #include "timer.h"
 #include "day.h"
+#include "debug.h"
 
 #define ROOMBA_PRICE         0
 
 // ROOMBA
 float roomba_x = 0, roomba_y = 0, roomba_angle = 0;
 int roomba_width = 50;
-int currently_debugging = 0;
 int roomba_currently_scrubbing = 0;
 int ham_purchased = 0;
 int closest_dirt = 0;
@@ -43,8 +43,8 @@ void minus_roomba_speed(int minus_roomba_speed) {
 	roomba_speed -= minus_roomba_speed;
 }
 
-int roomba_purchase (void) {
-	return ham_purchased;
+void sell_roomba(void) {
+	ham_purchased = 0;
 }
 
 void init_roomba(void) {
@@ -58,6 +58,7 @@ void init_roomba(void) {
 }
 
 void purchase_roomba(void) {
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	if (!ham_purchased) {
 		CP_Image_Draw(front, CP_System_GetWindowWidth()- 125, CP_System_GetWindowHeight() - 250, 190, 150, 255);
 		char roomba_price[50];
@@ -141,7 +142,7 @@ void roomba(void) {
 	float y = CP_System_GetWindowHeight() / 2.0f;
 
 	// Display the current image
-	if (!currently_debugging) {
+	if (!is_currently_debugging()) {
 		switch (current_frame)
 		{
 		case 0:
@@ -159,39 +160,29 @@ void roomba(void) {
 		CP_Settings_Fill(roomba_color);
 		CP_Graphics_DrawCircle(roomba_x, roomba_y, roomba_width);
 		CP_Graphics_DrawTriangleAdvanced(roomba_x, roomba_y - roomba_width / 2, roomba_x - roomba_width / 2 * 0.866f, roomba_y + roomba_width / 2 * 0.5f, roomba_x + roomba_width / 2 * 0.866f, roomba_y + roomba_width / 2 * 0.5f, roomba_angle);
-		currently_debugging = 0;
 	}
 }
 
-void debug_roomba_dirt(void) {
-	currently_debugging = 1;
-	char display[50];
-	float text_x = CP_System_GetWindowWidth() - 300, text_y = CP_System_GetWindowHeight() - 300;
-	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-	CP_Settings_TextSize(20.0f);
-	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_MIDDLE);
-	sprintf_s(display, sizeof(display), "Roomba X: %.2f", roomba_x);
-	CP_Font_DrawText(display, text_x, text_y);
+int roomba_purchase(void) {
+	return ham_purchased;
+}
 
-	sprintf_s(display, sizeof(display), "Roomba Y: %.2f", roomba_y);
-	CP_Font_DrawText(display, text_x, text_y + 20);
+int get_closest_dirt_index(void) {
+	return closest_dirt;
+}
 
-	sprintf_s(display, sizeof(display), "Roomba speed: %.2f", roomba_speed);
-	CP_Font_DrawText(display, text_x, text_y + 40);
+int get_roomba_currently_scrubbing(void) {
+	return roomba_currently_scrubbing;
+}
 
-	sprintf_s(display, sizeof(display), "Roomba strength: %d", roomba_strength);
-	CP_Font_DrawText(display, text_x, text_y + 60);
+float get_roomba_x(void) {
+	return roomba_x;
+}
 
-	sprintf_s(display, sizeof(display), "Roomba currently scrubbing: %d", roomba_currently_scrubbing);
-	CP_Font_DrawText(display, text_x, text_y + 80);
+float get_roomba_y(void) {
+	return roomba_y;
+}
 
-	sprintf_s(display, sizeof(display), "Target dirt index : %d", closest_dirt);
-	CP_Font_DrawText(display, text_x, text_y + 100);
-
-	sprintf_s(display, sizeof(display), "Target dirt opacity: %d", dirtList[closest_dirt].opacity);
-	CP_Font_DrawText(display, text_x, text_y + 120);
-
-	sprintf_s(display, sizeof(display), "Total dirt opacity: %d", get_total_opacity());
-	CP_Font_DrawText(display, text_x, text_y + 140);
-
+float get_roomba_speed(void) {
+	return roomba_speed;
 }
