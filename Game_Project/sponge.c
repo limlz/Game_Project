@@ -34,9 +34,12 @@ int is_SpongeEquipped(void) {
 int get_SpongePower(void) {
 	return sponge_power;
 }
+int sponge_upgradeable(void) {
+	return sponge_power < 100 ? 1 : 0;
+}
 
 void upgrade_Sponge(void) {
-	if (sponge_power < 100) {
+	if (sponge_upgradeable) {
 		sponge_power += 5;
 	}
 }

@@ -107,7 +107,7 @@ void Game_Update(void)
 	else if (CP_Input_KeyTriggered(KEY_T)) {
 		roomba_activated = 0;
 	}
-	if (roomba_activated) {
+	if (isRoombaPurchased()) {
 		roomba();
 	}
 	int attack_opacity = 1; // set as variable to be upgraded

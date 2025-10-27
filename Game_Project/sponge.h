@@ -11,3 +11,6 @@ int get_SpongePower(void);
 
 // Upgrade the sponge power by 5, max power is 100
 void upgrade_Sponge(void);
+
+// Check if sponge is upgradeable (Returns 1 if upgradeable, 0 if maxed)
+int sponge_upgradeable(void);

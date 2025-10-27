@@ -13,11 +13,20 @@
 #include "timer.h"
 #include "soap.h"
 
+#define CENTER_X_POS CP_System_GetWindowWidth() / 2.0f
+#define CENTER_Y_POS CP_System_GetWindowHeight() / 2.0f
+#define SHOP_WIDTH 1000.0f
+#define SHOP_HEIGHT 750.0f
+#define MIN_OFFSET 100.0f
+#define MAX_OFFSET 1000.0f
+
 // X and Y position of the shop menu (temporary)
-float x_pos = 1400, y_pos = 300;
+float x_pos = 1400, y_pos = 300; offset = 1000;
 int shopToggle = 0;
 
-char currentLvlText[20];
+int roomba_purchased = 0;
+
+char currentLvlText[100];
 char upgradeText[20];
 char soapCostText[20];
 
@@ -25,42 +34,37 @@ int upgradeCost = 3;
 int increment = 1;
 int soapCost = 2;
 
+CP_Image jiggle1;
+
+int isRoombaPurchased(void) {
+	return roomba_purchased;
+}
+
 void upgrade_sponge_button(void) {
-	// Upgrade button
-	CP_Settings_Fill(CP_Color_Create(255, 100, 255, 100));
-	CP_Graphics_DrawRect(x_pos, y_pos + 200, 100, 100);
+	// Check if player has enough money to upgrade sponge
+	if (get_current_money() >= upgradeCost) {
+		decrement_money(upgradeCost);
+		upgrade_Sponge();
 
-	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
-	CP_Settings_TextSize(30.0f);
-
-	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
-	sprintf_s(upgradeText, sizeof(upgradeText), "Upgrade Cost : %d", upgradeCost);
-	CP_Font_DrawTextBox(upgradeText, x_pos - 50, y_pos + 200, 100);
-
-	// TODO: Deduct money when upgrading sponge and also edge case to prevent upgrading if not enough money
-	if (CP_Input_MouseClicked()) {
-		if (IsAreaClicked(x_pos, y_pos + 200, 100, 100, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
-
-			// Check if player has enough money to upgrade sponge
-			if (get_current_money() >= upgradeCost) {
-				decrement_money(upgradeCost);
-				upgrade_Sponge();
-
-				// Increase cost for next upgrade
-				upgradeCost += increment;
-				increment++;
-			}
-		}
+		// Increase cost for next upgrade
+		upgradeCost += increment;
+		increment++;
 	}
 }
 
 void soap_purchase_button(void)
 {
+	int soapAvailable = !Soap_IsFull();
+
+	if (soapAvailable && get_current_money() >= soapCost) {
+		decrement_money(soapCost);
+		Soap_Refill();
+	}
+	/*
 	float buttonSize = 100.0f;
 	float buttonX = x_pos + 120.0f;
 	float buttonY = y_pos + 200.0f;
 
-	int soapAvailable = !Soap_IsFull();
 	CP_Color buttonColor = CP_Color_Create(255, 220, 0, soapAvailable ? 255 : 120);
 
 	CP_Settings_Fill(buttonColor);
@@ -74,14 +78,94 @@ void soap_purchase_button(void)
 	CP_Settings_TextSize(22.0f);
 	sprintf_s(soapCostText, sizeof(soapCostText), "Cost: %d", soapCost);
 	CP_Font_DrawText(soapCostText, buttonX, buttonY + 20.0f);
-
+	
 	if (CP_Input_MouseClicked() &&
 		IsAreaClicked(buttonX, buttonY, buttonSize, buttonSize, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 		if (soapAvailable && get_current_money() >= soapCost) {
 			decrement_money(soapCost);
 			Soap_Refill();
 		}
+	}*/
+}
+void draw_shop_item(int itemNum, char* name, char* description, int cost, float height_offset, int upgradeable) {
+	switch (itemNum) {
+	case 0:
+		CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
+		CP_Graphics_DrawRect(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 100, 100);
+		break;
+	case 1:
+		break;
+	case 2:
+		CP_Image_Draw(jiggle1, CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 150, 150, 255);
+		break;
+
 	}
+
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_MIDDLE);
+	CP_Settings_TextSize(40.0f);
+	CP_Font_DrawText(name, CENTER_X_POS - 200, CENTER_Y_POS + offset + height_offset);
+
+	CP_Settings_TextSize(20.0f);
+	CP_Font_DrawTextBox(description, CENTER_X_POS - 200, CENTER_Y_POS + offset + height_offset + 50, 300);
+
+	char costText[20];
+	if (upgradeable) {
+		CP_Settings_Fill(CP_Color_Create(0, 200, 0, 100));
+		sprintf_s(costText, sizeof(costText), "Cost \n %d", cost);
+	}
+	else {
+		CP_Settings_Fill(CP_Color_Create(200, 0, 0, 100));
+		sprintf_s(costText, sizeof(costText), "Sold Out!");
+	}
+
+	CP_Graphics_DrawRectAdvanced(CENTER_X_POS + 400, CENTER_Y_POS + offset + height_offset + 25, 100.0f, 100.0f, 0.0f, 20.0f);
+	
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_TextSize(30.0f);
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+	CP_Font_DrawTextBox(costText, CENTER_X_POS + 370, CENTER_Y_POS + offset + height_offset + 15, 60);	
+	
+	if (upgradeable && CP_Input_MouseClicked() 
+		&& IsAreaClicked(CENTER_X_POS + 400, CENTER_Y_POS + offset + height_offset + 25, 100.0f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+		//TODO: Handle purchase
+		switch (itemNum) {
+		case 0:
+			upgrade_sponge_button();
+			break;
+		case 1:
+			soap_purchase_button();
+			break;
+		case 2:
+			roomba_purchased = 1;
+			break;
+		}
+	}
+}
+
+void draw_shop(void) {
+	if (shopToggle && offset > MIN_OFFSET) {
+		offset -= 5000 * CP_System_GetDt();
+	}
+	else if (!shopToggle && offset < MAX_OFFSET) {
+		offset += 5000 * CP_System_GetDt();
+	}
+	CP_Settings_Fill(CP_Color_Create(211, 211, 211, 255));
+	CP_Graphics_DrawRectAdvanced(CENTER_X_POS, CENTER_Y_POS + offset, SHOP_WIDTH, SHOP_HEIGHT,0, 30.0f);
+
+	CP_Settings_Fill(CP_Color_Create(121, 212, 237, 255));
+	CP_Graphics_DrawRect(CENTER_X_POS, offset + 75, 400.0f, 100.0f);
+	
+	CP_Settings_TextSize(50.0f);
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
+	CP_Font_DrawText("Shop Menu", CENTER_X_POS, offset + 75);
+
+	sprintf_s(currentLvlText, sizeof(currentLvlText), "Upgrades Power of Sponge \n Current Level : %d", get_SpongePower());
+	draw_shop_item(0, "Sponge Power", currentLvlText, upgradeCost, -250, sponge_upgradeable());
+
+	draw_shop_item(1, "Soap Refill", "Refills soap to MAX", soapCost, -100, !Soap_IsFull());
+
+	draw_shop_item(2, "Cleaning Robot", "Activates robot that auto cleans", 100, 50, !roomba_purchased);
 }
 
 void shop_menu(void) {
@@ -92,17 +176,9 @@ void shop_menu(void) {
 	float btnX = cx;          // base x for centered child widgets
 	float btnY = cy;          // base y for centered child widgets
 
-	CP_Settings_Fill(CP_Color_Create(100, 100, 255, 100));
-	CP_Graphics_DrawRect(x_pos, y_pos, 300, 500);
+	draw_shop();
 
-	CP_Settings_TextSize(50.0f);
-	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
-	CP_Font_DrawText("Shop Menu", x_pos, y_pos - 200);
-
-	upgrade_sponge_button();
-	soap_purchase_button();
-	sprintf_s(currentLvlText, sizeof(currentLvlText), "Current Level : %d", get_SpongePower());
-	CP_Font_DrawText(currentLvlText, x_pos - 50, y_pos);
+	//soap_purchase_button();
 
 	if (Day_IsReadyForNextDay()) {
 		// center will be handled below; use btnX/btnY from the centering section
@@ -129,15 +205,14 @@ void shop_menu(void) {
 }
 
 void shop_init(void) {
+	jiggle1 = CP_Image_Load("Assets/jiggle1.gif");
 	if (CP_Input_KeyTriggered(KEY_F)) {
 		shopToggle = (shopToggle == 0) ? 1 : 0;
 	}
-
-	if (shopToggle) {
+	if (shopToggle || offset < MAX_OFFSET) {
 		shop_menu();
 	}
-	else {
-		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
-		CP_Font_DrawText("Press [F] to open Shop", x_pos, y_pos - 200);
-	}
+	
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
+	CP_Font_DrawText("Press [F] to open Shop", x_pos, y_pos - 200);
 }
