@@ -14,15 +14,13 @@ typedef struct {
 
 Stream streamlist[MAX_DROPLETS];
 
-static float	rotation1 = 45.0f;	
-static float	rotation2 = 90.0f;
+//*----------------------   DRAWING FUNCTIONS : FOR STREAM AND FAUCET   ------------------------*//
+
 static int		stream_on = 0;
 static int		faucet_on = 0;
-static float	aoe_time_left = 0.0f;
-static int		ready_to_attack = 0;
+static float	rotation1 = 45.0f;
+static float	rotation2 = 90.0f;
 int				movement = 1;
-
-//*----------------------   DRAWING FUNCTIONS : FOR STREAM AND FAUCET   ------------------------*//
 
 void draw_stream(void) {
 	for (int i = 0; i < MAX_DROPLETS; i++) {
@@ -108,6 +106,8 @@ void stop_stream(void) {
 
 //*---------------------   STREAM IMPLEMENTATION : AOE CLEANING EFFECT   -----------------------*//
 
+static float	aoe_time_left = 0.0f;
+
 void clean_dirt_with_stream(int attack_opacity) {
 	for (int i = 0; i < MAX_DROPLETS; i++) {
 		for (int j = 0; j < get_number_of_dirt(); j++) {
@@ -138,10 +138,22 @@ void AOE_stream(int attack_opacity) {
 		aoe_time_left -= CP_System_GetDt();
 		if (aoe_time_left <= 0.0f) 
 			stream_on = 0;
-	} else {	stop_stream();	}
-
+	} else {	
+		stop_stream();	
+	}
 }
 
+
+void cooldown_timer_stream(void) {
+
+	CP_Settings_Stroke(CP_Color_Create(206, 216, 220, 250));
+	CP_Settings_Fill(CP_Color_Create(164, 164, 164, 255));
+	CP_Graphics_DrawRectAdvanced(faucet_x, faucet_y, radius, radius, rotation1, 5.0f);
+	CP_Graphics_DrawRectAdvanced(faucet_x, faucet_y, radius, radius, rotation2, 5.0f);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 225));
+	CP_Graphics_DrawCircle(faucet_x, faucet_y, radius - 20.0f);
+
+}
 
 
 

@@ -137,6 +137,8 @@ void Main_Menu_Update(void)
 	//go to credits (temporary)
 	if (CP_Input_KeyTriggered(KEY_C)) {
 		CP_Engine_SetNextGameState(credits_Init, credits_Update, credits_Exit);
+
+
 	}
 }
 
