@@ -98,6 +98,7 @@ void Game_Update(void)
 	Bubbles_Draw();
 	purchase_roomba();
 	if (roomba_purchase()) {
+		if (CP_input    )
 		roomba();
 	}
 

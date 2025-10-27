@@ -12,6 +12,12 @@
 dirt dirtList[MAX_DIRT];
 
 int num_of_dirt = 5;
+int total_opacity = 0;
+int currently_scrubbbing = 0;
+
+int get_total_opacity(void) {
+	return total_opacity;
+}
 
 void set_number_of_dirt(int num) {
 	int current_day = Day_GetDay();
@@ -73,7 +79,7 @@ void dirt_scrubbed(int equipped, int sponge_power)
 
 //function to check if total opacity of all dirt is less than  1 (all dirt cleared)
 int dirt_removed(void) {
-	int total_opacity = 0;
+	total_opacity = 0;
 	for (int i = 0; i < num_of_dirt; i++) {
 		total_opacity += dirtList[i].opacity;
 	}
