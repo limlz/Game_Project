@@ -3,7 +3,7 @@
 #include "dirt.h"
 
 #define MAX_DROPLETS		220
-#define AOE_duration		3.0f
+#define AOE_DURATION		3.0f
 
 typedef struct {
 	CP_Vector	position;
@@ -62,9 +62,12 @@ void draw_faucet(void) {
 
 //*-----------------------------------   STREAM CONTROLS   -------------------------------------*//
 
+CP_Font subFont;
+
 void stream_init(void) {
 	float center_x = CP_System_GetWindowWidth() * 0.5f;
 	float offset = 300.0f; //diameter of plate = 600.0f (plate.c)
+	subFont = CP_Font_Load("Assets/MontserratBlackItalic.otf");
 
 	for (int i = 0; i < MAX_DROPLETS; i++) {
 		streamlist[i].position = CP_Vector_Set(CP_Random_RangeFloat(center_x - offset, center_x + offset), 
@@ -103,65 +106,32 @@ void stop_stream(void) {
 	}
 }
 
-//*---------------------   STREAM IMPLEMENTATION : AOE CLEANING EFFECT   -----------------------*//
+//*----------------------   STREAM IMPLEMENTATION : TIMER & COOLDOWN   -------------------------*//
 
-static float	aoe_time_left = 0.0f;
+static float	time_left = 0.0f;
 
-void clean_dirt_with_stream(int attack_opacity) {
-	for (int i = 0; i < MAX_DROPLETS; i++) {
-		for (int j = 0; j < get_number_of_dirt(); j++) {
-			float distance = CP_Math_Distance(streamlist[i].position.x, streamlist[i].position.y, dirtList[j].positionX, dirtList[j].positionY);
-			float cleaning_radius = 50.0f;
+static float	cooldown = 20.0f;
+static float	cooldown_left = 0.0f;
 
-			if (distance < cleaning_radius) {
-				dirtList[j].opacity -= attack_opacity;
-				if (dirtList[j].opacity < 0)
-					dirtList[j].opacity = 0;
-			}
-		}
-	}
-}
+static int		attack_ready = 1;
+	   int		opacity = 0;
 
-void AOE_stream(int attack_opacity) {
 
-	draw_stream();
-	clean_dirt_with_stream(attack_opacity);
 
-	if (CP_Input_KeyTriggered(KEY_W)) {
-		stream_on = 1;
-		aoe_time_left = AOE_duration;
-	}
-	//set to 3 seconds for AOE attack
-	if (stream_on == 1) {
-		update_stream();
-		aoe_time_left -= CP_System_GetDt();
-		if (aoe_time_left <= 0.0f) 
-			stream_on = 0;
-	} else {	
-		stop_stream();	
-	}
-}
+void draw_stream_timer(void) {
 
-static float time_on = AOE_duration;
-static float time_left = 0.0f;
-
-static float cooldown = 20.0f;
-static float cooldown_left = 0.0f;
-
-int opacity = 0;
-
-/*
-void cooldown_timer_stream(void) {
 	float radius = 50.0f;
 	float faucet_x = 105.0f;
 	float faucet_y = 730.0f;
 	int max_opacity = 150;
-
+	char timer_text[5];
+	
 	// white circular background for logo
 	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Graphics_DrawCircle(faucet_x, faucet_y, 2 * radius + 0.5f);
-	
+
+	// faucet mini drawing
 	CP_Settings_Stroke(CP_Color_Create(206, 216, 220, 250));
 	CP_Settings_Fill(CP_Color_Create(164, 164, 164, 255));
 	CP_Graphics_DrawRectAdvanced(faucet_x, faucet_y, radius, radius, rotation1, 5.0f);
@@ -169,12 +139,88 @@ void cooldown_timer_stream(void) {
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 225));
 	CP_Graphics_DrawCircle(faucet_x, faucet_y, radius - 20.0f);
 
-	//fading background, controlling alpha value based on cooldown
+	if (attack_ready == 1) {
+		opacity = 0;
+	}
 
+	if (attack_ready == 0) {
+		if (cooldown_left >= 0.0f && cooldown_left <= 20.0f) {
+			opacity = max_opacity;
+			cooldown_left -= CP_System_GetDt();
+		}
+		else {
+			attack_ready = 1;
+		}
+	}
+
+	// opacity circle for logo
 	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, opacity));
 	CP_Graphics_DrawCircle(faucet_x, faucet_y, 2 * radius + 0.5f);
-}
-*/
 
+	if (attack_ready == 0) {
+		CP_Font_Set(subFont);
+		CP_Settings_Fill(CP_Color_Create(244, 3, 48, 255));
+		CP_Settings_TextSize(100.0f);
+		snprintf(timer_text, sizeof(timer_text), "%.0f", cooldown_left);
+		CP_Font_DrawText(timer_text, faucet_x, faucet_y);
+	}
+}
+
+
+//*---------------------   STREAM IMPLEMENTATION : AOE CLEANING EFFECT   -----------------------*//
+
+static float	aoe_time_left = 0.0f;
+
+void clean_dirt_with_stream(void) {
+	for (int i = 0; i < MAX_DROPLETS; i++) {
+		for (int j = 0; j < get_number_of_dirt(); j++) {
+			float distance = CP_Math_Distance(streamlist[i].position.x, streamlist[i].position.y, dirtList[j].positionX, dirtList[j].positionY);
+			float cleaning_radius = 50.0f;
+
+			if (distance < cleaning_radius) {
+				dirtList[j].opacity -= 1;
+				if (dirtList[j].opacity < 0)
+					dirtList[j].opacity = 0;
+			}
+		}
+	}
+}
+
+void AOE_stream(void) {
+	draw_stream_timer();
+	draw_stream();
+	clean_dirt_with_stream();
+
+	if (CP_Input_KeyTriggered(KEY_W) && attack_ready == 1) {
+		stream_on = 1;
+		aoe_time_left = AOE_DURATION;
+	}
+	//set to 3 seconds for AOE attack
+	if (stream_on == 1) {
+		update_stream();
+		aoe_time_left -= CP_System_GetDt();
+		if (aoe_time_left <= 0.0f) {
+			stream_on = 0;
+			attack_ready = 0;
+			cooldown_left = cooldown;
+		}
+	} else {	
+		stop_stream();
+	}
+}
+
+//*---------------------------------   VALUES FOR UPGRADES   -----------------------------------*//
+
+void reduce_cooldown(float reduction) {
+	cooldown -= reduction;
+}
+
+void reset_cooldown(void) {
+	cooldown = 20.0f;
+}
+
+float return_cooldown(void) {
+	return cooldown;
+}
 

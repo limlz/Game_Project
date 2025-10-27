@@ -18,10 +18,12 @@
 
 int roomba_activated = 0;
 CP_Font gameFont;
+CP_Font subFont;
 
 void Game_Init(void)
 {	
 	gameFont = CP_Font_Load("Assets/MontserratLight.ttf");
+	subFont = CP_Font_Load("Assets/MontserratBlackItalic.otf");
 	// Initialise random variable required for bubble production
 	Bubbles_Init();
 	init_scrubbing_sounds();
@@ -123,6 +125,7 @@ void Game_Update(void)
 void Game_Exit(void)
 {
 	CP_Font_Free(gameFont);
+	CP_Font_Free(subFont);
 	clear_sounds();
 	reset_money();
 }

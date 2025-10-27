@@ -7,4 +7,7 @@ void update_stream(void);
 void AOE_stream(int);
 void stop_stream(void);
 void clean_dirt_with_stream(int);
-// void cooldown_timer_stream(void);
+void draw_stream_timer(void);
+void reduce_cooldown(float reduction);
+void reset_cooldown(void);
+float return_cooldown(void);
