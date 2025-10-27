@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "dirt.h"
 
-#define MAX_DROPLETS		250
+#define MAX_DROPLETS		220
 #define AOE_duration		3.0f
 
 typedef struct {
@@ -19,48 +19,18 @@ static float	rotation2 = 90.0f;
 static int		stream_on = 0;
 static int		faucet_on = 0;
 static float	aoe_time_left = 0.0f;
+static int		ready_to_attack = 0;
 int				movement = 1;
 
+//*----------------------   DRAWING FUNCTIONS : FOR STREAM AND FAUCET   ------------------------*//
 
-void stream_init(void) {
-	float center_x = CP_System_GetWindowWidth() * 0.5f;
-	float offset = 300.0f; //diameter of plate = 600.0f (plate.c)
-
+void draw_stream(void) {
 	for (int i = 0; i < MAX_DROPLETS; i++) {
-		streamlist[i].position = CP_Vector_Set(CP_Random_RangeFloat(center_x - offset, center_x + offset), 
-								 CP_Random_RangeFloat((float)-CP_System_GetWindowHeight(), -5.0f));
-		streamlist[i].velocity = CP_Vector_Set(0, CP_Random_RangeFloat(4, 8));
-	}
-}
-
-void update_stream(void) {
-	for (int i = 0; i < MAX_DROPLETS; i++) {
-		streamlist[i].position = CP_Vector_Add(streamlist[i].position, streamlist[i].velocity);
-
-		if (streamlist[i].position.y > CP_System_GetWindowHeight())
-			streamlist[i].position.y = CP_Random_RangeFloat(-100.0f, 0.0f);
-
 		CP_Settings_Stroke(CP_Color_Create(123, 183, 220, 100));
 		CP_Settings_Fill(CP_Color_Create(135, 206, 235, 120));
 		CP_Graphics_DrawCircle(streamlist[i].position.x, streamlist[i].position.y, 40.0f);
 		CP_Settings_NoStroke();
 	}
-}
-
-void AOE_stream(int attack_opacity) {
-	if (CP_Input_KeyTriggered(KEY_W)) {
-		stream_on = 1;
-		aoe_time_left = AOE_duration;
-	}
-
-	//set to 5 seconds for AOE attack
-	if (stream_on == 1) {
-		reduce_all_dirt_opacity(attack_opacity);
-		update_stream();
-		aoe_time_left -= CP_System_GetDt();
-		if (aoe_time_left <= 0.0f) 
-			stream_on = 0;
-	} 
 }
 
 void draw_faucet(void) {
@@ -82,7 +52,6 @@ void draw_faucet(void) {
 		if (movement == -1 && rotation1 <= 45.0f && rotation2 <= 90.0f) {
 			movement = 1;
 			faucet_on = 0;
-			stream_init();
 		}
 	}
 
@@ -93,5 +62,86 @@ void draw_faucet(void) {
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 225));
 	CP_Graphics_DrawCircle(faucet_x, faucet_y, radius - 20.0f);
 }
+
+//*-----------------------------------   STREAM CONTROLS   -------------------------------------*//
+
+void stream_init(void) {
+	float center_x = CP_System_GetWindowWidth() * 0.5f;
+	float offset = 300.0f; //diameter of plate = 600.0f (plate.c)
+
+	for (int i = 0; i < MAX_DROPLETS; i++) {
+		streamlist[i].position = CP_Vector_Set(CP_Random_RangeFloat(center_x - offset, center_x + offset), 
+								 CP_Random_RangeFloat((float)-CP_System_GetWindowHeight(), -20.0f));
+		streamlist[i].velocity = CP_Vector_Set(0, 0);
+	}
+}
+
+void update_stream(void) {
+	for (int i = 0; i < MAX_DROPLETS; i++) {
+		streamlist[i].velocity = CP_Vector_Set(0, CP_Random_RangeFloat(4, 8));
+		streamlist[i].position = CP_Vector_Add(streamlist[i].position, streamlist[i].velocity);
+
+		if (streamlist[i].position.y > CP_System_GetWindowHeight())
+			streamlist[i].position.y = CP_Random_RangeFloat(-100.0f, 0.0f);
+	}
+}
+
+// function to stop the stream but ensure the droplets keep falling; to reset their position, 
+// with no velocity when they go off screen
+
+void stop_stream(void) {
+	float center_x = CP_System_GetWindowWidth() * 0.5f;
+	float offset = 300.0f; 
+
+	for (int i = 0; i < MAX_DROPLETS; i++) {
+		streamlist[i].position = CP_Vector_Add(streamlist[i].position, streamlist[i].velocity);
+
+		if (streamlist[i].position.y > CP_System_GetWindowHeight()) {
+			streamlist[i].position.y = CP_Random_RangeFloat(-100.0f, 0.0f);
+			streamlist[i].position = CP_Vector_Set(CP_Random_RangeFloat(center_x - offset, center_x + offset),
+									 CP_Random_RangeFloat((float)-CP_System_GetWindowHeight(), -20.0f));
+			streamlist[i].velocity = CP_Vector_Set(0, 0);
+		}
+
+	}
+}
+
+//*---------------------   STREAM IMPLEMENTATION : AOE CLEANING EFFECT   -----------------------*//
+
+void clean_dirt_with_stream(int attack_opacity) {
+	for (int i = 0; i < MAX_DROPLETS; i++) {
+		for (int j = 0; j < get_number_of_dirt(); j++) {
+			float distance = CP_Math_Distance(streamlist[i].position.x, streamlist[i].position.y, dirtList[j].positionX, dirtList[j].positionY);
+			float cleaning_radius = 50.0f;
+
+			if (distance < cleaning_radius) {
+				dirtList[j].opacity -= attack_opacity;
+				if (dirtList[j].opacity < 0)
+					dirtList[j].opacity = 0;
+			}
+		}
+	}
+}
+
+void AOE_stream(int attack_opacity) {
+
+	draw_stream();
+	clean_dirt_with_stream(attack_opacity);
+
+	if (CP_Input_KeyTriggered(KEY_W)) {
+		stream_on = 1;
+		aoe_time_left = AOE_duration;
+	}
+	//set to 3 seconds for AOE attack
+	if (stream_on == 1) {
+		update_stream();
+		aoe_time_left -= CP_System_GetDt();
+		if (aoe_time_left <= 0.0f) 
+			stream_on = 0;
+	} else {	stop_stream();	}
+
+}
+
+
 
 

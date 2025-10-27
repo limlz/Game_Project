@@ -9,7 +9,7 @@ void reduce_all_dirt_opacity(int);
 typedef struct dirt {
     float positionX;
     float positionY;
-    int opacity;
+    float opacity;
 } dirt;
 
 extern dirt dirtList[];
