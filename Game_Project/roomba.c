@@ -159,7 +159,8 @@ void roomba(void) {
 	else {
 		CP_Settings_Fill(roomba_color);
 		CP_Graphics_DrawCircle(roomba_x, roomba_y, roomba_width);
-		CP_Graphics_DrawTriangleAdvanced(roomba_x, roomba_y - roomba_width / 2, roomba_x - roomba_width / 2 * 0.866f, roomba_y + roomba_width / 2 * 0.5f, roomba_x + roomba_width / 2 * 0.866f, roomba_y + roomba_width / 2 * 0.5f, roomba_angle);
+		CP_Settings_Fill(CP_Color_Create(255, 0, 0, 100));
+		CP_Graphics_DrawTriangleAdvanced(roomba_x, roomba_y - roomba_width / 2, roomba_x - roomba_width / 2 * 0.6f, roomba_y + roomba_width / 2 * 0.5f, roomba_x + roomba_width / 2 * 0.6f, roomba_y + roomba_width / 2 * 0.5f, roomba_angle);
 	}
 }
 

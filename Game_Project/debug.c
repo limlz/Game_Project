@@ -44,9 +44,15 @@ void debug_print(void) {
 	CP_Font_DrawText("Money", box_x + 125, box_y);
 	CP_Settings_Fill(addition_color);
 	CP_Graphics_DrawRect(box_x, box_y + 20, ADD_SUB_BOX_WIDTH, ADD_SUB_BOX_HEIGHT);
+	if (IsAreaClicked(box_x + ADD_SUB_BOX_WIDTH / 2, box_y + 20 + ADD_SUB_BOX_HEIGHT / 2, ADD_SUB_BOX_WIDTH, ADD_SUB_BOX_HEIGHT,CP_Input_GetMouseX(), CP_Input_GetMouseY()) && CP_Input_MouseClicked()) {
+		increment_money(100);
+	}
+
 	CP_Settings_Fill(subtraction_color);
 	CP_Graphics_DrawRect(box_x + 130, box_y + 20, ADD_SUB_BOX_WIDTH, ADD_SUB_BOX_HEIGHT);
-
+	if (IsAreaClicked(box_x + 130 + ADD_SUB_BOX_WIDTH / 2, box_y + 20 + ADD_SUB_BOX_HEIGHT / 2, ADD_SUB_BOX_WIDTH, ADD_SUB_BOX_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY()) && CP_Input_MouseClicked()) {
+		decrement_money(100);
+	}
 
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_MIDDLE);
 	if (roomba_purchase()) {
@@ -83,13 +89,13 @@ void debug_print(void) {
 	CP_Graphics_DrawRect(text_x - 10, text_y - 20, 250, 180);
 
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-	sprintf_s(display, sizeof(display), "Total dirt opacity: %d", get_total_opacity());
+	sprintf_s(display, sizeof(display), "Mouse X: %.0f", CP_Input_GetMouseX());
 	CP_Font_DrawText(display, text_x, text_y);
 
-	sprintf_s(display, sizeof(display), "Mouse X: %.0f", CP_Input_GetMouseX());
+	sprintf_s(display, sizeof(display), "Mouse Y: %.0f", CP_Input_GetMouseY());
 	CP_Font_DrawText(display, text_x, text_y + 20);
 
-	sprintf_s(display, sizeof(display), "Mouse Y: %.0f", CP_Input_GetMouseY());
+	sprintf_s(display, sizeof(display), "Total dirt opacity: %d", get_total_opacity());
 	CP_Font_DrawText(display, text_x, text_y + 40);
 
 	sprintf_s(display, sizeof(display), "Equipped sponge?: %s", is_SpongeEquipped() ? "Yes" : "No");
