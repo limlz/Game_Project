@@ -92,24 +92,17 @@ void Game_Update(void)
 		stop_scrubbing_sound();
 	}
 
-	Soap_Update();
-	shop_init();
-	
-	
 	// Bubble drawing function
 	Bubbles_Draw();
 
-
-	//temporary roomba functions
-	if (CP_Input_KeyTriggered(KEY_R)) {
-		roomba_activated = 1;
-	}
-	else if (CP_Input_KeyTriggered(KEY_T)) {
-		roomba_activated = 0;
-	}
 	if (isRoombaPurchased()) {
 		roomba();
 	}
+
+	Soap_Update();
+	shop_init();
+	
+
 	int attack_opacity = 1; // set as variable to be upgraded
 
 	AOE_stream(attack_opacity);

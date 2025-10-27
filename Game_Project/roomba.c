@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "bubbles.h"
 #include "dirt.h"
+#include "timer.h"
 
 // ROOMBA
 float roomba_x = 0, roomba_y = 0, roomba_angle = 0;
@@ -68,22 +69,23 @@ void roomba(void) {
 	roomba_angle = CP_Vector_AngleCW(up, CP_Vector_Negate(dir));
 
 	// move directly toward dirt if not close enough
-	if (CP_Vector_Distance(dirt_v, roomba_v) > 1) {
-		dir = CP_Vector_Normalize(dir);
-		float speed = roomba_speed * CP_System_GetDt();
-		CP_Vector move = CP_Vector_Scale(dir, speed);
-		roomba_v = CP_Vector_Add(roomba_v, move);
+	if (checkGameRunning()) {
+		if (CP_Vector_Distance(dirt_v, roomba_v) > 1) {
+			dir = CP_Vector_Normalize(dir);
+			float speed = roomba_speed * CP_System_GetDt();
+			CP_Vector move = CP_Vector_Scale(dir, speed);
+			roomba_v = CP_Vector_Add(roomba_v, move);
 
-		// update position
-		roomba_x = roomba_v.x;
-		roomba_y = roomba_v.y;
+			// update position
+			roomba_x = roomba_v.x;
+			roomba_y = roomba_v.y;
+		}
+		else {
+			dirtList[closest_dirt].opacity -= roomba_strength;
+			dirtList[closest_dirt].opacity = CP_Math_ClampInt(dirtList[closest_dirt].opacity, 0, 200);
+			SpawnBubble(dirtList[closest_dirt].positionX, dirtList[closest_dirt].positionY);
+		}
 	}
-	else {
-		dirtList[closest_dirt].opacity -= roomba_strength;
-		dirtList[closest_dirt].opacity = CP_Math_ClampInt(dirtList[closest_dirt].opacity, 0, 200);
-		SpawnBubble(dirtList[closest_dirt].positionX, dirtList[closest_dirt].positionY);
-	}
-
 
 
 	// draw da roomba
