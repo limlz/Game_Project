@@ -41,6 +41,7 @@ void draw_faucet(void) {
 
 	if (CP_Input_KeyTriggered(KEY_W))
 		faucet_on = 1;
+
 	if (checkGameRunning() && Day_IsInGameplay()) {
 		if (faucet_on == 1) {
 			rotation1 += 60.0f * CP_System_GetDt() * movement;
@@ -194,20 +195,24 @@ void clean_dirt_with_stream(void) {
 void AOE_stream(void) {
 	draw_stream_timer();
 	draw_stream();
+	clean_dirt_with_stream();
 
 	if (CP_Input_KeyTriggered(KEY_W) && attack_ready == 1) {
 		stream_on = 1;
 		aoe_time_left = AOE_DURATION;
 	}
-	//set to 3 seconds for AOE attack
 
+	//set to 3 seconds for AOE attack
 	if (checkGameRunning() && Day_IsInGameplay()) {
-		clean_dirt_with_stream(attack_opacity);
 		if (stream_on == 1) {
 			update_stream();
 			aoe_time_left -= CP_System_GetDt();
-			if (aoe_time_left <= 0.0f)
+			if (aoe_time_left <= 0.0f) {
 				stream_on = 0;
+				attack_ready = 0;
+				cooldown_left = cooldown;
+			}
+
 		}
 		else {
 			stop_stream();
