@@ -30,6 +30,11 @@ void decrement_money(int money_change) {
 	current_dollars -= money_change;
 }
 
+void reset_money(void) {
+	current_dollars = 0;
+	total_earned = 0;
+}
+
 // function to increase or reduce value of plates
 void set_plate_value(int plate_change) {
 	dollars_per_plate = plate_change;

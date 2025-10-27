@@ -3,6 +3,7 @@
 #include "bubbles.h"
 #include "dirt.h"
 #include "timer.h"
+#include "day.h"
 
 // ROOMBA
 float roomba_x = 0, roomba_y = 0, roomba_angle = 0;
@@ -98,7 +99,7 @@ void roomba(void) {
 	roomba_angle = CP_Vector_AngleCW(up, CP_Vector_Negate(dir));
 
 	// move directly toward dirt if not close enough
-	if (checkGameRunning()) {
+	if (checkGameRunning() && Day_IsInGameplay()) {
 		if (CP_Vector_Distance(dirt_v, roomba_v) > 1) {
 			dir = CP_Vector_Normalize(dir);
 			float speed = roomba_speed * CP_System_GetDt();

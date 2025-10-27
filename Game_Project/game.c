@@ -123,6 +123,7 @@ void Game_Exit(void)
 {
 	CP_Font_Free(gameFont);
 	clear_sounds();
+	reset_money();
 }
 
 

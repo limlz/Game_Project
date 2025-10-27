@@ -5,3 +5,4 @@ void increment_money(int money_change);
 void decrement_money(int money_change);
 void set_plate_value(int plate_change);
 int get_plate_value(void);
+int reset_money(void);
