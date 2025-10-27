@@ -6,7 +6,7 @@ void set_number_of_dirt(int num);
 int get_number_of_dirt(void);
 void reduce_all_dirt_opacity(int);
 int get_total_opacity(void);
-int is_currently_scrubbing(void);
+int get_sponge_radius(void);
 
 typedef struct dirt {
     float positionX;

@@ -12,3 +12,4 @@ int Day_GetGoal(void);
 
 int Day_IsReadyForNextDay(void);
 void Day_ClearReadyForNextDay(void);
+void Day_ForceEndDay(void);

@@ -12,6 +12,8 @@ While holding the sponge, hold down left mouse button and drag across the screen
 #include "CProcessing.h"
 #include "utils.h"
 #include "timer.h"
+#include "debug.h"
+#include "dirt.h"
 
 // Bool to check if sponge is equipped by player
 int sponge_equipped;
@@ -76,8 +78,15 @@ void sponge_init(void) {
 	}
 	
 	// Draw the sponge
-	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
-	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255)); 
-	CP_Graphics_DrawRect(sponge_x, sponge_y, sponge_height, sponge_width);
+	if (!is_currently_debugging()) {
+		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
+		CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
+		CP_Graphics_DrawRect(sponge_x, sponge_y, sponge_height, sponge_width);
+	}
+	else {
+		CP_Settings_Fill(CP_Color_Create(255, 0, 0, 150));
+		CP_Graphics_DrawCircle(sponge_x, sponge_y, get_sponge_radius() * 2);
+	}
+
 
 }

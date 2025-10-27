@@ -234,3 +234,14 @@ float return_cooldown(void) {
 	return cooldown;
 }
 
+float return_aoe_time_left(void) {
+	return aoe_time_left;
+}
+
+int return_is_attack_ready(void) {
+	return attack_ready;
+}
+
+int return_stream_on(void) {
+	return stream_on;
+}

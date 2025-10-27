@@ -158,4 +158,15 @@ void Day_DrawPopup(void)
 int Day_IsReadyForNextDay(void) { return g_readyForNextDay; }
 void Day_ClearReadyForNextDay(void) { g_readyForNextDay = 0; }
 
-
+void Day_ForceEndDay(void)
+{
+    if (g_inGameplay)
+    {
+        g_day += 1;
+        g_goal = DAY_BASE_GOAL + g_day * GOAL_STEP;
+        g_cleaned = 0;
+        g_inGameplay = 0;
+        show_day_complete_popup = 1;   // show popup overlay
+        timeStop();                    // stop timer when target reached
+    }
+}

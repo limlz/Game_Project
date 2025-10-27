@@ -11,3 +11,6 @@ void draw_stream_timer(void);
 void reduce_cooldown(float reduction);
 void reset_cooldown(void);
 float return_cooldown(void);
+float return_aoe_time_left(void);
+int return_is_attack_ready(void);
+int return_stream_on(void);

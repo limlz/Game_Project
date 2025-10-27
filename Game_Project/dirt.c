@@ -15,6 +15,10 @@ int num_of_dirt = 5;
 int total_opacity = 0;
 int currently_scrubbbing = 0;
 
+int get_sponge_radius(void) {
+	return SPONGE_RADIUS;
+}
+
 int get_total_opacity(void) {
 	return total_opacity;
 }
