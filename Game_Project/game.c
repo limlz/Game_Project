@@ -112,7 +112,8 @@ void Game_Update(void)
 	CP_Settings_Fill(CP_Color_Create(186, 191, 197, 255));
 	CP_Settings_NoStroke();
 	CP_Graphics_DrawRect((float)CP_System_GetWindowWidth() * 0.5f, 850.0f, (float)CP_System_GetWindowWidth(), 100.0f);
-
+	
+	// cooldown_timer_stream();
 	timer_init();
 	Day_DrawPopup();
 

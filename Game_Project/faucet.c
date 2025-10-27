@@ -9,7 +9,6 @@ typedef struct {
 	CP_Vector	position;
 	CP_Vector	velocity;
 	float		radius;
-	int			isRunning;
 } Stream;
 
 Stream streamlist[MAX_DROPLETS];
@@ -143,9 +142,26 @@ void AOE_stream(int attack_opacity) {
 	}
 }
 
+static float time_on = AOE_duration;
+static float time_left = 0.0f;
 
+static float cooldown = 20.0f;
+static float cooldown_left = 0.0f;
+
+int opacity = 0;
+
+/*
 void cooldown_timer_stream(void) {
+	float radius = 50.0f;
+	float faucet_x = 105.0f;
+	float faucet_y = 730.0f;
+	int max_opacity = 150;
 
+	// white circular background for logo
+	CP_Settings_NoStroke();
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Graphics_DrawCircle(faucet_x, faucet_y, 2 * radius + 0.5f);
+	
 	CP_Settings_Stroke(CP_Color_Create(206, 216, 220, 250));
 	CP_Settings_Fill(CP_Color_Create(164, 164, 164, 255));
 	CP_Graphics_DrawRectAdvanced(faucet_x, faucet_y, radius, radius, rotation1, 5.0f);
@@ -153,7 +169,12 @@ void cooldown_timer_stream(void) {
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 225));
 	CP_Graphics_DrawCircle(faucet_x, faucet_y, radius - 20.0f);
 
-}
+	//fading background, controlling alpha value based on cooldown
 
+	CP_Settings_NoStroke();
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, opacity));
+	CP_Graphics_DrawCircle(faucet_x, faucet_y, 2 * radius + 0.5f);
+}
+*/
 
 
