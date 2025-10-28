@@ -30,10 +30,14 @@ int roomba_purchased = 0;
 char currentLvlText[100];
 char upgradeText[20];
 char soapCostText[20];
+char soapUpgradeDescription[120];
 
 int upgradeCost = 3;
 int increment = 1;
 int soapCost = 2;
+
+int soapDrainUpgradeCost = 6;
+int soapDrainIncrement = 2;
 
 int roombaUpgradeCost = 20;
 int incrementRoomba = 5;
@@ -101,6 +105,21 @@ void soap_purchase_button(void)
 		}
 	}*/
 }
+void soap_drain_upgrade_button(void)
+{
+        if (!Soap_CanUpgradeDrain()) {
+                return;
+        }
+
+        if (GetCurrentMoney() >= soapDrainUpgradeCost) {
+                DecrementMoney(soapDrainUpgradeCost);
+                Soap_UpgradeDrain();
+
+                soapDrainUpgradeCost += soapDrainIncrement;
+                soapDrainIncrement++;
+        }
+}
+
 void draw_shop_item(int itemNum, char* name, char* description, int cost, float height_offset, int upgradeable) {
 	switch (itemNum) {
 	case 0:
@@ -111,6 +130,12 @@ void draw_shop_item(int itemNum, char* name, char* description, int cost, float 
 		break;
 	case 2:
 		CP_Image_Draw(hamsta, CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 150, 120, 255);
+		break;
+	case 3:
+		CP_Settings_Fill(CP_Color_Create(120, 200, 255, 255));
+		CP_Graphics_DrawEllipse(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 90, 60);
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 200));
+		CP_Graphics_DrawRectAdvanced(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 10, 30, 50, 0, 8);
 		break;
 
 	}
@@ -153,9 +178,13 @@ void draw_shop_item(int itemNum, char* name, char* description, int cost, float 
 		case 2:
 			upgrade_roomba_button();
 			break;
+		case 3:
+			soap_drain_upgrade_button();
+			break;
 		}
 	}
 }
+
 
 void draw_shop(void) {
 	if (shopToggle && offset > MIN_OFFSET) {
@@ -179,10 +208,17 @@ void draw_shop(void) {
 
 	draw_shop_item(1, "Soap Refill", "Refills soap to MAX", soapCost, -100, !Soap_IsFull());
 
+	float totalReduction = (float)Soap_GetDrainUpgradeLevel() * 0.1f;
+	sprintf_s(soapUpgradeDescription, sizeof(soapUpgradeDescription),
+		"Reduces soap drain speed\nLevel: %d (-%.1f%%)",
+		Soap_GetDrainUpgradeLevel(), totalReduction);
+	draw_shop_item(3, "Soap Saver", soapUpgradeDescription, soapDrainUpgradeCost, 50, Soap_CanUpgradeDrain());
+
 	if (RoombaPurchase()) {
-		draw_shop_item(2, "Cleaning Robot", "Upgrades robot that auto cleans", roombaUpgradeCost, 50, !roomba_purchased);
+		draw_shop_item(2, "Cleaning Robot", "Upgrades robot that auto cleans", roombaUpgradeCost, 50, !RoombaPurchase);
 	}
 }
+
 
 void shop_menu(void) {
 	float cx = CP_System_GetWindowWidth() * 0.5f;
