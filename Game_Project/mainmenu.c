@@ -89,7 +89,7 @@ void Main_Menu_Update(void)
 	CP_Graphics_DrawCircle((float)CP_System_GetWindowWidth() / 2, 1050.f, 900.0f);
 
 	// Draw rectangles for ButtonBlue
-	CP_Settings_Fill(ButtonBlue);
+	CP_Settings_Fill(button_blue);
 	CP_Settings_NoStroke();
 	CP_Graphics_DrawRectAdvanced(center_x - OFFSET, button_y + MOVE_DOWN, 300.0f + play_pop, 150.0f + play_pop, 0.0f, 50.0f);
 	CP_Graphics_DrawRectAdvanced(center_x + OFFSET, button_y + MOVE_DOWN, 300.0f + exit_pop, 150.0f + exit_pop, 0.0f, 50.0f);
@@ -144,7 +144,7 @@ void Main_Menu_Update(void)
 	CP_Settings_Fill(CP_Color_Create(141, 144, 147, 200));
 	CP_Graphics_DrawEllipse(CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() - 80.0f, 200.0f, 30.0f);
 	CP_Image_Draw(hamsta, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() - 130.0f, 170.0f, 170.0f, 255);
-	Bullets_UpdateAndDraw();
+	BulletsUpdateAndDraw();
 
 
 	// Hamster Pointer
@@ -161,7 +161,7 @@ void Main_Menu_Update(void)
 		CP_Image_DrawAdvanced(arm, (float)(CP_System_GetWindowWidth() / 2 + 55.0f), (float)(CP_System_GetWindowHeight() - 130.0f), 80.0f, 80.0f, 255, hand_angle);
 	}
 	else {
-		CP_Image_DrawAdvanced(armflipped, (float)(CP_System_GetWindowWidth() / 2 + 55.0f), (float)(CP_System_GetWindowHeight() - 130.0f), 60.0f, 80.0f, 255, hand_angle);
+		CP_Image_DrawAdvanced(arm_flipped, (float)(CP_System_GetWindowWidth() / 2 + 55.0f), (float)(CP_System_GetWindowHeight() - 130.0f), 60.0f, 80.0f, 255, hand_angle);
 	}
 
 
