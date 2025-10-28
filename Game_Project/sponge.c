@@ -94,14 +94,14 @@ void sponge_init(void) {
 	}
 	
 	// Draw the sponge
-	if (!is_currently_debugging()) {
+	if (!IsCurrentlyDebugging()) {
 		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
 		CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 		CP_Graphics_DrawRect(sponge_x, sponge_y, sponge_height, sponge_width);
 	}
 	else {
 		CP_Settings_Fill(CP_Color_Create(255, 0, 0, 150));
-		CP_Graphics_DrawCircle(sponge_x, sponge_y, get_sponge_radius() * 2);
+		CP_Graphics_DrawCircle(sponge_x, sponge_y, GetSpongeRadius() * 2);
 	}
 
 

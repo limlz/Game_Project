@@ -19,40 +19,40 @@
 
 
 typedef struct Bubble {
-    float positionX;
-    float positionY;
-    float velocityX;
-    float velocityY;
+    float position_x;
+    float position_y;
+    float velocity_x;
+    float velocity_y;
     float radius;
-    float lifeRemaining;
-    float lifeMax;
-    int   isAlive;
+    float life_remaining;
+    float life_max;
+    int   is_alive;
 } Bubble;
 
-static Bubble bubbleList[MAX_BUBBLES];
-static float  spawnCooldownTimer = 0.0f;
+static Bubble bubble_list[MAX_BUBBLES];
+static float  spawn_cooldown_timer = 0.0f;
 
 
 
 // Spawn one bubble near the mouse
 void SpawnBubble(float mouseX, float mouseY) {
     for (int i = 0; i < MAX_BUBBLES; ++i) {
-        if (!bubbleList[i].isAlive) {
+        if (!bubble_list[i].is_alive) {
 
             float angle = CP_Random_RangeFloat(0.0f, 6.2831853f);  // 0 to 2*pi
-            float spawnOffset = CP_Random_RangeFloat(0.0f, 18.0f);
+            float spawn_offset = CP_Random_RangeFloat(0.0f, 18.0f);
             float speed = CP_Random_RangeFloat(SPEED_MIN, SPEED_MAX);
             float radius = CP_Random_RangeFloat(BASE_RADIUS_MIN, BASE_RADIUS_MAX);
             float lifetime = CP_Random_RangeFloat(LIFETIME_MIN, LIFETIME_MAX);
 
-            bubbleList[i].positionX = mouseX + cosf(angle) * spawnOffset;
-            bubbleList[i].positionY = mouseY + sinf(angle) * spawnOffset;
-            bubbleList[i].velocityX = cosf(angle) * speed * 0.35f;
-            bubbleList[i].velocityY = -fabsf(sinf(angle)) * speed * 0.65f;
-            bubbleList[i].radius = radius;
-            bubbleList[i].lifeRemaining = lifetime;
-            bubbleList[i].lifeMax = lifetime;
-            bubbleList[i].isAlive = 1;
+            bubble_list[i].position_x = mouseX + cosf(angle) * spawn_offset;
+            bubble_list[i].position_y = mouseY + sinf(angle) * spawn_offset;
+            bubble_list[i].velocity_x = cosf(angle) * speed * 0.35f;
+            bubble_list[i].velocity_y = -fabsf(sinf(angle)) * speed * 0.65f;
+            bubble_list[i].radius = radius;
+            bubble_list[i].life_remaining = lifetime;
+            bubble_list[i].life_max = lifetime;
+            bubble_list[i].is_alive = 1;
 
             return;
         }
@@ -60,38 +60,38 @@ void SpawnBubble(float mouseX, float mouseY) {
 }
 
 // Initialize random number and bubbles
-void Bubbles_Init(void) {
+void BubblesInit(void) {
     CP_Random_Seed((int)CP_System_GetSeconds());
     for (int i = 0; i < MAX_BUBBLES; ++i) {
-        bubbleList[i].isAlive = 0;
+        bubble_list[i].is_alive = 0;
     }
 
     CP_Settings_AntiAlias(1);
     CP_Settings_NoStroke();
 }
 
-void Bubbles_Update(void) {
-    float mouseX = CP_Input_GetMouseX();
-    float mouseY = CP_Input_GetMouseY();
-    float deltaTime = CP_System_GetDt();
-    spawnCooldownTimer -= deltaTime;
+void BubblesUpdate(void) {
+    float mouse_x = CP_Input_GetMouseX();
+    float mouse_y = CP_Input_GetMouseY();
+    float delta_time = CP_System_GetDt();
+    spawn_cooldown_timer -= delta_time;
 
     // Spawn new bubbles if mouse is dragged and cooldown is done
-    if (CP_Input_MouseDragged(MOUSE_BUTTON_LEFT) && spawnCooldownTimer <= 0.0f && is_SpongeEquipped()) {
-        spawnCooldownTimer = SPAWN_COOLDOWN;
+    if (CP_Input_MouseDragged(MOUSE_BUTTON_LEFT) && spawn_cooldown_timer <= 0.0f && is_SpongeEquipped()) {
+        spawn_cooldown_timer = SPAWN_COOLDOWN;
         for (int i = 0; i < BUBBLES_PER_SPAWN; ++i) {
-            SpawnBubble(mouseX, mouseY);
+            SpawnBubble(mouse_x, mouse_y);
         }
     }
 }
 
-void Bubbles_Manual(float manualX, float manualY) {
-    float deltaTime = CP_System_GetDt();
-    spawnCooldownTimer -= deltaTime;
+void BubblesManual(float manualX, float manualY) {
+    float delta_time = CP_System_GetDt();
+    spawn_cooldown_timer -= delta_time;
 
     // Spawn new bubbles if mouse is dragged and cooldown is done
-    if (spawnCooldownTimer <= 0.0f) {
-        spawnCooldownTimer = 0.07f;
+    if (spawn_cooldown_timer <= 0.0f) {
+        spawn_cooldown_timer = 0.07f;
         for (int i = 0; i < 2; ++i) {
             SpawnBubble(manualX, manualY);
         }
@@ -101,62 +101,62 @@ void Bubbles_Manual(float manualX, float manualY) {
 // Update and draw bubbles 
 void Bubbles_Draw(void) {
 
-    float deltaTime = CP_System_GetDt();
-    Bubbles_Update();
+    float delta_time = CP_System_GetDt();
+    BubblesUpdate();
 
     CP_Settings_BlendMode(CP_BLEND_ALPHA);
 
     for (int i = 0; i < MAX_BUBBLES; ++i) {
-        Bubble* bubble = &bubbleList[i];
-        if (!bubble->isAlive) {
+        Bubble* bubble = &bubble_list[i];
+        if (!bubble->is_alive) {
             continue;
         }
 
         // apply upward force
-        bubble->velocityY -= UPWARD_FORCE * deltaTime;
+        bubble->velocity_y -= UPWARD_FORCE * delta_time;
 
         // apply side-to-side wobble
-        bubble->velocityX += CP_Random_RangeFloat(-WOBBLE_STRENGTH, WOBBLE_STRENGTH) * deltaTime;
+        bubble->velocity_x += CP_Random_RangeFloat(-WOBBLE_STRENGTH, WOBBLE_STRENGTH) * delta_time;
 
         // apply drag
-        bubble->velocityX *= powf(DRAG, deltaTime);
-        bubble->velocityY *= powf(DRAG, deltaTime);
+        bubble->velocity_x *= powf(DRAG, delta_time);
+        bubble->velocity_y *= powf(DRAG, delta_time);
 
         // move the bubble
-        bubble->positionX += bubble->velocityX * deltaTime;
-        bubble->positionY += bubble->velocityY * deltaTime;
+        bubble->position_x += bubble->velocity_x * delta_time;
+        bubble->position_y += bubble->velocity_y * delta_time;
 
         // update life
-        bubble->lifeRemaining -= deltaTime;
-        float lifeRatio = (bubble->lifeRemaining <= 0.0f)
+        bubble->life_remaining -= delta_time;
+        float life_ratio = (bubble->life_remaining <= 0.0f)
             ? 0.0f
-            : (bubble->lifeRemaining / bubble->lifeMax);
+            : (bubble->life_remaining / bubble->life_max);
 
         // fade and shrink
-        float alpha = CP_Math_ClampFloat(lifeRatio * 255.0f, 0.0f, 255.0f);
-        float drawRadius = bubble->radius * (0.6f + 0.4f * lifeRatio);
+        float alpha = CP_Math_ClampFloat(life_ratio * 255.0f, 0.0f, 255.0f);
+        float draw_radius = bubble->radius * (0.6f + 0.4f * life_ratio);
 
         // draw bubble
 
         CP_Color bubbleColor = CP_Color_Create(135, 206, 235, (int)alpha);
-        if (!is_currently_debugging()) {
+        if (!IsCurrentlyDebugging()) {
             CP_Settings_Fill(bubbleColor);
             CP_Settings_Stroke(CP_Color_Create(145, 216, 245, 200));
             CP_Graphics_DrawEllipse(
-                bubble->positionX,
-                bubble->positionY,
-                drawRadius * 2.0f,
-                drawRadius * 2.0f
+                bubble->position_x,
+                bubble->position_y,
+                draw_radius * 2.0f,
+                draw_radius * 2.0f
             );
         }
         CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
 
         // remove bubble if done
-        if (bubble->lifeRemaining <= 0.0f ||
-            bubble->positionX < -50 ||
-            bubble->positionX > CP_System_GetWindowWidth() + 50 ||
-            bubble->positionY < -100) {
-            bubble->isAlive = 0;
+        if (bubble->life_remaining <= 0.0f ||
+            bubble->position_x < -50 ||
+            bubble->position_x > CP_System_GetWindowWidth() + 50 ||
+            bubble->position_y < -100) {
+            bubble->is_alive = 0;
         }
     }
 }

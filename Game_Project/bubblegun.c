@@ -15,15 +15,15 @@ typedef struct {
 
 static Bullet g_bullets[MAX_BULLETS];
 
-void Bullets_Init(void) {
+void BulletsInit(void) {
     for (int i = 0; i < MAX_BULLETS; ++i) g_bullets[i].active = 0;
 }
 
-void Bullets_Clear(void) {
+void BulletsClear(void) {
     for (int i = 0; i < MAX_BULLETS; ++i) g_bullets[i].active = 0;
 }
 
-void Bullets_Spawn(CP_Vector origin, CP_Vector target, float speed, float radius) {
+void BulletsSpawn(CP_Vector origin, CP_Vector target, float speed, float radius) {
     for (int i = 0; i < MAX_BULLETS; ++i) {
         if (!g_bullets[i].active) {
             CP_Vector v = CP_Vector_Subtract(target, origin);
@@ -41,7 +41,7 @@ void Bullets_Spawn(CP_Vector origin, CP_Vector target, float speed, float radius
     }
 }
 
-void Bullets_UpdateAndDraw(void) {
+void BulletsUpdateAndDraw(void) {
     float dt = CP_System_GetDt();
     float w = (float)CP_System_GetWindowWidth();
     float h = (float)CP_System_GetWindowHeight();

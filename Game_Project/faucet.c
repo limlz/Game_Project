@@ -184,8 +184,8 @@ static float	aoe_time_left = 0.0f;
 void clean_dirt_with_stream(void) {
 	if (checkGameRunning() && Day_IsInGameplay()) {
 		for (int i = 0; i < MAX_DROPLETS; i++) {
-			for (int j = 0; j < get_number_of_dirt(); j++) {
-				float distance = CP_Math_Distance(streamlist[i].position.x, streamlist[i].position.y, dirtList[j].positionX, dirtList[j].positionY);
+			for (int j = 0; j < GetNumberOfDirt(); j++) {
+				float distance = CP_Math_Distance(streamlist[i].position.x, streamlist[i].position.y, dirtList[j].position_x, dirtList[j].position_y);
 				float cleaning_radius = 50.0f;
 
 				if (distance < cleaning_radius) {

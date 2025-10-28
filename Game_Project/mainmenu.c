@@ -28,7 +28,7 @@ int dir = 1;
 
 void Main_Menu_Init(void)
 {
-	Bullets_Init();
+	BulletsInit();
 	hamsta = CP_Image_Load("Assets/hambod.gif");
 	arm = CP_Image_Load("Assets/hamgun.gif");
 	armflipped = CP_Image_Load("Assets/hamgunflip.gif");
@@ -41,7 +41,7 @@ void Main_Menu_Init(void)
 	plate_inner = CP_Color_Create(210, 210, 210, 255);
 	init_background_music();
 	update_volumes();
-	Bubbles_Init();
+	BubblesInit();
 	change_plate();
 }
 
@@ -60,27 +60,27 @@ void Main_Menu_Update(void)
 	// Interactive aspect of ButtonBlue
 	if (IsAreaClicked(center_x, button_y - OFFSET + MOVE_DOWN, 300, 150, mx, my)) {
 		play_pop = 10;
-		Bubbles_Manual(mx, my);
+		BubblesManual(mx, my);
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
 		}
 	}
 	else if (IsAreaClicked(center_x, button_y + OFFSET + MOVE_DOWN, 300, 150, mx, my)) {
 		exit_pop = 10;
-		Bubbles_Manual(mx, my);
+		BubblesManual(mx, my);
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_Terminate();
 		}
 	}
 	else if (IsAreaClicked(120.0, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
 		settings_pop = 10;
-		Bubbles_Manual(mx, my);
+		BubblesManual(mx, my);
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_SetNextGameState(Settings_Init, Settings_Update, Settings_Exit);
 		}
 	}
 
-	Bubbles_Manual(1520.0f, 300.0f);
+	BubblesManual(1520.0f, 300.0f);
 	
 	// UI decor - randomised plates, utilising change_plate() function in plate.c
 	CP_Settings_Fill(plate_outer);
@@ -143,7 +143,7 @@ void Main_Menu_Update(void)
 		dir = 1;
 	}
 	Bubbles_Draw();
-	Bullets_UpdateAndDraw();
+	BulletsUpdateAndDraw();
 
 	// Hamster Pointer
 
@@ -154,7 +154,7 @@ void Main_Menu_Update(void)
 
 	// Fire once per click
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1)) {
-		Bullets_Spawn(hand_origin, CP_Vector_Set(mx, my), 400.0f, 10.0f);
+		BulletsSpawn(hand_origin, CP_Vector_Set(mx, my), 400.0f, 10.0f);
 	}
 	if (hand_angle > 0 && hand_angle < 180) {
 		CP_Image_DrawAdvanced(arm, center_x - 205, button_y + MOVE_DOWN, 80, 80, 255, hand_angle);

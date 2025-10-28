@@ -212,7 +212,7 @@ void shop_menu(void) {
 			IsAreaClicked(btnX + 600.0f, btnY + 150.0f, btnW, btnH, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 			timeReset();
 			Day_StartCurrentDay();
-			init_dirt();
+			InitDirt();
 			change_plate();
 			Day_ClearReadyForNextDay();
 			shopToggle = 0;  // close overlay

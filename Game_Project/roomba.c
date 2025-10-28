@@ -91,16 +91,16 @@ void roomba(void) {
 	closest_dirt = -1;
 	roomba_currently_scrubbing = 0;
 	float closestDist = 999999.0f;
-	for (int i = 0; i < get_number_of_dirt(); i++) { // 5 dirt spots: 0–4
+	for (int i = 0; i < GetNumberOfDirt(); i++) { // 5 dirt spots: 0–4
 		if (dirtList[i].opacity > 0) { // only consider visible dirt
-			float d = CP_Math_Distance(roomba_x, roomba_y, dirtList[i].positionX, dirtList[i].positionY);
+			float d = CP_Math_Distance(roomba_x, roomba_y, dirtList[i].position_x, dirtList[i].position_y);
 			if (d < closestDist) {
 				closestDist = d;
 				closest_dirt = i;
 			}
 		}
 	}
-	dirt_v = CP_Vector_Set(dirtList[closest_dirt].positionX, dirtList[closest_dirt].positionY);
+	dirt_v = CP_Vector_Set(dirtList[closest_dirt].position_x, dirtList[closest_dirt].position_y);
 
 	// compute direction (from roomba -> dirt)
 	CP_Vector dir = CP_Vector_Subtract(dirt_v, roomba_v);
@@ -124,7 +124,7 @@ void roomba(void) {
 		else {
 			dirtList[closest_dirt].opacity -= roomba_strength;
 			dirtList[closest_dirt].opacity = CP_Math_ClampInt(dirtList[closest_dirt].opacity, 0, 200);
-			SpawnBubble(dirtList[closest_dirt].positionX, dirtList[closest_dirt].positionY);
+			SpawnBubble(dirtList[closest_dirt].position_x, dirtList[closest_dirt].position_y);
 			roomba_currently_scrubbing = 1;
 		}
 	}
@@ -145,7 +145,7 @@ void roomba(void) {
 	float y = CP_System_GetWindowHeight() / 2.0f;
 
 	// Display the current image
-	if (!is_currently_debugging()) {
+	if (!IsCurrentlyDebugging()) {
 		switch (current_frame)
 		{
 		case 0:
@@ -165,7 +165,7 @@ void roomba(void) {
 		CP_Settings_Fill(CP_Color_Create(255, 0, 0, 100));
 		CP_Graphics_DrawTriangleAdvanced(roomba_x, roomba_y - roomba_width / 2, roomba_x - roomba_width / 2 * 0.6f, roomba_y + roomba_width / 2 * 0.5f, roomba_x + roomba_width / 2 * 0.6f, roomba_y + roomba_width / 2 * 0.5f, roomba_angle);
 		CP_Settings_Stroke(CP_Color_Create(255, 0, 0, 255));
-		CP_Graphics_DrawLine(roomba_x, roomba_y, dirtList[closest_dirt].positionX, dirtList[closest_dirt].positionY);
+		CP_Graphics_DrawLine(roomba_x, roomba_y, dirtList[closest_dirt].position_x, dirtList[closest_dirt].position_y);
 		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
 
 	}

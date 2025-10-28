@@ -27,8 +27,8 @@ void Settings_Init(void)
 	subFont = CP_Font_Load("Assets/MontserratBlackItalic.otf");
 	White = CP_Color_Create(255, 255, 255, 255);
 	ButtonBlue = CP_Color_Create(123, 183, 220, 255);
-	Bubbles_Init();
-	Bullets_Init();
+	BubblesInit();
+	BulletsInit();
 }
 
 void Settings_Update(void)
@@ -58,7 +58,7 @@ void Settings_Update(void)
 
 	if (IsAreaClicked(120, CP_System_GetWindowHeight() - 120, 100, 100, mousex, mousey)) {
 		settings_pop = 10;
-		Bubbles_Manual(mousex, mousey);
+		BubblesManual(mousex, mousey);
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 		}
@@ -78,7 +78,7 @@ void Settings_Update(void)
 	CP_Graphics_DrawCircle(120, CP_System_GetWindowHeight() - 120, 50);
 	update_volumes();
 	Bubbles_Draw();
-	Bullets_UpdateAndDraw();
+	BulletsUpdateAndDraw();
 	// Hamster Pointer
 
 	float mx = CP_Input_GetMouseX();
@@ -90,7 +90,7 @@ void Settings_Update(void)
 
 	// Fire once per click
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1)) {
-		Bullets_Spawn(hand_origin, CP_Vector_Set(mx, my), 400.0f, 10.0f);
+		BulletsSpawn(hand_origin, CP_Vector_Set(mx, my), 400.0f, 10.0f);
 	}
 	if (hand_angle > 0 && hand_angle < 180) {
 		CP_Image_DrawAdvanced(arm, CP_System_GetWindowWidth() / 2 + 55, CP_System_GetWindowHeight() - 130, 80, 80, 255, hand_angle);

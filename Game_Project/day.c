@@ -133,7 +133,7 @@ void Day_DrawPopup(void)
                 case 0: // Next Day
                     timeReset();
                     Day_StartCurrentDay();
-                    init_dirt();
+                    InitDirt();
                     change_plate();
                     show_day_complete_popup = 0;
                     g_readyForNextDay = 0;          // <-- clear

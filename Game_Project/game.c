@@ -25,11 +25,11 @@ void Game_Init(void)
 	gameFont = CP_Font_Load("Assets/MontserratLight.ttf");
 	subFont = CP_Font_Load("Assets/MontserratBlackItalic.otf");
 	// Initialise random variable required for bubble production
-	Bubbles_Init();
+	BubblesInit();
 	init_scrubbing_sounds();
 	update_volumes();
 	init_roomba();
-	init_dirt();
+	InitDirt();
 	Day_Init();
 	stream_init();
 	Day_StartCurrentDay();   // begin Day 0 (goal = 5 plates)
@@ -53,15 +53,15 @@ void Game_Update(void)
 	draw_faucet();
 
 	//Function to spawn dirts on plate, takes 1 or 0 to decide if it should spawn new dirt in random spots
-	draw_dirt();
+	DrawDirt();
 
-	//Check if N key is clicked, dirt_removed function to check if all dirt is removed. If any true, start new game
-	if (Day_IsInGameplay() && (CP_Input_KeyTriggered(KEY_N) || dirt_removed())) {
+	//Check if N key is clicked, DirtRemoved function to check if all dirt is removed. If any true, start new game
+	if (Day_IsInGameplay() && (CP_Input_KeyTriggered(KEY_N) || DirtRemoved())) {
 		Day_OnPlateCleaned();
 
 		// Only spawn a new plate if still in gameplay (not in shop phase)
 		if (Day_IsInGameplay()) {
-			init_dirt();
+			InitDirt();
 			change_plate();
 		}
 	}
@@ -74,7 +74,7 @@ void Game_Update(void)
 
 	
 	/*
-	If the player is scrubbing, call the dirt_scrubbed function to reduce opacity of dirt
+	If the player is scrubbing, call the DirtScrubbed function to reduce opacity of dirt
 	Also checks to see if the game is running to prevent scrubbing while paused
 	
 	Call dirt scrubbed function with parameters 
@@ -83,7 +83,7 @@ void Game_Update(void)
 	*/ 
 	if (is_Scrubbing() && checkGameRunning()) {
 		if (Soap_CanScrub()) {
-			dirt_scrubbed(is_SpongeEquipped(), get_SpongePower());
+			DirtScrubbed(is_SpongeEquipped(), get_SpongePower());
 			Soap_ConsumeOnScrub();
 			start_scrubbing_sound();
 		}
@@ -102,15 +102,15 @@ void Game_Update(void)
 		roomba();
 	}
 
-	if (CP_Input_KeyDown(KEY_6) && CP_Input_KeyTriggered(KEY_7) && is_currently_debugging() == 0) {
-		start_debugging();
+	if (CP_Input_KeyDown(KEY_6) && CP_Input_KeyTriggered(KEY_7) && IsCurrentlyDebugging() == 0) {
+		StartDebugging();
 	}
 	else if (CP_Input_KeyTriggered(KEY_6)) {
-		stop_debugging();
+		StopDebugging();
 	}
 
-	if (is_currently_debugging()) {
-		debug_print();
+	if (IsCurrentlyDebugging()) {
+		DebugPrint();
 	}
 
 	Soap_Update();

@@ -18,19 +18,19 @@ CP_Color subtraction_color;
 
 int currently_debugging = 0;
 
-int is_currently_debugging(void) {
+int IsCurrentlyDebugging(void) {
 	return currently_debugging;
 }
 
-void start_debugging(void) {
+void StartDebugging(void) {
 	currently_debugging = 1;
 }
 
-void stop_debugging(void) {
+void StopDebugging(void) {
 	currently_debugging = 0;
 }
 
-void debug_print(void) {
+void DebugPrint(void) {
 	debug_box_color = CP_Color_Create(240, 240, 240, 255);
 	addition_color = CP_Color_Create(0, 255, 0, 200);
 	subtraction_color = CP_Color_Create(255, 0, 0, 200);
@@ -119,7 +119,7 @@ void debug_print(void) {
 	sprintf_s(display, sizeof(display), "Mouse Y: %.0f", CP_Input_GetMouseY());
 	CP_Font_DrawText(display, text_x, text_y + 20);
 
-	sprintf_s(display, sizeof(display), "Total dirt opacity: %d", get_total_opacity());
+	sprintf_s(display, sizeof(display), "Total dirt opacity: %d", GetTotalOpacity());
 	CP_Font_DrawText(display, text_x, text_y + 40);
 
 	sprintf_s(display, sizeof(display), "Equipped sponge?: %s", is_SpongeEquipped() ? "Yes" : "No");

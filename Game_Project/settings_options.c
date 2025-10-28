@@ -3,7 +3,7 @@
 #include "bubbles.h"
 
 typedef struct {
-	float positionX, height, width;
+	float position_x, height, width;
 	CP_Color color;
 } Bar;
 static Bar Settings_Boxes;
@@ -15,7 +15,7 @@ float mx = 0, my = 0;
 static int draw_volume_bar(int y_value, int level) {
     Settings_Boxes.width = (float)(CP_System_GetWindowWidth() * 0.75) / 19;
     Settings_Boxes.height = 30;
-    Settings_Boxes.positionX = (float)(CP_System_GetWindowWidth() / 7.0);
+    Settings_Boxes.position_x = (float)(CP_System_GetWindowWidth() / 7.0);
     Settings_Boxes.color = CP_Color_Create(123, 183, 220, 255);
 
     float leftBaseX = (float)(CP_System_GetWindowWidth() / 7.0);
@@ -30,10 +30,10 @@ static int draw_volume_bar(int y_value, int level) {
         mx = CP_Input_GetMouseX();
         my = CP_Input_GetMouseY();
         if (IsAreaClicked(rightBaseX + 62.5, arrowY, 20, 20, mx, my)) {
-            Bubbles_Manual(Settings_Boxes.positionX + Settings_Boxes.width * (level++ * 2), y_value);
+            BubblesManual(Settings_Boxes.position_x + Settings_Boxes.width * (level++ * 2), y_value);
         }
         else if (IsAreaClicked(leftBaseX - 62.5, arrowY, 20, 20, mx, my)) {
-            Bubbles_Manual(Settings_Boxes.positionX + Settings_Boxes.width * (--level * 2), y_value);
+            BubblesManual(Settings_Boxes.position_x + Settings_Boxes.width * (--level * 2), y_value);
         }
     }
 
@@ -43,11 +43,11 @@ static int draw_volume_bar(int y_value, int level) {
     while (index > 0) {
         index -= 1;
         CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-        CP_Graphics_DrawRect(Settings_Boxes.positionX + Settings_Boxes.width * (index * 2), y_value, Settings_Boxes.width, Settings_Boxes.height);
+        CP_Graphics_DrawRect(Settings_Boxes.position_x + Settings_Boxes.width * (index * 2), y_value, Settings_Boxes.width, Settings_Boxes.height);
 
         if (index < level) {
             CP_Settings_Fill(Settings_Boxes.color);
-            CP_Graphics_DrawRect(Settings_Boxes.positionX + Settings_Boxes.width * (index * 2), y_value, Settings_Boxes.width, Settings_Boxes.height);
+            CP_Graphics_DrawRect(Settings_Boxes.position_x + Settings_Boxes.width * (index * 2), y_value, Settings_Boxes.width, Settings_Boxes.height);
         }
     }
     return level;
