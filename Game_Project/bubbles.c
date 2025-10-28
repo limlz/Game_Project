@@ -1,5 +1,6 @@
 #include "cprocessing.h"
 #include "sponge.h"
+#include "debug.h"
 #include <math.h>
 
 
@@ -136,15 +137,18 @@ void Bubbles_Draw(void) {
         float drawRadius = bubble->radius * (0.6f + 0.4f * lifeRatio);
 
         // draw bubble
+
         CP_Color bubbleColor = CP_Color_Create(135, 206, 235, (int)alpha);
-        CP_Settings_Fill(bubbleColor);
-        CP_Settings_Stroke(CP_Color_Create(145, 216, 245, 200));
-        CP_Graphics_DrawEllipse(
-            bubble->positionX,
-            bubble->positionY,
-            drawRadius * 2.0f,
-            drawRadius * 2.0f
-        );
+        if (!is_currently_debugging()) {
+            CP_Settings_Fill(bubbleColor);
+            CP_Settings_Stroke(CP_Color_Create(145, 216, 245, 200));
+            CP_Graphics_DrawEllipse(
+                bubble->positionX,
+                bubble->positionY,
+                drawRadius * 2.0f,
+                drawRadius * 2.0f
+            );
+        }
         CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
 
         // remove bubble if done
