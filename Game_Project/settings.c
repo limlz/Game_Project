@@ -96,7 +96,7 @@ void Settings_Update(void)
 		CP_Image_DrawAdvanced(arm, CP_System_GetWindowWidth() / 2 + 55, CP_System_GetWindowHeight() - 130, 80, 80, 255, hand_angle);
 	}
 	else {
-		CP_Image_DrawAdvanced(arm_flipped, CP_System_GetWindowWidth() / 2 + 55, CP_System_GetWindowHeight() - 130, 60, 80, 255, hand_angle);
+		CP_Image_DrawAdvanced(arm_flipped, CP_System_GetWindowWidth() / 2 + 55, CP_System_GetWindowHeight() - 130, 80, 80, 255, hand_angle);
 	}
 
 	CP_Settings_NoStroke();

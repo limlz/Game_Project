@@ -63,5 +63,8 @@ void BulletsUpdateAndDraw(void) {
         if (g_bullets[i].pos.x < -r || g_bullets[i].pos.x > w + r || g_bullets[i].pos.y < -r || g_bullets[i].pos.y > h + r) {
             g_bullets[i].active = 0;
         }
+        if (g_bullets[i].pos.x < -r || g_bullets[i].pos.x > w + r || g_bullets[i].pos.y < -r || g_bullets[i].pos.y > h + r) {
+            g_bullets[i].active = 0;
+        }
     }
 }
