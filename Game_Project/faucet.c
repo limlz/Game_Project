@@ -148,15 +148,19 @@ void draw_stream_timer(void) {
 		opacity = 0;
 	}
 
-	if (attack_ready == 0) {
-		if (cooldown_left >= 0.0f && cooldown_left <= 20.0f) {
-			opacity = max_opacity;
-			cooldown_left -= CP_System_GetDt();
-		}
-		else {
-			attack_ready = 1;
+	if (checkGameRunning() && Day_IsInGameplay()) {
+		if (attack_ready == 0) {
+			if (cooldown_left >= 0.0f && cooldown_left <= 20.0f) {
+				opacity = max_opacity;
+				cooldown_left -= CP_System_GetDt();
+			}
+			else {
+				attack_ready = 1;
+			}
 		}
 	}
+
+
 
 	// opacity circle for logo
 	CP_Settings_NoStroke();
@@ -178,15 +182,17 @@ void draw_stream_timer(void) {
 static float	aoe_time_left = 0.0f;
 
 void clean_dirt_with_stream(void) {
-	for (int i = 0; i < MAX_DROPLETS; i++) {
-		for (int j = 0; j < get_number_of_dirt(); j++) {
-			float distance = CP_Math_Distance(streamlist[i].position.x, streamlist[i].position.y, dirtList[j].positionX, dirtList[j].positionY);
-			float cleaning_radius = 50.0f;
+	if (checkGameRunning() && Day_IsInGameplay()) {
+		for (int i = 0; i < MAX_DROPLETS; i++) {
+			for (int j = 0; j < get_number_of_dirt(); j++) {
+				float distance = CP_Math_Distance(streamlist[i].position.x, streamlist[i].position.y, dirtList[j].positionX, dirtList[j].positionY);
+				float cleaning_radius = 50.0f;
 
-			if (distance < cleaning_radius) {
-				dirtList[j].opacity -= 1;
-				if (dirtList[j].opacity < 0)
-					dirtList[j].opacity = 0;
+				if (distance < cleaning_radius) {
+					dirtList[j].opacity -= 1;
+					if (dirtList[j].opacity < 0)
+						dirtList[j].opacity = 0;
+				}
 			}
 		}
 	}

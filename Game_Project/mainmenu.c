@@ -6,6 +6,7 @@
 #include "plate.h"
 #include "bubbles.h"
 #include "credits.h"
+#include "bubblegun.h"
 
 #define OFFSET		100
 #define MOVE_DOWN   200
@@ -17,6 +18,9 @@ CP_Color ButtonBlue;
 CP_Color White;
 CP_Color plate_outer;
 CP_Color plate_inner;
+CP_Image arm;
+CP_Image armflipped;
+CP_Image hamsta;
 float mx, my;
 float sponge_arc = 20.0f;
 int dir = 1;
@@ -24,6 +28,10 @@ int dir = 1;
 
 void Main_Menu_Init(void)
 {
+	Bullets_Init();
+	hamsta = CP_Image_Load("Assets/hambod.gif");
+	arm = CP_Image_Load("Assets/hamgun.gif");
+	armflipped = CP_Image_Load("Assets/hamgunflip.gif");
 	myFont = CP_Font_Load("Assets/MontserratLight.ttf");
 	titleFont = CP_Font_Load("Assets/SuperWater.ttf");
 	subFont = CP_Font_Load("Assets/MontserratBlackItalic.otf");
@@ -80,6 +88,11 @@ void Main_Menu_Update(void)
 	CP_Settings_Fill(plate_inner);
 	CP_Graphics_DrawCircle((float)CP_System_GetWindowWidth() / 2, 1050.f, 900.0f);
 
+	// Hamster
+	CP_Settings_Fill(CP_Color_Create(141, 144, 147, 200));
+	CP_Graphics_DrawEllipse(center_x - 260, button_y + MOVE_DOWN + 50, 200, 30);
+	CP_Image_Draw(hamsta, center_x - 260, button_y + MOVE_DOWN, 170.0f, 170.0f, 255);
+
 	// Draw rectangles for ButtonBlue
 	CP_Settings_Fill(ButtonBlue);
 	CP_Settings_NoStroke();
@@ -130,6 +143,26 @@ void Main_Menu_Update(void)
 		dir = 1;
 	}
 	Bubbles_Draw();
+	Bullets_UpdateAndDraw();
+
+	// Hamster Pointer
+
+	CP_Vector hand_origin = CP_Vector_Set(center_x - 200, button_y + MOVE_DOWN);
+	CP_Vector hand_vector = CP_Vector_Subtract(CP_Vector_Set(mx, my), hand_origin);
+	CP_Vector up = CP_Vector_Set(0, 1);
+	float hand_angle = CP_Vector_AngleCW(up, CP_Vector_Negate(hand_vector));
+
+	// Fire once per click
+	if (CP_Input_MouseDown(MOUSE_BUTTON_1)) {
+		Bullets_Spawn(hand_origin, CP_Vector_Set(mx, my), 400.0f, 10.0f);
+	}
+	if (hand_angle > 0 && hand_angle < 180) {
+		CP_Image_DrawAdvanced(arm, center_x - 205, button_y + MOVE_DOWN, 80, 80, 255, hand_angle);
+	}
+	else {
+		CP_Image_DrawAdvanced(armflipped, center_x - 205, button_y + MOVE_DOWN, 60, 80, 255, hand_angle);
+	}
+
 	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 	CP_Graphics_DrawRectAdvanced(1520.0f, 300.0f, 70.0f, 50.0f, sponge_arc, 0.0f);
