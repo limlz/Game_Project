@@ -16,13 +16,19 @@ While holding the sponge, hold down left mouse button and drag across the screen
 #include "dirt.h"
 
 // Bool to check if sponge is equipped by player
-int sponge_equipped;
+static int sponge_equipped;
 
 // Required parameters to draw the sponge
-float sponge_x, sponge_y, sponge_height = 100.0f, sponge_width = 100.0f;
+static float sponge_x;
+static float sponge_y;
+static float sponge_height = 100.0f;
+static float sponge_width = 100.0f;
 
 // How much damage the sponge does
-int sponge_power = 5;
+static int sponge_power = 5;
+
+static const int kSpongeBasePower = 5;
+static const int kSpongeMaxPower = 100;
 
 // Bool to check if the player is scrubbing while using the sponge
 int is_Scrubbing(void) {
@@ -37,13 +43,23 @@ int get_SpongePower(void) {
 	return sponge_power;
 }
 int sponge_upgradeable(void) {
-	return sponge_power < 100 ? 1 : 0;
+	return sponge_power < kSpongeMaxPower ? 1 : 0;
 }
 
 void upgrade_Sponge(void) {
-	if (sponge_upgradeable) {
+	if (sponge_upgradeable()) {
 		sponge_power += 5;
+		if (sponge_power > kSpongeMaxPower) {
+			sponge_power = kSpongeMaxPower;
+		}
 	}
+}
+
+void sponge_reset(void) {
+	sponge_equipped = 0;
+	sponge_power = kSpongeBasePower;
+	sponge_x = 100.0f;
+	sponge_y = 220.0f;
 }
 
 static void sponge_input(void) {

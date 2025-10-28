@@ -14,3 +14,6 @@ void upgrade_Sponge(void);
 
 // Check if sponge is upgradeable (Returns 1 if upgradeable, 0 if maxed)
 int sponge_upgradeable(void);
+
+// Reset sponge state for a new game session
+void sponge_reset(void);

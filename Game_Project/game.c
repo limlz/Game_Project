@@ -34,6 +34,7 @@ void Game_Init(void)
 	stream_init();
 	Day_StartCurrentDay();   // begin Day 0 (goal = 5 plates)
 	Soap_Init();
+	sponge_reset();
 
 }
 
