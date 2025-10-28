@@ -164,6 +164,10 @@ void roomba(void) {
 		CP_Graphics_DrawCircle(roomba_x, roomba_y, roomba_width);
 		CP_Settings_Fill(CP_Color_Create(255, 0, 0, 100));
 		CP_Graphics_DrawTriangleAdvanced(roomba_x, roomba_y - roomba_width / 2, roomba_x - roomba_width / 2 * 0.6f, roomba_y + roomba_width / 2 * 0.5f, roomba_x + roomba_width / 2 * 0.6f, roomba_y + roomba_width / 2 * 0.5f, roomba_angle);
+		CP_Settings_Stroke(CP_Color_Create(255, 0, 0, 255));
+		CP_Graphics_DrawLine(roomba_x, roomba_y, dirtList[closest_dirt].positionX, dirtList[closest_dirt].positionY);
+		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
+
 	}
 }
 
