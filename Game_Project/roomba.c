@@ -172,26 +172,26 @@ void RoombaFunction(void) {
 	}
 }
 
-int roomba_purchase(void) {
+int RoombaPurchase(void) {
 	return ham_purchased;
 }
 
-int get_closest_dirt_index(void) {
+int GetClosestDirtIndex(void) {
 	return closest_dirt;
 }
 
-int get_roomba_currently_scrubbing(void) {
+int GetRoombaCurrentlyScrubbing(void) {
 	return roomba_currently_scrubbing;
 }
 
-float get_roomba_x(void) {
+float GetRoombaX(void) {
 	return roomba_x;
 }
 
-float get_roomba_y(void) {
+float GetRoombaY(void) {
 	return roomba_y;
 }
 
-float get_roomba_speed(void) {
+float GetRoombaSpeed(void) {
 	return roomba_speed;
 }

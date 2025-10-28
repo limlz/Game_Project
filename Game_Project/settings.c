@@ -47,12 +47,12 @@ void Settings_Update(void)
 	CP_Font_Set(montserrat_light);
 	CP_Settings_TextSize(60.0f);
 	CP_Font_DrawText("SFX Volume", CP_System_GetWindowWidth() / 2, 260);
-	sfx_volume_setting_bar(330);
+	SfxVolumeSettingBar(330);
 	CP_Settings_Fill(button_blue);
 
 	CP_Settings_TextSize(60.0f);
 	CP_Font_DrawText("Music Volume", CP_System_GetWindowWidth() / 2, 410);
-	music_volume_setting_bar(480);
+	MusicVolumeSettingBar(480);
 	CP_Settings_Fill(button_blue);
 
 
@@ -76,7 +76,7 @@ void Settings_Update(void)
 	CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120, 100 + settings_pop, 100 + settings_pop, 0, 20);
 	CP_Settings_Fill(white);
 	CP_Graphics_DrawCircle(120, CP_System_GetWindowHeight() - 120, 50);
-	update_volumes();
+	UpdateVolume();
 	Bubbles_Draw();
 	BulletsUpdateAndDraw();
 	// Hamster Pointer

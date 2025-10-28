@@ -79,31 +79,31 @@ void DebugPrint(void) {
 	CP_Font_DrawText(display, text_x, text_y);
 
 
-	if (roomba_purchase()) {
+	if (RoombaPurchase()) {
 		text_y = CP_System_GetWindowHeight() - 340;
 		CP_Settings_Fill(debug_box_color);
 		CP_Graphics_DrawRect(text_x - 10, text_y - 20, 250, 160);
 
 		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-		sprintf_s(display, sizeof(display), "Roomba X: %.2f", get_roomba_x());
+		sprintf_s(display, sizeof(display), "Roomba X: %.2f", GetRoombaX());
 		CP_Font_DrawText(display, text_x, text_y);
 
-		sprintf_s(display, sizeof(display), "Roomba Y: %.2f", get_roomba_y());
+		sprintf_s(display, sizeof(display), "Roomba Y: %.2f", GetRoombaY());
 		CP_Font_DrawText(display, text_x, text_y + 20);
 
-		sprintf_s(display, sizeof(display), "Roomba speed: %.2f", get_roomba_speed());
+		sprintf_s(display, sizeof(display), "Roomba speed: %.2f", GetRoombaSpeed());
 		CP_Font_DrawText(display, text_x, text_y + 40);
 
 		sprintf_s(display, sizeof(display), "Roomba strength: %d", GetRoombaStrength());
 		CP_Font_DrawText(display, text_x, text_y + 60);
 
-		sprintf_s(display, sizeof(display), "Roomba scrubbing: %s", get_roomba_currently_scrubbing() ? "Yes" : "No");
+		sprintf_s(display, sizeof(display), "Roomba scrubbing: %s", GetRoombaCurrentlyScrubbing() ? "Yes" : "No");
 		CP_Font_DrawText(display, text_x, text_y + 80);
 
-		sprintf_s(display, sizeof(display), "Target dirt index : %d", get_closest_dirt_index());
+		sprintf_s(display, sizeof(display), "Target dirt index : %d", GetClosestDirtIndex());
 		CP_Font_DrawText(display, text_x, text_y + 100);
 
-		sprintf_s(display, sizeof(display), "Target dirt opacity: %d", dirt_list[get_closest_dirt_index()].opacity);
+		sprintf_s(display, sizeof(display), "Target dirt opacity: %d", dirt_list[GetClosestDirtIndex()].opacity);
 		CP_Font_DrawText(display, text_x, text_y + 120);
 
 	}

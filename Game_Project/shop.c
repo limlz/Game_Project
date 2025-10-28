@@ -179,7 +179,7 @@ void draw_shop(void) {
 
 	draw_shop_item(1, "Soap Refill", "Refills soap to MAX", soapCost, -100, !Soap_IsFull());
 
-	if (roomba_purchase()) {
+	if (RoombaPurchase()) {
 		draw_shop_item(2, "Cleaning Robot", "Upgrades robot that auto cleans", roombaUpgradeCost, 50, !roomba_purchased);
 	}
 }

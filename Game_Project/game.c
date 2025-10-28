@@ -26,8 +26,8 @@ void Game_Init(void)
 	sub_font = CP_Font_Load("Assets/MontserratBlackItalic.otf");
 	// Initialise random variable required for bubble production
 	BubblesInit();
-	init_scrubbing_sounds();
-	update_volumes();
+	InitScrubbingSounds();
+	UpdateVolume();
 	InitRoomba();
 	InitDirt();
 	Day_Init();
@@ -85,20 +85,20 @@ void Game_Update(void)
 		if (Soap_CanScrub()) {
 			DirtScrubbed(is_SpongeEquipped(), get_SpongePower());
 			Soap_ConsumeOnScrub();
-			start_scrubbing_sound();
+			StartScrubbingSounds();
 		}
 		else {
-			stop_scrubbing_sound();
+			StopScrubbingSounds();
 		}
 	}
 	else {
-		stop_scrubbing_sound();
+		StopScrubbingSounds();
 	}
 
 	// Bubble drawing function
 	Bubbles_Draw();
 	PurchaseRoomba();
-	if (roomba_purchase()) {
+	if (RoombaPurchase()) {
 		RoombaFunction();
 	}
 
@@ -138,7 +138,7 @@ void Game_Exit(void)
 {
 	CP_Font_Free(gameFont);
 	CP_Font_Free(sub_font);
-	clear_sounds();
+	ClearSounds();
 	ResetMoney();
 	ResetRoomba();
 }

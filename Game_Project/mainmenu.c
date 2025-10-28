@@ -39,8 +39,8 @@ void Main_Menu_Init(void)
 	button_blue = CP_Color_Create(123, 183, 220 , 255);
 	plate_outer = CP_Color_Create(230, 230, 230, 255);
 	plate_inner = CP_Color_Create(210, 210, 210, 255);
-	init_background_music();
-	update_volumes();
+	InitBackgrounMusic();
+	UpdateVolume();
 	BubblesInit();
 	ChangePlate();
 }
