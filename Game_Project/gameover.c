@@ -8,20 +8,20 @@
 
 #include <stdio.h>
 
-CP_Font myFont;
-CP_Font titleFont;
-CP_Color ButtonBlue;
-CP_Color White;
+CP_Font montserrat_light;
+CP_Font title_font;
+CP_Color button_blue;
+CP_Color white;
 float mx, my;
-char ScoreText[50];
+char score_text[50];
 
 void Game_Over_Init(void)
 {
 
-	titleFont = CP_Font_Load("Assets/SuperWater.ttf");
-	myFont = CP_Font_Load("Assets/MontserratLight.ttf");
-	White = CP_Color_Create(255, 255, 255, 255);
-	ButtonBlue = CP_Color_Create(123, 183, 220, 255);
+	title_font = CP_Font_Load("Assets/SuperWater.ttf");
+	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
+	white = CP_Color_Create(255, 255, 255, 255);
+	button_blue = CP_Color_Create(123, 183, 220, 255);
 }
 
 void Game_Over_Update(void)
@@ -48,33 +48,33 @@ void Game_Over_Update(void)
 
 	}
 
-	// Draw rectangles for ButtonBlue
-	CP_Settings_Fill(ButtonBlue);
+	// Draw rectangles for button_blue
+	CP_Settings_Fill(button_blue);
 	CP_Settings_NoStroke();
 	CP_Graphics_DrawRectAdvanced(center_x, button_y - OFFSET, 300 + try_pop, 200 + try_pop, 0, 50);
 	CP_Graphics_DrawRectAdvanced(center_x, button_y + OFFSET, 500 + menu_pop, 200 + menu_pop, 0, 50);
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 
-	// Draw text for ButtonBlue
-	CP_Font_Set(myFont);
-	CP_Settings_Fill(White);
+	// Draw text for button_blue
+	CP_Font_Set(montserrat_light);
+	CP_Settings_Fill(white);
 	CP_Settings_TextSize(60.0f);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 	CP_Font_DrawText("Try Again?", center_x, button_y - OFFSET);
 	CP_Font_DrawText("Exit to Main Menu", center_x, button_y + OFFSET);
 
 	// Draw score
-	CP_Font_Set(titleFont);
+	CP_Font_Set(title_font);
 	CP_Settings_TextSize(80.0f);
-	CP_Settings_Fill(ButtonBlue);
-	sprintf_s(ScoreText, sizeof(ScoreText), "Final Score : %d", get_total_earned());
-	CP_Font_DrawText(ScoreText, 800, 100);
+	CP_Settings_Fill(button_blue);
+	sprintf_s(score_text, sizeof(score_text), "Final Score : %d", GetTotalEarned());
+	CP_Font_DrawText(score_text, 800, 100);
 
-	// Check for which ButtonBlue are clicked
+	// Check for which button_blue are clicked
 }
 
 void Game_Over_Exit(void)
 {
-	CP_Font_Free(myFont);
-	CP_Font_Free(titleFont);
+	CP_Font_Free(montserrat_light);
+	CP_Font_Free(title_font);
 }

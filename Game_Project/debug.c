@@ -58,13 +58,13 @@ void DebugPrint(void) {
 	CP_Settings_Fill(addition_color);
 	CP_Graphics_DrawRect(box_x, box_y + 20, ADD_SUB_BOX_WIDTH, ADD_SUB_BOX_HEIGHT);
 	if (IsAreaClicked(box_x + ADD_SUB_BOX_WIDTH / 2, box_y + 20 + ADD_SUB_BOX_HEIGHT / 2, ADD_SUB_BOX_WIDTH, ADD_SUB_BOX_HEIGHT,CP_Input_GetMouseX(), CP_Input_GetMouseY()) && CP_Input_MouseClicked()) {
-		increment_money(100);
+		IncrementMoney(100);
 	}
 
 	CP_Settings_Fill(subtraction_color);
 	CP_Graphics_DrawRect(box_x + 130, box_y + 20, ADD_SUB_BOX_WIDTH, ADD_SUB_BOX_HEIGHT);
 	if (IsAreaClicked(box_x + 130 + ADD_SUB_BOX_WIDTH / 2, box_y + 20 + ADD_SUB_BOX_HEIGHT / 2, ADD_SUB_BOX_WIDTH, ADD_SUB_BOX_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY()) && CP_Input_MouseClicked()) {
-		decrement_money(100);
+		DecrementMoney(100);
 	}
 
 
@@ -94,7 +94,7 @@ void DebugPrint(void) {
 		sprintf_s(display, sizeof(display), "Roomba speed: %.2f", get_roomba_speed());
 		CP_Font_DrawText(display, text_x, text_y + 40);
 
-		sprintf_s(display, sizeof(display), "Roomba strength: %d", get_roomba_strength());
+		sprintf_s(display, sizeof(display), "Roomba strength: %d", GetRoombaStrength());
 		CP_Font_DrawText(display, text_x, text_y + 60);
 
 		sprintf_s(display, sizeof(display), "Roomba scrubbing: %s", get_roomba_currently_scrubbing() ? "Yes" : "No");
@@ -103,7 +103,7 @@ void DebugPrint(void) {
 		sprintf_s(display, sizeof(display), "Target dirt index : %d", get_closest_dirt_index());
 		CP_Font_DrawText(display, text_x, text_y + 100);
 
-		sprintf_s(display, sizeof(display), "Target dirt opacity: %d", dirtList[get_closest_dirt_index()].opacity);
+		sprintf_s(display, sizeof(display), "Target dirt opacity: %d", dirt_list[get_closest_dirt_index()].opacity);
 		CP_Font_DrawText(display, text_x, text_y + 120);
 
 	}
@@ -131,10 +131,10 @@ void DebugPrint(void) {
 	sprintf_s(display, sizeof(display), "Scrubbing?: %s", is_Scrubbing() ? "Yes" : "No");
 	CP_Font_DrawText(display, text_x, text_y + 100);
 
-	sprintf_s(display, sizeof(display), "Current Plate value: %d", get_plate_value());
+	sprintf_s(display, sizeof(display), "Current Plate value: %d", GetPlateValue());
 	CP_Font_DrawText(display, text_x, text_y + 120);
 
-	sprintf_s(display, sizeof(display), "Total earnings / score: %d", get_total_earned());
+	sprintf_s(display, sizeof(display), "Total earnings / score: %d", GetTotalEarned());
 	CP_Font_DrawText(display, text_x, text_y + 140);
 
 

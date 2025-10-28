@@ -174,7 +174,7 @@ void draw_stream_timer(void) {
 	CP_Font_DrawText("Stream [W]", 110.0f, 780.0f);
 
 	if (attack_ready == 0) {
-		CP_Font_Set(subFont);
+		CP_Font_Set(sub_font);
 		CP_Settings_Fill(CP_Color_Create(244, 3, 48, 255));
 		CP_Settings_TextSize(100.0f);
 		snprintf(timer_text, sizeof(timer_text), "%.0f", cooldown_left);
@@ -191,13 +191,13 @@ void clean_dirt_with_stream(void) {
 	if (checkGameRunning() && Day_IsInGameplay()) {
 		for (int i = 0; i < MAX_DROPLETS; i++) {
 			for (int j = 0; j < GetNumberOfDirt(); j++) {
-				float distance = CP_Math_Distance(streamlist[i].position.x, streamlist[i].position.y, dirtList[j].position_x, dirtList[j].position_y);
+				float distance = CP_Math_Distance(streamlist[i].position.x, streamlist[i].position.y, dirt_list[j].position_x, dirt_list[j].position_y);
 				float cleaning_radius = 50.0f;
 
 				if (distance < cleaning_radius) {
-					dirtList[j].opacity -= 1;
-					if (dirtList[j].opacity < 0)
-						dirtList[j].opacity = 0;
+					dirt_list[j].opacity -= 1;
+					if (dirt_list[j].opacity < 0)
+						dirt_list[j].opacity = 0;
 				}
 			}
 		}

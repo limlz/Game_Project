@@ -9,7 +9,7 @@
 #define DIRT_RADIUS			50
 #define SPONGE_RADIUS		50		
 
-dirt dirtList[MAX_DIRT];
+dirt dirt_list[MAX_DIRT];
 
 int num_of_dirt = 5;
 int total_opacity = 0;
@@ -42,17 +42,17 @@ static int plate_awarded = 0;   // 0 = not yet awarded for this plate
 
 void InitDirt(void) {
 	for (int i = 0; i < MAX_DIRT; i++) {
-		dirtList[i].position_x = (float)CP_System_GetWindowWidth() / 2 - 250 + CP_Random_RangeInt(0, 500);
-		dirtList[i].position_y = (float)CP_System_GetWindowHeight() / 2 - 250 + CP_Random_RangeInt(0, 500);
-		dirtList[i].opacity = 220;
+		dirt_list[i].position_x = (float)CP_System_GetWindowWidth() / 2 - 250 + CP_Random_RangeInt(0, 500);
+		dirt_list[i].position_y = (float)CP_System_GetWindowHeight() / 2 - 250 + CP_Random_RangeInt(0, 500);
+		dirt_list[i].opacity = 220;
 	}
 	plate_awarded = 0;  // <-- reset award latch when new dirt/plate is created
 }
 
 void ReduceAllDirtOpacity(int amount) {
 	for (int i = 0; i < num_of_dirt; i++) {
-		dirtList[i].opacity -= amount;
-		dirtList[i].opacity = CP_Math_ClampInt(dirtList[i].opacity, 0, 220);
+		dirt_list[i].opacity -= amount;
+		dirt_list[i].opacity = CP_Math_ClampInt(dirt_list[i].opacity, 0, 220);
 	}
 }
 
@@ -60,8 +60,8 @@ void DrawDirt(void)
 {
 	for (int i = 0; i < num_of_dirt; i++) {
 		CP_Settings_NoStroke();
-		CP_Settings_Fill(CP_Color_Create(157, 92, 61, dirtList[i].opacity));
-		CP_Graphics_DrawCircle(dirtList[i].position_x, dirtList[i].position_y, DIRT_RADIUS * 2);
+		CP_Settings_Fill(CP_Color_Create(157, 92, 61, dirt_list[i].opacity));
+		CP_Graphics_DrawCircle(dirt_list[i].position_x, dirt_list[i].position_y, DIRT_RADIUS * 2);
 		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
 		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	}
@@ -74,9 +74,9 @@ void DirtScrubbed(int equipped, int sponge_power)
 {
 	for (int i = 0; i < num_of_dirt; i++) {
 		// currently checks for if sponge is equipped, sponge intersects with dirt and if mouse is being moved(scrubbing)
-		if (equipped && AreCirclesIntersecting(dirtList[i].position_x, dirtList[i].position_y, DIRT_RADIUS, CP_Input_GetMouseX(), CP_Input_GetMouseY(), SPONGE_RADIUS) && CP_Input_MouseMoved()) {
-			dirtList[i].opacity -= sponge_power;
-			dirtList[i].opacity = CP_Math_ClampInt(dirtList[i].opacity, 0, 220);
+		if (equipped && AreCirclesIntersecting(dirt_list[i].position_x, dirt_list[i].position_y, DIRT_RADIUS, CP_Input_GetMouseX(), CP_Input_GetMouseY(), SPONGE_RADIUS) && CP_Input_MouseMoved()) {
+			dirt_list[i].opacity -= sponge_power;
+			dirt_list[i].opacity = CP_Math_ClampInt(dirt_list[i].opacity, 0, 220);
 		}
 	}
 }
@@ -85,11 +85,11 @@ void DirtScrubbed(int equipped, int sponge_power)
 int DirtRemoved(void) {
 	total_opacity = 0;
 	for (int i = 0; i < num_of_dirt; i++) {
-		total_opacity += dirtList[i].opacity;
+		total_opacity += dirt_list[i].opacity;
 	}
 	if (total_opacity < 1) {
 		if (!plate_awarded) {                  // <-- only pay once
-			increment_money(get_plate_value());
+			IncrementMoney(GetPlateValue());
 			plate_awarded = 1;
 			return 1;
 		}

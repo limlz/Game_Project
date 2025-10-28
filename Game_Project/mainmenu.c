@@ -11,15 +11,15 @@
 #define OFFSET		275
 #define MOVE_DOWN   125
 
-CP_Font myFont;
-CP_Font titleFont;
-CP_Font subFont;
-CP_Color ButtonBlue;
-CP_Color White;
+CP_Font montserrat_light;
+CP_Font title_font;
+CP_Font sub_font;
+CP_Color button_blue;
+CP_Color white;
 CP_Color plate_outer;
 CP_Color plate_inner;
 CP_Image arm;
-CP_Image armflipped;
+CP_Image arm_flipped;
 CP_Image hamsta;
 float mx, my;
 float sponge_arc = 20.0f;
@@ -31,18 +31,18 @@ void Main_Menu_Init(void)
 	BulletsInit();
 	hamsta = CP_Image_Load("Assets/hambod.gif");
 	arm = CP_Image_Load("Assets/hamgun.gif");
-	armflipped = CP_Image_Load("Assets/hamgunflip.gif");
-	myFont = CP_Font_Load("Assets/MontserratLight.ttf");
-	titleFont = CP_Font_Load("Assets/SuperWater.ttf");
-	subFont = CP_Font_Load("Assets/MontserratBlackItalic.otf");
-	White = CP_Color_Create(255, 255, 255, 255);
-	ButtonBlue = CP_Color_Create(123, 183, 220 , 255);
+	arm_flipped = CP_Image_Load("Assets/hamgunflip.gif");
+	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
+	title_font = CP_Font_Load("Assets/SuperWater.ttf");
+	sub_font = CP_Font_Load("Assets/MontserratBlackItalic.otf");
+	white = CP_Color_Create(255, 255, 255, 255);
+	button_blue = CP_Color_Create(123, 183, 220 , 255);
 	plate_outer = CP_Color_Create(230, 230, 230, 255);
 	plate_inner = CP_Color_Create(210, 210, 210, 255);
 	init_background_music();
 	update_volumes();
 	BubblesInit();
-	change_plate();
+	ChangePlate();
 }
 
 void Main_Menu_Update(void)
@@ -82,7 +82,7 @@ void Main_Menu_Update(void)
 
 	BubblesManual(1520.0f, 300.0f);
 	
-	// UI decor - randomised plates, utilising change_plate() function in plate.c
+	// UI decor - randomised plates, utilising ChangePlate() function in plate.c
 	CP_Settings_Fill(plate_outer);
 	CP_Graphics_DrawCircle((float)CP_System_GetWindowWidth() / 2, 1050.0f, 1200.0f);
 	CP_Settings_Fill(plate_inner);
@@ -96,32 +96,32 @@ void Main_Menu_Update(void)
 
 	// Draw settings button
 	CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120.0f, 100.0f + settings_pop, 100.0f + settings_pop, 0.0f, 20.0f);
-	CP_Settings_Fill(White);
+	CP_Settings_Fill(white);
 	CP_Graphics_DrawCircle(120, CP_System_GetWindowHeight() - 120.0f, 50.0f);
 
-	// Draw text for ButtonBlue
-	CP_Font_Set(myFont);
-	CP_Settings_Fill(White);
+	// Draw text for button_blue
+	CP_Font_Set(montserrat_light);
+	CP_Settings_Fill(white);
 	CP_Settings_TextSize(70.0f);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 	CP_Font_DrawText("Play", center_x - OFFSET, button_y + MOVE_DOWN);
 	CP_Font_DrawText("Exit", center_x + OFFSET, button_y + MOVE_DOWN);
 
 	// UI decor - text shadow
-	CP_Font_Set(titleFont);
-	CP_Settings_Fill(White);
+	CP_Font_Set(title_font);
+	CP_Settings_Fill(white);
 	CP_Settings_TextSize(250.0f);
 	CP_Font_DrawText("WEWASHPL8", center_x + 15, button_y - 215);
 
 	// Draw game logo
-	CP_Font_Set(titleFont);
-	CP_Settings_Fill(ButtonBlue);
+	CP_Font_Set(title_font);
+	CP_Settings_Fill(button_blue);
 	CP_Settings_TextSize(250.0f);
 	CP_Font_DrawText("WEWASHPL8", center_x, button_y - 200);
 
 	// Draw Subtext below Game Title
-	CP_Font_Set(subFont);
-	CP_Settings_Fill(ButtonBlue);
+	CP_Font_Set(sub_font);
+	CP_Settings_Fill(button_blue);
 	CP_Settings_TextSize(70.0f);
 	CP_Font_DrawText("Be the best dish-washer in town!", center_x, button_y - 70);
 
@@ -179,8 +179,8 @@ void Main_Menu_Update(void)
 
 void Main_Menu_Exit(void)
 {
-	CP_Font_Free(myFont);
-	CP_Font_Free(titleFont);
-	CP_Font_Free(subFont);
+	CP_Font_Free(montserrat_light);
+	CP_Font_Free(title_font);
+	CP_Font_Free(sub_font);
 }
 

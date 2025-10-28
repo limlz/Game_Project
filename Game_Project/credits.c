@@ -14,7 +14,7 @@ struct image
 
 struct image prassana;
 
-CP_Font myFont;
+CP_Font montserrat_light;
 FILE *creditsFile;
 CP_Color black;
 char *creditsLines[MAX_LINES];
@@ -34,7 +34,7 @@ void credits_Init(void) {
 	prassana.width = CP_Image_GetWidth(prassana.image);
 
 	// load font
-	myFont = CP_Font_Load("Assets/Exo2-Regular.ttf");
+	montserrat_light = CP_Font_Load("Assets/Exo2-Regular.ttf");
 
 	// load credits file
 	errno_t err = fopen_s(&creditsFile, "Assets/credits.txt", "r");
@@ -65,7 +65,7 @@ void credits_Update(void) {
 	CP_Image_Draw(prassana.image, CP_System_GetWindowWidth() / 2.0f, scrollY, prassana.width, prassana.height, 255);
 
 	// Draw credits
-	CP_Font_Set(myFont);
+	CP_Font_Set(montserrat_light);
 	CP_Settings_Fill(black);
 	CP_Settings_TextSize(15.0f);
 
@@ -82,7 +82,7 @@ void credits_Update(void) {
 	}
 }
 void credits_Exit(void) {
-	CP_Font_Free(myFont);
+	CP_Font_Free(montserrat_light);
 	if (prassana.image != NULL) {
 		CP_Image_Free(prassana.image);
 	}

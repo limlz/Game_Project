@@ -8,12 +8,12 @@
 #include "bubblegun.h"
 
 int volume_level = 0;
-CP_Font myFont;
-CP_Font titleFont;
-CP_Font subFont;
-CP_Color White, ButtonBlue;
+CP_Font montserrat_light;
+CP_Font title_font;
+CP_Font sub_font;
+CP_Color white, button_blue;
 CP_Image arm;
-CP_Image armflipped;
+CP_Image arm_flipped;
 CP_Image hamsta;
 float mousex = 0, mousey = 0;
 
@@ -21,12 +21,12 @@ void Settings_Init(void)
 {
 	hamsta = CP_Image_Load("Assets/hambod.gif");
 	arm = CP_Image_Load("Assets/hamgun.gif");
-	armflipped = CP_Image_Load("Assets/hamgunflip.gif");
-	myFont = CP_Font_Load("Assets/MontserratLight.ttf");
-	titleFont = CP_Font_Load("Assets/SuperWater.ttf");
-	subFont = CP_Font_Load("Assets/MontserratBlackItalic.otf");
-	White = CP_Color_Create(255, 255, 255, 255);
-	ButtonBlue = CP_Color_Create(123, 183, 220, 255);
+	arm_flipped = CP_Image_Load("Assets/hamgunflip.gif");
+	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
+	title_font = CP_Font_Load("Assets/SuperWater.ttf");
+	sub_font = CP_Font_Load("Assets/MontserratBlackItalic.otf");
+	white = CP_Color_Create(255, 255, 255, 255);
+	button_blue = CP_Color_Create(123, 183, 220, 255);
 	BubblesInit();
 	BulletsInit();
 }
@@ -39,21 +39,21 @@ void Settings_Update(void)
 	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
 
 	// Draw settings logo
-	CP_Font_Set(subFont);
-	CP_Settings_Fill(ButtonBlue);
+	CP_Font_Set(sub_font);
+	CP_Settings_Fill(button_blue);
 	CP_Settings_TextSize(150.0f);
 	CP_Font_DrawText("Settings", CP_System_GetWindowWidth()/2, 130);
 
-	CP_Font_Set(myFont);
+	CP_Font_Set(montserrat_light);
 	CP_Settings_TextSize(60.0f);
 	CP_Font_DrawText("SFX Volume", CP_System_GetWindowWidth() / 2, 260);
 	sfx_volume_setting_bar(330);
-	CP_Settings_Fill(ButtonBlue);
+	CP_Settings_Fill(button_blue);
 
 	CP_Settings_TextSize(60.0f);
 	CP_Font_DrawText("Music Volume", CP_System_GetWindowWidth() / 2, 410);
 	music_volume_setting_bar(480);
-	CP_Settings_Fill(ButtonBlue);
+	CP_Settings_Fill(button_blue);
 
 
 	if (IsAreaClicked(120, CP_System_GetWindowHeight() - 120, 100, 100, mousex, mousey)) {
@@ -71,10 +71,10 @@ void Settings_Update(void)
 	CP_Image_Draw(hamsta, CP_System_GetWindowWidth()/2,CP_System_GetWindowHeight() - 130, 170.0f, 170.0f, 255);
 
 	// Draw settings button
-	CP_Settings_Fill(ButtonBlue);
+	CP_Settings_Fill(button_blue);
 	CP_Settings_NoStroke();
 	CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120, 100 + settings_pop, 100 + settings_pop, 0, 20);
-	CP_Settings_Fill(White);
+	CP_Settings_Fill(white);
 	CP_Graphics_DrawCircle(120, CP_System_GetWindowHeight() - 120, 50);
 	update_volumes();
 	Bubbles_Draw();
@@ -96,7 +96,7 @@ void Settings_Update(void)
 		CP_Image_DrawAdvanced(arm, CP_System_GetWindowWidth() / 2 + 55, CP_System_GetWindowHeight() - 130, 80, 80, 255, hand_angle);
 	}
 	else {
-		CP_Image_DrawAdvanced(armflipped, CP_System_GetWindowWidth() / 2 + 55, CP_System_GetWindowHeight() - 130, 60, 80, 255, hand_angle);
+		CP_Image_DrawAdvanced(arm_flipped, CP_System_GetWindowWidth() / 2 + 55, CP_System_GetWindowHeight() - 130, 60, 80, 255, hand_angle);
 	}
 
 	CP_Settings_NoStroke();
@@ -105,7 +105,7 @@ void Settings_Update(void)
 
 void Settings_Exit(void)
 {
-	CP_Font_Free(myFont);
-	CP_Font_Free(subFont);
-	CP_Font_Free(titleFont);
+	CP_Font_Free(montserrat_light);
+	CP_Font_Free(sub_font);
+	CP_Font_Free(title_font);
 }

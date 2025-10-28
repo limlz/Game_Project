@@ -18,17 +18,17 @@
 
 int debugging = 0;
 CP_Font gameFont;
-CP_Font subFont;
+CP_Font sub_font;
 
 void Game_Init(void)
 {	
 	gameFont = CP_Font_Load("Assets/MontserratLight.ttf");
-	subFont = CP_Font_Load("Assets/MontserratBlackItalic.otf");
+	sub_font = CP_Font_Load("Assets/MontserratBlackItalic.otf");
 	// Initialise random variable required for bubble production
 	BubblesInit();
 	init_scrubbing_sounds();
 	update_volumes();
-	init_roomba();
+	InitRoomba();
 	InitDirt();
 	Day_Init();
 	stream_init();
@@ -49,7 +49,7 @@ void Game_Update(void)
 	CP_Settings_NoStroke();
 	CP_Graphics_DrawRect((float)CP_System_GetWindowWidth() * 0.5f, 30.0f, (float)CP_System_GetWindowWidth(), 60.0f);
 
-	draw_plate();
+	DrawPlate();
 	draw_faucet();
 
 	//Function to spawn dirts on plate, takes 1 or 0 to decide if it should spawn new dirt in random spots
@@ -62,14 +62,14 @@ void Game_Update(void)
 		// Only spawn a new plate if still in gameplay (not in shop phase)
 		if (Day_IsInGameplay()) {
 			InitDirt();
-			change_plate();
+			ChangePlate();
 		}
 	}
 
 
 
 	// displays current money
-	money_display();
+	MoneyDisplay();
 	Day_DrawHUD(80.0f, 80.0f);
 
 	
@@ -97,9 +97,9 @@ void Game_Update(void)
 
 	// Bubble drawing function
 	Bubbles_Draw();
-	purchase_roomba();
+	PurchaseRoomba();
 	if (roomba_purchase()) {
-		roomba();
+		RoombaFunction();
 	}
 
 	if (CP_Input_KeyDown(KEY_6) && CP_Input_KeyTriggered(KEY_7) && IsCurrentlyDebugging() == 0) {
@@ -137,10 +137,10 @@ void Game_Update(void)
 void Game_Exit(void)
 {
 	CP_Font_Free(gameFont);
-	CP_Font_Free(subFont);
+	CP_Font_Free(sub_font);
 	clear_sounds();
-	reset_money();
-	sell_roomba();
+	ResetMoney();
+	ResetRoomba();
 }
 
 

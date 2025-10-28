@@ -1,7 +1,7 @@
 #include "cprocessing.h"
 #include "mainmenu.h"
 
-CP_Font myFont;
+CP_Font montserrat_light;
 CP_Image logo;
 float timer = 0.0f;
 

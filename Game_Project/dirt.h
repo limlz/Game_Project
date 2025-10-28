@@ -14,4 +14,4 @@ typedef struct dirt {
     int opacity;
 } dirt;
 
-extern dirt dirtList[];
+extern dirt dirt_list[];

@@ -134,7 +134,7 @@ void Day_DrawPopup(void)
                     timeReset();
                     Day_StartCurrentDay();
                     InitDirt();
-                    change_plate();
+                    ChangePlate();
                     show_day_complete_popup = 0;
                     g_readyForNextDay = 0;          // <-- clear
                     break;

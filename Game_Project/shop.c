@@ -43,8 +43,8 @@ CP_Image hamsta;
 
 void upgrade_sponge_button(void) {
 	// Check if player has enough money to upgrade sponge
-	if (get_current_money() >= upgradeCost) {
-		decrement_money(upgradeCost);
+	if (GetCurrentMoney() >= upgradeCost) {
+		DecrementMoney(upgradeCost);
 		upgrade_Sponge();
 
 		// Increase cost for next upgrade
@@ -55,10 +55,10 @@ void upgrade_sponge_button(void) {
 
 void upgrade_roomba_button(void) {
 	// Check if player has enough money to upgrade sponge
-	if (get_current_money() >= roombaUpgradeCost) {
-		decrement_money(roombaUpgradeCost);
-		add_roomba_strength(2);
-		add_roomba_speed(20.0f);
+	if (GetCurrentMoney() >= roombaUpgradeCost) {
+		DecrementMoney(roombaUpgradeCost);
+		AddRoombaStrength(2);
+		AddRoombaSpeed(20.0f);
 
 		// Increase cost for next upgrade
 		roombaUpgradeCost += incrementRoomba;
@@ -70,8 +70,8 @@ void soap_purchase_button(void)
 {
 	int soapAvailable = !Soap_IsFull();
 
-	if (soapAvailable && get_current_money() >= soapCost) {
-		decrement_money(soapCost);
+	if (soapAvailable && GetCurrentMoney() >= soapCost) {
+		DecrementMoney(soapCost);
 		Soap_Refill();
 	}
 	/*
@@ -95,8 +95,8 @@ void soap_purchase_button(void)
 	
 	if (CP_Input_MouseClicked() &&
 		IsAreaClicked(buttonX, buttonY, buttonSize, buttonSize, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
-		if (soapAvailable && get_current_money() >= soapCost) {
-			decrement_money(soapCost);
+		if (soapAvailable && GetCurrentMoney() >= soapCost) {
+			DecrementMoney(soapCost);
 			Soap_Refill();
 		}
 	}*/
@@ -213,7 +213,7 @@ void shop_menu(void) {
 			timeReset();
 			Day_StartCurrentDay();
 			InitDirt();
-			change_plate();
+			ChangePlate();
 			Day_ClearReadyForNextDay();
 			shopToggle = 0;  // close overlay
 		}

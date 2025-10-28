@@ -23,34 +23,34 @@ float frame_duration = 0.1f; // seconds per frame
 CP_Color roomba_color;
 CP_Image jiggle1, jiggle2, jiggle3, front;
 
-int get_roomba_strength(void) {
+int GetRoombaStrength(void) {
 	return roomba_strength;
 }
 
-void add_roomba_strength(int add_roomba) {
+void AddRoombaStrength(int add_roomba) {
 	roomba_strength += add_roomba;
 }
 
-void minus_roomba_strength(int minus_roomba) {
+void MinusRoombaStrength(int minus_roomba) {
 	roomba_strength -= minus_roomba;
 }
 
-void add_roomba_speed(int add_roomba_speed) {
-	roomba_speed += add_roomba_speed;
+void AddRoombaSpeed(int add_roomba) {
+	roomba_speed += add_roomba;
 	roomba_speed = CP_Math_ClampInt(roomba_speed, 0, 400);
 }
 
-void minus_roomba_speed(int minus_roomba_speed) {
-	roomba_speed -= minus_roomba_speed;
+void MinusRoombaSpeed(int minus_roomba) {
+	roomba_speed -= minus_roomba;
 }
 
-void sell_roomba(void) {
+void ResetRoomba(void) {
 	ham_purchased = 0;
 	roomba_strength = 3;
 	roomba_speed = 100.0f;
 }
 
-void init_roomba(void) {
+void InitRoomba(void) {
 	roomba_x = CP_System_GetWindowWidth() / 2;
 	roomba_y = CP_System_GetWindowHeight() / 2;
 	roomba_color = CP_Color_Create(255, 255, 255, 200);
@@ -60,16 +60,16 @@ void init_roomba(void) {
 	jiggle3 = CP_Image_Load("Assets/jiggle3.gif");
 }
 
-void purchase_roomba(void) {
+void PurchaseRoomba(void) {
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	if (!ham_purchased) {
 		CP_Image_Draw(front, CP_System_GetWindowWidth()- 125, CP_System_GetWindowHeight() - 210, 190, 150, 255);
 		char roomba_price[50];
 		sprintf_s(roomba_price, sizeof(roomba_price), "Cost: $%d", ROOMBA_PRICE);
-		CP_Font_DrawText(roomba_price, CP_System_GetWindowWidth() - 135, CP_System_GetWindowHeight() - 120);
-		if (IsAreaClicked(CP_System_GetWindowWidth() - 130, CP_System_GetWindowHeight() - 210, 190, 150, CP_Input_GetMouseX(), CP_Input_GetMouseY()) && CP_Input_MouseClicked()) {
-			if (get_current_money() >= ROOMBA_PRICE) {
-				decrement_money(ROOMBA_PRICE);
+		CP_Font_DrawText(roomba_price, CP_System_GetWindowWidth() - 125, CP_System_GetWindowHeight() - 150);
+		if (IsAreaClicked(CP_System_GetWindowWidth() - 125, CP_System_GetWindowHeight() - 250, 190, 150, CP_Input_GetMouseX(), CP_Input_GetMouseY()) && CP_Input_MouseClicked()) {
+			if (GetCurrentMoney() >= ROOMBA_PRICE) {
+				DecrementMoney(ROOMBA_PRICE);
 				ham_purchased = 1;
 			}
 			else {
@@ -85,7 +85,7 @@ void purchase_roomba(void) {
 	}
 }
 
-void roomba(void) {
+void RoombaFunction(void) {
 	// target and position vectors
 	CP_Vector roomba_v = CP_Vector_Set(roomba_x, roomba_y);
 	CP_Vector dirt_v;
@@ -93,17 +93,17 @@ void roomba(void) {
 	roomba_currently_scrubbing = 0;
 	float closestDist = 999999.0f;
 	for (int i = 0; i < GetNumberOfDirt(); i++) { // 5 dirt spots: 0–4
-		if (dirtList[i].opacity > 0) { // only consider visible dirt
-			float d = CP_Math_Distance(roomba_x, roomba_y, dirtList[i].position_x, dirtList[i].position_y);
+		if (dirt_list[i].opacity > 0) { // only consider visible dirt
+			float d = CP_Math_Distance(roomba_x, roomba_y, dirt_list[i].position_x, dirt_list[i].position_y);
 			if (d < closestDist) {
 				closestDist = d;
 				closest_dirt = i;
 			}
 		}
 	}
-	dirt_v = CP_Vector_Set(dirtList[closest_dirt].position_x, dirtList[closest_dirt].position_y);
+	dirt_v = CP_Vector_Set(dirt_list[closest_dirt].position_x, dirt_list[closest_dirt].position_y);
 
-	// compute direction (from roomba -> dirt)
+	// compute direction (from RoombaFunction -> dirt)
 	CP_Vector dir = CP_Vector_Subtract(dirt_v, roomba_v);
 
 	// compute facing angle
@@ -123,15 +123,15 @@ void roomba(void) {
 			roomba_y = roomba_v.y;
 		}
 		else {
-			dirtList[closest_dirt].opacity -= roomba_strength;
-			dirtList[closest_dirt].opacity = CP_Math_ClampInt(dirtList[closest_dirt].opacity, 0, 200);
-			SpawnBubble(dirtList[closest_dirt].position_x, dirtList[closest_dirt].position_y);
+			dirt_list[closest_dirt].opacity -= roomba_strength;
+			dirt_list[closest_dirt].opacity = CP_Math_ClampInt(dirt_list[closest_dirt].opacity, 0, 200);
+			SpawnBubble(dirt_list[closest_dirt].position_x, dirt_list[closest_dirt].position_y);
 			roomba_currently_scrubbing = 1;
 		}
 	}
 
 
-	// draw da roomba
+	// draw da RoombaFunction
 	anitimer += CP_System_GetDt();
 
     // Switch frames when time passes threshold
@@ -166,7 +166,7 @@ void roomba(void) {
 		CP_Settings_Fill(CP_Color_Create(255, 0, 0, 100));
 		CP_Graphics_DrawTriangleAdvanced(roomba_x, roomba_y - roomba_width / 2, roomba_x - roomba_width / 2 * 0.6f, roomba_y + roomba_width / 2 * 0.5f, roomba_x + roomba_width / 2 * 0.6f, roomba_y + roomba_width / 2 * 0.5f, roomba_angle);
 		CP_Settings_Stroke(CP_Color_Create(255, 0, 0, 255));
-		CP_Graphics_DrawLine(roomba_x, roomba_y, dirtList[closest_dirt].position_x, dirtList[closest_dirt].position_y);
+		CP_Graphics_DrawLine(roomba_x, roomba_y, dirt_list[closest_dirt].position_x, dirt_list[closest_dirt].position_y);
 		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
 
 	}
