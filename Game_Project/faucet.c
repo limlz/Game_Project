@@ -66,11 +66,13 @@ void draw_faucet(void) {
 
 //*-----------------------------------   STREAM CONTROLS   -------------------------------------*//
 
+CP_Font myFont;
 CP_Font subFont;
 
 void stream_init(void) {
 	float center_x = CP_System_GetWindowWidth() * 0.5f;
 	float offset = 300.0f; //diameter of plate = 600.0f (plate.c)
+	myFont = CP_Font_Load("Assets/MontserratLight.ttf");
 	subFont = CP_Font_Load("Assets/MontserratBlackItalic.otf");
 
 	for (int i = 0; i < MAX_DROPLETS; i++) {
@@ -160,12 +162,16 @@ void draw_stream_timer(void) {
 		}
 	}
 
-
-
 	// opacity circle for logo
 	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, opacity));
 	CP_Graphics_DrawCircle(faucet_x, faucet_y, 2 * radius + 0.5f);
+
+	// [W] text
+	CP_Font_Set(myFont);
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
+	CP_Settings_TextSize(20.0f);
+	CP_Font_DrawText("Stream [W]", 110.0f, 780.0f);
 
 	if (attack_ready == 0) {
 		CP_Font_Set(subFont);

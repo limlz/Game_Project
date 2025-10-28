@@ -8,8 +8,8 @@
 #include "credits.h"
 #include "bubblegun.h"
 
-#define OFFSET		100
-#define MOVE_DOWN   200
+#define OFFSET		275
+#define MOVE_DOWN   125
 
 CP_Font myFont;
 CP_Font titleFont;
@@ -58,14 +58,14 @@ void Main_Menu_Update(void)
 	float button_y = CP_System_GetWindowHeight() * 0.5f;
 
 	// Interactive aspect of ButtonBlue
-	if (IsAreaClicked(center_x, button_y - OFFSET + MOVE_DOWN, 300, 150, mx, my)) {
+	if (IsAreaClicked(center_x - OFFSET, button_y + MOVE_DOWN, 300, 150, mx, my)) {
 		play_pop = 10;
 		BubblesManual(mx, my);
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
 		}
 	}
-	else if (IsAreaClicked(center_x, button_y + OFFSET + MOVE_DOWN, 300, 150, mx, my)) {
+	else if (IsAreaClicked(center_x + OFFSET, button_y + MOVE_DOWN, 300, 150, mx, my)) {
 		exit_pop = 10;
 		BubblesManual(mx, my);
 		if (CP_Input_MouseClicked()) {
@@ -88,16 +88,11 @@ void Main_Menu_Update(void)
 	CP_Settings_Fill(plate_inner);
 	CP_Graphics_DrawCircle((float)CP_System_GetWindowWidth() / 2, 1050.f, 900.0f);
 
-	// Hamster
-	CP_Settings_Fill(CP_Color_Create(141, 144, 147, 200));
-	CP_Graphics_DrawEllipse(center_x - 260, button_y + MOVE_DOWN + 50, 200, 30);
-	CP_Image_Draw(hamsta, center_x - 260, button_y + MOVE_DOWN, 170.0f, 170.0f, 255);
-
 	// Draw rectangles for ButtonBlue
 	CP_Settings_Fill(ButtonBlue);
 	CP_Settings_NoStroke();
-	CP_Graphics_DrawRectAdvanced(center_x, button_y - OFFSET + MOVE_DOWN, 300.0f + play_pop, 150.0f + play_pop, 0.0f, 50.0f);
-	CP_Graphics_DrawRectAdvanced(center_x, button_y + OFFSET + MOVE_DOWN, 300.0f + exit_pop, 150.0f + exit_pop, 0.0f, 50.0f);
+	CP_Graphics_DrawRectAdvanced(center_x - OFFSET, button_y + MOVE_DOWN, 300.0f + play_pop, 150.0f + play_pop, 0.0f, 50.0f);
+	CP_Graphics_DrawRectAdvanced(center_x + OFFSET, button_y + MOVE_DOWN, 300.0f + exit_pop, 150.0f + exit_pop, 0.0f, 50.0f);
 
 	// Draw settings button
 	CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120.0f, 100.0f + settings_pop, 100.0f + settings_pop, 0.0f, 20.0f);
@@ -109,8 +104,8 @@ void Main_Menu_Update(void)
 	CP_Settings_Fill(White);
 	CP_Settings_TextSize(70.0f);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
-	CP_Font_DrawText("Play", center_x, button_y - OFFSET + MOVE_DOWN);
-	CP_Font_DrawText("Exit", center_x, button_y + OFFSET + MOVE_DOWN);
+	CP_Font_DrawText("Play", center_x - OFFSET, button_y + MOVE_DOWN);
+	CP_Font_DrawText("Exit", center_x + OFFSET, button_y + MOVE_DOWN);
 
 	// UI decor - text shadow
 	CP_Font_Set(titleFont);
@@ -143,11 +138,17 @@ void Main_Menu_Update(void)
 		dir = 1;
 	}
 	Bubbles_Draw();
-	BulletsUpdateAndDraw();
+
+	// Hamster
+	CP_Settings_NoStroke();
+	CP_Settings_Fill(CP_Color_Create(141, 144, 147, 200));
+	CP_Graphics_DrawEllipse(CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() - 80.0f, 200.0f, 30.0f);
+	CP_Image_Draw(hamsta, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() - 130.0f, 170.0f, 170.0f, 255);
+	Bullets_UpdateAndDraw();
+
 
 	// Hamster Pointer
-
-	CP_Vector hand_origin = CP_Vector_Set(center_x - 200, button_y + MOVE_DOWN);
+	CP_Vector hand_origin = CP_Vector_Set(CP_System_GetWindowWidth() / 2.0f + 60.0f, CP_System_GetWindowHeight() - 130.0f);
 	CP_Vector hand_vector = CP_Vector_Subtract(CP_Vector_Set(mx, my), hand_origin);
 	CP_Vector up = CP_Vector_Set(0, 1);
 	float hand_angle = CP_Vector_AngleCW(up, CP_Vector_Negate(hand_vector));
@@ -157,11 +158,12 @@ void Main_Menu_Update(void)
 		BulletsSpawn(hand_origin, CP_Vector_Set(mx, my), 400.0f, 10.0f);
 	}
 	if (hand_angle > 0 && hand_angle < 180) {
-		CP_Image_DrawAdvanced(arm, center_x - 205, button_y + MOVE_DOWN, 80, 80, 255, hand_angle);
+		CP_Image_DrawAdvanced(arm, (float)(CP_System_GetWindowWidth() / 2 + 55.0f), (float)(CP_System_GetWindowHeight() - 130.0f), 80.0f, 80.0f, 255, hand_angle);
 	}
 	else {
-		CP_Image_DrawAdvanced(armflipped, center_x - 205, button_y + MOVE_DOWN, 60, 80, 255, hand_angle);
+		CP_Image_DrawAdvanced(armflipped, (float)(CP_System_GetWindowWidth() / 2 + 55.0f), (float)(CP_System_GetWindowHeight() - 130.0f), 60.0f, 80.0f, 255, hand_angle);
 	}
+
 
 	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
@@ -181,3 +183,4 @@ void Main_Menu_Exit(void)
 	CP_Font_Free(titleFont);
 	CP_Font_Free(subFont);
 }
+
