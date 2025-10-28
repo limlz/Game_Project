@@ -18,9 +18,9 @@ void Soap_Init(void)
 
 void Soap_Update(void)
 {
-    float barCenterX = 360.0f;
-    float barCenterY = 120.0f;
-    float barWidth = 260.0f;
+    float barCenterX = 320.0f;
+    float barCenterY = 750.0f;
+    float barWidth = 250.0f;
     float barHeight = 28.0f;
 
     float normalized = Soap_GetNormalized();
@@ -45,10 +45,13 @@ void Soap_Update(void)
     CP_Settings_NoFill();
     CP_Graphics_DrawRect(barCenterX, barCenterY, barWidth, barHeight);
 
+    /*
     CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-    CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+   
     CP_Settings_TextSize(26.0f);
     CP_Font_DrawText("Soap Stamina", barCenterX, barCenterY - 30.0f);
+    */
+    CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 
     char staminaText[32];
     sprintf_s(staminaText, sizeof(staminaText), "%3.0f%%", normalized * 100.0f);

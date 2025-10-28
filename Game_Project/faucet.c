@@ -125,9 +125,9 @@ static int		attack_ready = 1;
 
 void draw_stream_timer(void) {
 
-	float radius = 50.0f;
-	float faucet_x = 105.0f;
-	float faucet_y = 730.0f;
+	float radius = 60.0f;
+	float faucet_x = 110.0f;
+	float faucet_y = 705.0f;
 	int max_opacity = 150;
 	char timer_text[5];
 	
