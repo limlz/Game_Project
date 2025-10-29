@@ -87,6 +87,9 @@
     <ClCompile Include="bubblegun.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="upgrades.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameover.h">
@@ -156,6 +159,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bubblegun.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="upgrades.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

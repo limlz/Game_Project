@@ -1,11 +1,8 @@
 #include "cprocessing.h"
 #include <stdio.h>
+
 #include "utils.h"
-
-// Required to get power level of sponge
 #include "sponge.h"
-
-// Handles transactions
 #include "money.h"
 #include "day.h"
 #include "dirt.h"
@@ -14,362 +11,282 @@
 #include "soap.h"
 #include "roomba.h"
 #include "faucet.h"
+#include "upgrades.h"
 
-#define CENTER_X_POS CP_System_GetWindowWidth() / 2.0f
-#define CENTER_Y_POS CP_System_GetWindowHeight() / 2.0f
+#define CENTER_X_POS (CP_System_GetWindowWidth() / 2.0f)
+#define CENTER_Y_POS (CP_System_GetWindowHeight() / 2.0f)
 #define SHOP_WIDTH 1000.0f
 #define SHOP_HEIGHT 750.0f
 #define MIN_OFFSET 100.0f
 #define MAX_OFFSET 1000.0f
 
-// X and Y position of the shop menu (temporary)
-float x_pos = 1400, y_pos = 300; offset = 1000;
+static float x_pos = 1400.0f;
+static float y_pos = 300.0f;
+static float offset = 1000.0f;
 int shopToggle = 0;
 
-int roomba_purchased = 0;
+static char currentLvlText[100];
+static char soapUpgradeDescription[120];
+static char faucetPowerDescription[120];
+static char faucetCooldownDescription[120];
 
-char currentLvlText[100];
-char soapCostText[20];
-char soapUpgradeDescription[120];
-char faucetPowerDescription[120];
-char faucetCooldownDescription[120];
+static CP_Image hamsta;
+static int hamstaLoaded = 0;
 
-int upgradeCost = 3;
-int increment = 1;
-int soapCost = 2;
+static const float kRowBaseOffset = 175.0f;
+static const float kRowSpacing = 110.0f;
+static const float kRowHeight = 90.0f;
+static const float kCostButtonWidth = 120.0f;
+static const float kCostButtonHeight = 80.0f;
 
-int soapDrainUpgradeCost = 6;
-int soapDrainIncrement = 2;
+static void draw_shop_item(int itemNum, const char* name, const char* description, int cost, int rowIndex, int upgradeable);
+static void draw_shop(void);
+static void shop_menu(void);
+static void draw_next_day_button(float headerCenterY);
 
-int roombaUpgradeCost = 20;
-int incrementRoomba = 5;
-
-static const int kFaucetPowerBaseCost = 15;
-static const int kFaucetPowerCostIncrement = 5;
-static const int kFaucetCooldownUpgradeCost = 20;
-
-CP_Image hamsta;
-
-static int GetFaucetPowerUpgradeCost(void) {
-	return kFaucetPowerBaseCost + Faucet_GetPowerLevel() * kFaucetPowerCostIncrement;
-}
-
-void upgrade_sponge_button(void) {
-	// Check if player has enough money to upgrade sponge
-	if (GetCurrentMoney() >= upgradeCost) {
-		DecrementMoney(upgradeCost);
-		upgrade_Sponge();
-
-		// Increase cost for next upgrade
-		upgradeCost += increment;
-		increment++;
-	}
-}
-
-void upgrade_roomba_button(void) {
-	// Check if player has enough money to upgrade sponge
-	if (GetCurrentMoney() >= roombaUpgradeCost) {
-		DecrementMoney(roombaUpgradeCost);
-		AddRoombaStrength(2);
-		AddRoombaSpeed(20.0f);
-
-		// Increase cost for next upgrade
-		roombaUpgradeCost += incrementRoomba;
-		incrementRoomba++;
-	}
-}
-
-void soap_purchase_button(void)
+static void draw_shop_item(int itemNum, const char* name, const char* description, int cost, int rowIndex, int upgradeable)
 {
-	int soapAvailable = !Soap_IsFull();
+    float panelCenterY = CENTER_Y_POS + offset;
+    float panelTop = panelCenterY - SHOP_HEIGHT / 2.0f;
+    float panelLeft = CENTER_X_POS - SHOP_WIDTH / 2.0f;
+    float panelRight = CENTER_X_POS + SHOP_WIDTH / 2.0f;
 
-	if (soapAvailable && GetCurrentMoney() >= soapCost) {
-		DecrementMoney(soapCost);
-		Soap_Refill();
-	}
-	/*
-	float buttonSize = 100.0f;
-	float buttonX = x_pos + 120.0f;
-	float buttonY = y_pos + 200.0f;
+    float itemY = panelTop + kRowBaseOffset + (float)rowIndex * kRowSpacing;
+    float iconX = panelLeft + 110.0f;
+    float textX = panelLeft + 190.0f;
+    float costX = panelRight - 115.0f;
 
-	CP_Color buttonColor = CP_Color_Create(255, 220, 0, soapAvailable ? 255 : 120);
+    CP_Settings_Fill(CP_Color_Create(255, 255, 255, 70));
+    CP_Graphics_DrawRectAdvanced(CENTER_X_POS, itemY, SHOP_WIDTH - 120.0f, kRowHeight, 0.0f, 18.0f);
 
-	CP_Settings_Fill(buttonColor);
-	CP_Graphics_DrawRect(buttonX, buttonY, buttonSize, buttonSize);
-
-	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
-	CP_Settings_TextSize(30.0f);
-	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-	CP_Font_DrawText("Soap", buttonX, buttonY - 15.0f);
-
-	CP_Settings_TextSize(22.0f);
-	sprintf_s(soapCostText, sizeof(soapCostText), "Cost: %d", soapCost);
-	CP_Font_DrawText(soapCostText, buttonX, buttonY + 20.0f);
-	
-	if (CP_Input_MouseClicked() &&
-		IsAreaClicked(buttonX, buttonY, buttonSize, buttonSize, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
-		if (soapAvailable && GetCurrentMoney() >= soapCost) {
-			DecrementMoney(soapCost);
-			Soap_Refill();
-		}
-	}*/
-}
-void soap_drain_upgrade_button(void)
-{
-        if (!Soap_CanUpgradeDrain()) {
-                return;
+    switch (itemNum) {
+    case 0:
+        CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
+        CP_Graphics_DrawRectAdvanced(iconX, itemY, 70.0f, 70.0f, 0.0f, 14.0f);
+        break;
+    case 1:
+        CP_Settings_Fill(CP_Color_Create(230, 230, 255, 255));
+        CP_Graphics_DrawEllipse(iconX, itemY, 60.0f, 80.0f);
+        CP_Settings_Fill(CP_Color_Create(140, 200, 255, 255));
+        CP_Graphics_DrawEllipse(iconX, itemY - 8.0f, 38.0f, 50.0f);
+        break;
+    case 2:
+        if (hamstaLoaded) {
+            CP_Image_Draw(hamsta, iconX, itemY, 110.0f, 90.0f, 255);
         }
+        break;
+    case 3:
+        CP_Settings_Fill(CP_Color_Create(140, 200, 255, 220));
+        CP_Graphics_DrawEllipse(iconX, itemY, 68.0f, 52.0f);
+        CP_Settings_Fill(CP_Color_Create(255, 255, 255, 210));
+        CP_Graphics_DrawRectAdvanced(iconX, itemY + 2.0f, 28.0f, 38.0f, 0.0f, 10.0f);
+        break;
+    case 4:
+        CP_Settings_Fill(CP_Color_Create(0, 160, 255, 230));
+        CP_Graphics_DrawEllipse(iconX, itemY, 58.0f, 78.0f);
+        CP_Settings_Fill(CP_Color_Create(255, 255, 255, 230));
+        CP_Graphics_DrawRectAdvanced(iconX, itemY - 2.0f, 10.0f, 40.0f, 0.0f, 6.0f);
+        CP_Graphics_DrawRectAdvanced(iconX, itemY + 10.0f, 32.0f, 12.0f, 0.0f, 6.0f);
+        break;
+    case 5:
+        CP_Settings_Fill(CP_Color_Create(200, 200, 200, 230));
+        CP_Graphics_DrawEllipse(iconX, itemY, 80.0f, 80.0f);
+        CP_Settings_Fill(CP_Color_Create(120, 120, 120, 255));
+        CP_Graphics_DrawCircle(iconX, itemY, 22.0f);
+        CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+        CP_Graphics_DrawRectAdvanced(iconX, itemY + 2.0f, 8.0f, 36.0f, 0.0f, 4.0f);
+        CP_Graphics_DrawRectAdvanced(iconX + 20.0f, itemY, 26.0f, 8.0f, 0.0f, 4.0f);
+        break;
+    default:
+        break;
+    }
 
-        if (GetCurrentMoney() >= soapDrainUpgradeCost) {
-                DecrementMoney(soapDrainUpgradeCost);
-                Soap_UpgradeDrain();
+    CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+    CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_MIDDLE);
+    CP_Settings_TextSize(34.0f);
+    CP_Font_DrawText(name, textX, itemY - 28.0f);
 
-                soapDrainUpgradeCost += soapDrainIncrement;
-                soapDrainIncrement++;
+    CP_Settings_TextSize(20.0f);
+    CP_Font_DrawTextBox(description, textX, itemY + 10.0f, 320.0f);
+
+    char costText[32];
+    if (upgradeable) {
+        CP_Settings_Fill(CP_Color_Create(0, 200, 0, 140));
+        sprintf_s(costText, sizeof(costText), "Cost\n%d", cost);
+    }
+    else {
+        CP_Settings_Fill(CP_Color_Create(150, 150, 150, 160));
+        sprintf_s(costText, sizeof(costText), "Maxed Out");
+    }
+
+    CP_Graphics_DrawRectAdvanced(costX, itemY, kCostButtonWidth, kCostButtonHeight, 0.0f, 18.0f);
+
+    CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+    CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+    CP_Settings_TextSize(24.0f);
+    CP_Font_DrawTextBox(costText, costX, itemY - 10.0f, 90.0f);
+
+    if (upgradeable && CP_Input_MouseClicked() && IsAreaClicked(costX, itemY, kCostButtonWidth, kCostButtonHeight, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+        switch (itemNum) {
+        case 0:
+            Upgrades_AttemptSpongeUpgrade();
+            break;
+        case 1:
+            Upgrades_AttemptSoapPurchase();
+            break;
+        case 2:
+            Upgrades_AttemptRoombaUpgrade();
+            break;
+        case 3:
+            Upgrades_AttemptSoapDrainUpgrade();
+            break;
+        case 4:
+            Upgrades_AttemptFaucetPowerUpgrade();
+            break;
+        case 5:
+            Upgrades_AttemptFaucetCooldownUpgrade();
+            break;
+        default:
+            break;
         }
+    }
 }
 
-void faucet_power_upgrade_button(void) {
-	if (!Faucet_CanUpgradePower()) {
-		return;
-	}
+static void draw_next_day_button(float headerCenterY) {
+    float panelRight = CENTER_X_POS + SHOP_WIDTH / 2.0f;
+    float buttonX = panelRight - 170.0f;
+    float buttonY = headerCenterY;
+    float btnW = 220.0f;
+    float btnH = 70.0f;
 
-	int cost = GetFaucetPowerUpgradeCost();
-	if (GetCurrentMoney() >= cost) {
-		DecrementMoney(cost);
-		Faucet_UpgradePower();
-	}
+    CP_Settings_Fill(CP_Color_Create(160, 255, 180, 255));
+    CP_Graphics_DrawRectAdvanced(buttonX, buttonY, btnW, btnH, 0.0f, 18.0f);
+
+    CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+    CP_Settings_Fill(CP_Color_Create(30, 60, 30, 255));
+    CP_Settings_TextSize(28.0f);
+    CP_Font_DrawText("Next Day", buttonX, buttonY);
+
+    if (CP_Input_MouseClicked() && IsAreaClicked(buttonX, buttonY, btnW, btnH, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+        timeReset();
+        Day_StartCurrentDay();
+        InitDirt();
+        ChangePlate();
+        Day_ClearReadyForNextDay();
+        shopToggle = 0;
+    }
 }
 
-void faucet_cooldown_upgrade_button(void) {
-	if (!Faucet_CanUpgradeCooldown()) {
-		return;
-	}
+static void draw_shop(void) {
+    if (shopToggle && offset > MIN_OFFSET) {
+        offset -= 5000.0f * CP_System_GetDt();
+    }
+    else if (!shopToggle && offset < MAX_OFFSET) {
+        offset += 5000.0f * CP_System_GetDt();
+    }
 
-	if (GetCurrentMoney() >= kFaucetCooldownUpgradeCost) {
-		DecrementMoney(kFaucetCooldownUpgradeCost);
-		Faucet_UpgradeCooldown();
-	}
+    float panelCenterY = CENTER_Y_POS + offset;
+    float panelTop = panelCenterY - SHOP_HEIGHT / 2.0f;
+
+    CP_Settings_Fill(CP_Color_Create(211, 211, 211, 255));
+    CP_Graphics_DrawRectAdvanced(CENTER_X_POS, panelCenterY, SHOP_WIDTH, SHOP_HEIGHT, 0.0f, 30.0f);
+
+    float headerCenterY = panelTop + 70.0f;
+    CP_Settings_Fill(CP_Color_Create(121, 212, 237, 255));
+    CP_Graphics_DrawRectAdvanced(CENTER_X_POS, headerCenterY, SHOP_WIDTH - 120.0f, 110.0f, 0.0f, 26.0f);
+
+    CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+    CP_Settings_TextSize(50.0f);
+    CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
+    CP_Font_DrawText("Shop Menu", CENTER_X_POS, headerCenterY);
+
+    if (Day_IsReadyForNextDay()) {
+        draw_next_day_button(headerCenterY);
+    }
+
+    sprintf_s(currentLvlText, sizeof(currentLvlText), "Upgrades Power of Sponge\nCurrent Level: %d", get_SpongePower());
+    draw_shop_item(0, "Sponge Power", currentLvlText, Upgrades_GetSpongeCost(), 0, sponge_upgradeable());
+
+    int faucetPowerLevel = Faucet_GetPowerLevel();
+    float powerBonus = (Faucet_GetPowerMultiplier() - 1.0f) * 100.0f;
+    if (powerBonus < 0.0f) {
+        powerBonus = 0.0f;
+    }
+    if (powerBonus > 50.0f) {
+        powerBonus = 50.0f;
+    }
+
+    if (Faucet_CanUpgradePower()) {
+        float nextBonus = (float)(faucetPowerLevel + 1) * 5.0f;
+        if (nextBonus > 50.0f) {
+            nextBonus = 50.0f;
+        }
+        sprintf_s(faucetPowerDescription, sizeof(faucetPowerDescription),
+            "Boosts stream cleaning speed\nLevel: %d (+%.0f%%)\nNext: +%.0f%%",
+            faucetPowerLevel, powerBonus, nextBonus);
+    }
+    else {
+        sprintf_s(faucetPowerDescription, sizeof(faucetPowerDescription),
+            "Boosts stream cleaning speed\nLevel: %d (+%.0f%%)\nMaxed Out",
+            faucetPowerLevel, powerBonus);
+    }
+    draw_shop_item(4, "Stream Power", faucetPowerDescription, Upgrades_GetFaucetPowerCost(), 1, Faucet_CanUpgradePower());
+
+    draw_shop_item(1, "Soap Refill", "Refills soap to MAX", Upgrades_GetSoapCost(), 2, !Soap_IsFull());
+
+    float totalReduction = (float)Soap_GetDrainUpgradeLevel() * 0.1f;
+    sprintf_s(soapUpgradeDescription, sizeof(soapUpgradeDescription),
+        "Reduces soap drain speed\nLevel: %d (-%.1f%%)",
+        Soap_GetDrainUpgradeLevel(), totalReduction);
+    draw_shop_item(3, "Soap Saver", soapUpgradeDescription, Upgrades_GetSoapDrainCost(), 3, Soap_CanUpgradeDrain());
+
+    int faucetCooldownLevel = Faucet_GetCooldownLevel();
+    float baseCooldown = Faucet_GetCooldownBase();
+    float currentCooldown = return_cooldown();
+    float cooldownReduction = baseCooldown - currentCooldown;
+    if (cooldownReduction < 0.0f) {
+        cooldownReduction = 0.0f;
+    }
+
+    if (Faucet_CanUpgradeCooldown()) {
+        float nextCooldown = baseCooldown - (float)(faucetCooldownLevel + 1);
+        if (nextCooldown < 0.0f) {
+            nextCooldown = 0.0f;
+        }
+        sprintf_s(faucetCooldownDescription, sizeof(faucetCooldownDescription),
+            "Reduces stream cooldown\nLevel: %d (-%.0fs)\nCurrent: %.0fs\nNext: %.0fs",
+            faucetCooldownLevel, cooldownReduction, currentCooldown, nextCooldown);
+    }
+    else {
+        sprintf_s(faucetCooldownDescription, sizeof(faucetCooldownDescription),
+            "Reduces stream cooldown\nLevel: %d (-%.0fs)\nCurrent: %.0fs\nMaxed Out",
+            faucetCooldownLevel, cooldownReduction, currentCooldown);
+    }
+    draw_shop_item(5, "Stream Cooldown", faucetCooldownDescription, Upgrades_GetFaucetCooldownCost(), 4, Faucet_CanUpgradeCooldown());
+
+    if (RoombaPurchase()) {
+        draw_shop_item(2, "Cleaning Robot", "Upgrades robot that auto cleans", Upgrades_GetRoombaCost(), 5, 1);
+    }
 }
 
-
-void draw_shop_item(int itemNum, char* name, char* description, int cost, float height_offset, int upgradeable) {
-	switch (itemNum) {
-	case 0:
-		CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
-		CP_Graphics_DrawRect(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 100, 100);
-		break;
-	case 1:
-		break;
-	case 2:
-		CP_Image_Draw(hamsta, CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 150, 120, 255);
-		break;
-	case 3:
-		CP_Settings_Fill(CP_Color_Create(120, 200, 255, 255));
-		CP_Graphics_DrawEllipse(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 90, 60);
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 200));
-		CP_Graphics_DrawRectAdvanced(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 10, 30, 50, 0, 8);
-		break;
-	case 4:
-		CP_Settings_Fill(CP_Color_Create(0, 160, 255, 230));
-		CP_Graphics_DrawEllipse(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 70, 90);
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 220));
-		CP_Graphics_DrawRect(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 12, 45);
-		CP_Graphics_DrawRect(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 35, 12);
-		break;
-	case 5:
-		CP_Settings_Fill(CP_Color_Create(200, 200, 200, 230));
-		CP_Graphics_DrawEllipse(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 90, 90);
-		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 255));
-		CP_Graphics_DrawCircle(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 25);
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Graphics_DrawRect(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 5, 10, 40);
-		CP_Graphics_DrawRect(CENTER_X_POS - 270, CENTER_Y_POS + offset + height_offset + 25, 30, 10);
-		break;
-
-	}
-
-	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_MIDDLE);
-	CP_Settings_TextSize(40.0f);
-	CP_Font_DrawText(name, CENTER_X_POS - 200, CENTER_Y_POS + offset + height_offset);
-
-	CP_Settings_TextSize(20.0f);
-	CP_Font_DrawTextBox(description, CENTER_X_POS - 200, CENTER_Y_POS + offset + height_offset + 50, 300);
-
-	char costText[32];
-	if (upgradeable) {
-		CP_Settings_Fill(CP_Color_Create(0, 200, 0, 100));
-		sprintf_s(costText, sizeof(costText), "Cost \n %d", cost);
-	}
-	else {
-		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 160));
-		sprintf_s(costText, sizeof(costText), "Maxed Out");
-	}
-
-
-	CP_Graphics_DrawRectAdvanced(CENTER_X_POS + 400, CENTER_Y_POS + offset + height_offset + 25, 100.0f, 100.0f, 0.0f, 20.0f);
-	
-	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-	CP_Settings_TextSize(30.0f);
-	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
-	CP_Font_DrawTextBox(costText, CENTER_X_POS + 370, CENTER_Y_POS + offset + height_offset + 15, 60);	
-	
-	if (upgradeable && CP_Input_MouseClicked() 
-		&& IsAreaClicked(CENTER_X_POS + 400, CENTER_Y_POS + offset + height_offset + 25, 100.0f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
-		//TODO: Handle purchase
-		switch (itemNum) {
-		case 0:
-			upgrade_sponge_button();
-			break;
-		case 1:
-			soap_purchase_button();
-			break;
-		case 2:
-			upgrade_roomba_button();
-			break;
-		case 3:
-			soap_drain_upgrade_button();
-			break;
-		case 4:
-			faucet_power_upgrade_button();
-			break;
-		case 5:
-			faucet_cooldown_upgrade_button();
-			break;
-		}
-	}
-}
-
-
-void draw_shop(void) {
-	if (shopToggle && offset > MIN_OFFSET) {
-		offset -= 5000 * CP_System_GetDt();
-	}
-	else if (!shopToggle && offset < MAX_OFFSET) {
-		offset += 5000 * CP_System_GetDt();
-	}
-	CP_Settings_Fill(CP_Color_Create(211, 211, 211, 255));
-	CP_Graphics_DrawRectAdvanced(CENTER_X_POS, CENTER_Y_POS + offset, SHOP_WIDTH, SHOP_HEIGHT,0, 30.0f);
-
-	CP_Settings_Fill(CP_Color_Create(121, 212, 237, 255));
-	CP_Graphics_DrawRect(CENTER_X_POS, offset + 75, 400.0f, 100.0f);
-	
-	CP_Settings_TextSize(50.0f);
-	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
-	CP_Font_DrawText("Shop Menu", CENTER_X_POS, offset + 75);
-
-	sprintf_s(currentLvlText, sizeof(currentLvlText), "Upgrades Power of Sponge \n Current Level : %d", get_SpongePower());
-	draw_shop_item(0, "Sponge Power", currentLvlText, upgradeCost, -300, sponge_upgradeable());
-
-	int faucetPowerLevel = Faucet_GetPowerLevel();
-	float powerBonus = (Faucet_GetPowerMultiplier() - 1.0f) * 100.0f;
-	if (powerBonus < 0.0f) {
-		powerBonus = 0.0f;
-	}
-	if (powerBonus > 50.0f) {
-		powerBonus = 50.0f;
-	}
-
-	if (Faucet_CanUpgradePower()) {
-		float nextBonus = (float)(faucetPowerLevel + 1) * 5.0f;
-		if (nextBonus > 50.0f) {
-			nextBonus = 50.0f;
-		}
-		sprintf_s(faucetPowerDescription, sizeof(faucetPowerDescription),
-			"Boosts stream cleaning speed\nLevel: %d (+%.0f%%)\nNext: +%.0f%%",
-			faucetPowerLevel, powerBonus, nextBonus);
-	}
-	else {
-		sprintf_s(faucetPowerDescription, sizeof(faucetPowerDescription),
-			"Boosts stream cleaning speed\nLevel: %d (+%.0f%%)\nMaxed Out",
-			faucetPowerLevel, powerBonus);
-	}
-	draw_shop_item(4, "Stream Power", faucetPowerDescription, GetFaucetPowerUpgradeCost(), -150, Faucet_CanUpgradePower());
-
-	draw_shop_item(1, "Soap Refill", "Refills soap to MAX", soapCost, 0, !Soap_IsFull());
-
-	float totalReduction = (float)Soap_GetDrainUpgradeLevel() * 0.1f;
-	sprintf_s(soapUpgradeDescription, sizeof(soapUpgradeDescription),
-		"Reduces soap drain speed\nLevel: %d (-%.1f%%)",
-		Soap_GetDrainUpgradeLevel(), totalReduction);
-	draw_shop_item(3, "Soap Saver", soapUpgradeDescription, soapDrainUpgradeCost, 150, Soap_CanUpgradeDrain());
-
-	int faucetCooldownLevel = Faucet_GetCooldownLevel();
-	float baseCooldown = Faucet_GetCooldownBase();
-	float currentCooldown = return_cooldown();
-	float cooldownReduction = baseCooldown - currentCooldown;
-	if (cooldownReduction < 0.0f) {
-		cooldownReduction = 0.0f;
-	}
-
-	if (Faucet_CanUpgradeCooldown()) {
-		float nextCooldown = baseCooldown - (float)(faucetCooldownLevel + 1);
-		if (nextCooldown < 0.0f) {
-			nextCooldown = 0.0f;
-		}
-		sprintf_s(faucetCooldownDescription, sizeof(faucetCooldownDescription),
-			"Reduces stream cooldown\nLevel: %d (-%.0fs)\nCurrent: %.0fs\nNext: %.0fs",
-			faucetCooldownLevel, cooldownReduction, currentCooldown, nextCooldown);
-	}
-	else {
-		sprintf_s(faucetCooldownDescription, sizeof(faucetCooldownDescription),
-			"Reduces stream cooldown\nLevel: %d (-%.0fs)\nCurrent: %.0fs\nMaxed Out",
-			faucetCooldownLevel, cooldownReduction, currentCooldown);
-	}
-	draw_shop_item(5, "Stream Cooldown", faucetCooldownDescription, kFaucetCooldownUpgradeCost, 300, Faucet_CanUpgradeCooldown());
-
-	if (RoombaPurchase()) {
-		draw_shop_item(2, "Cleaning Robot", "Upgrades robot that auto cleans", roombaUpgradeCost, 450, 1);
-	}
-}
-
-
-void shop_menu(void) {
-	float cx = CP_System_GetWindowWidth() * 0.5f;
-	float cy = CP_System_GetWindowHeight() * 0.5f;
-
-	float panelW = 360.0f, panelH = 520.0f;
-	float btnX = cx;          // base x for centered child widgets
-	float btnY = cy;          // base y for centered child widgets
-
-	draw_shop();
-
-	//soap_purchase_button();
-
-	if (Day_IsReadyForNextDay()) {
-		// center will be handled below; use btnX/btnY from the centering section
-		float btnW = 220.0f, btnH = 80.0f;
-
-		CP_Settings_Fill(CP_Color_Create(160, 255, 180, 255));
-		CP_Graphics_DrawRectAdvanced(btnX + 600.0f, btnY + 150.0f, btnW, btnH, 0.0f, 18.0f);
-
-		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
-		CP_Settings_Fill(CP_Color_Create(30, 60, 30, 255));
-		CP_Settings_TextSize(28.0f);
-		CP_Font_DrawText("Next Day", btnX + 600.0f, btnY + 150.0f);
-
-		if (CP_Input_MouseClicked() &&
-			IsAreaClicked(btnX + 600.0f, btnY + 150.0f, btnW, btnH, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
-			timeReset();
-			Day_StartCurrentDay();
-			InitDirt();
-			ChangePlate();
-			Day_ClearReadyForNextDay();
-			shopToggle = 0;  // close overlay
-		}
-	}
+static void shop_menu(void) {
+    draw_shop();
 }
 
 void shop_init(void) {
-	hamsta = CP_Image_Load("Assets/hamstermugshot.gif");
-	if (CP_Input_KeyTriggered(KEY_F)) {
-		shopToggle = (shopToggle == 0) ? 1 : 0;
-	}
-	if (shopToggle || offset < MAX_OFFSET) {
-		shop_menu();
-	}
-	
-	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
-	CP_Font_DrawText("Press [F] to open Shop", x_pos, y_pos - 200);
+    if (!hamstaLoaded) {
+        hamsta = CP_Image_Load("Assets/hamstermugshot.gif");
+        hamstaLoaded = 1;
+    }
+
+    if (CP_Input_KeyTriggered(KEY_F)) {
+        shopToggle = (shopToggle == 0) ? 1 : 0;
+    }
+
+    if (shopToggle || offset < MAX_OFFSET) {
+        shop_menu();
+    }
+
+    CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
+    CP_Font_DrawText("Press [F] to open Shop", x_pos, y_pos - 200.0f);
 }

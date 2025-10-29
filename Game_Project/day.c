@@ -56,7 +56,6 @@ int Day_IsInGameplay(void)
     return g_inGameplay;
 }
 
-/* ---------------- HUD Drawing ---------------- */
 void Day_DrawHUD(float x, float y)
 {
     char buffer[64];
@@ -75,7 +74,7 @@ int Day_GetDay(void) { return g_day; }
 int Day_GetCleaned(void) { return g_cleaned; }
 int Day_GetGoal(void) { return g_goal; }
 
-/* ---------------- Popup Drawing ---------------- */
+
 void Day_DrawPopup(void)
 {
     if (!show_day_complete_popup)
@@ -90,7 +89,7 @@ void Day_DrawPopup(void)
 
     // Popup box
     CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-    CP_Graphics_DrawRect(centerX, centerY, 800, 400);
+    CP_Graphics_DrawRect(centerX, centerY, 920, 400);
 
     CP_Settings_TextSize(45.0f);
     CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
