@@ -25,7 +25,7 @@ static float y_pos = 300.0f;
 static float offset = 1000.0f;
 int shopToggle = 0;
 
-static char currentLvlText[100];
+static char currentLvlText[80];
 static char soapUpgradeDescription[120];
 static char faucetPowerDescription[120];
 static char faucetCooldownDescription[120];
@@ -33,11 +33,11 @@ static char faucetCooldownDescription[120];
 static CP_Image hamsta;
 static int hamstaLoaded = 0;
 
-static const float kRowBaseOffset = 175.0f;
-static const float kRowSpacing = 110.0f;
-static const float kRowHeight = 90.0f;
-static const float kCostButtonWidth = 120.0f;
-static const float kCostButtonHeight = 80.0f;
+static const float kRowBaseOffset = 165.0f;
+static const float kRowSpacing = 87.0f;
+static const float kRowHeight = 80.0f;
+static const float kCostButtonWidth = 100.0f;
+static const float kCostButtonHeight = 75.0f;
 
 static void draw_shop_item(int itemNum, const char* name, const char* description, int cost, int rowIndex, int upgradeable);
 static void draw_shop(void);
@@ -103,13 +103,13 @@ static void draw_shop_item(int itemNum, const char* name, const char* descriptio
 
     CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
     CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_MIDDLE);
-    CP_Settings_TextSize(34.0f);
+    CP_Settings_TextSize(28.0f);
     CP_Font_DrawText(name, textX, itemY - 28.0f);
 
     CP_Settings_TextSize(20.0f);
     CP_Font_DrawTextBox(description, textX, itemY + 10.0f, 320.0f);
 
-    char costText[32];
+    char costText[28];
     if (upgradeable) {
         CP_Settings_Fill(CP_Color_Create(0, 200, 0, 140));
         sprintf_s(costText, sizeof(costText), "Cost\n%d", cost);
@@ -160,12 +160,12 @@ static void draw_next_day_button(float headerCenterY) {
     float btnH = 70.0f;
 
     CP_Settings_Fill(CP_Color_Create(160, 255, 180, 255));
-    CP_Graphics_DrawRectAdvanced(buttonX, buttonY, btnW, btnH, 0.0f, 18.0f);
+    CP_Graphics_DrawRectAdvanced(buttonX - 10.0f, buttonY, btnW, btnH, 0.0f, 18.0f);
 
     CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
     CP_Settings_Fill(CP_Color_Create(30, 60, 30, 255));
     CP_Settings_TextSize(28.0f);
-    CP_Font_DrawText("Next Day", buttonX, buttonY);
+    CP_Font_DrawText("Next Day", buttonX -10.0f, buttonY);
 
     if (CP_Input_MouseClicked() && IsAreaClicked(buttonX, buttonY, btnW, btnH, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
         timeReset();
@@ -222,12 +222,12 @@ static void draw_shop(void) {
             nextBonus = 50.0f;
         }
         sprintf_s(faucetPowerDescription, sizeof(faucetPowerDescription),
-            "Boosts stream cleaning speed\nLevel: %d (+%.0f%%)\nNext: +%.0f%%",
+            "Boosts stream cleaning speed\nLevel: %d (+%.0f%%) Next: +%.0f%%",
             faucetPowerLevel, powerBonus, nextBonus);
     }
     else {
         sprintf_s(faucetPowerDescription, sizeof(faucetPowerDescription),
-            "Boosts stream cleaning speed\nLevel: %d (+%.0f%%)\nMaxed Out",
+            "Boosts stream cleaning speed\nLevel: %d (+%.0f%%) Maxed Out",
             faucetPowerLevel, powerBonus);
     }
     draw_shop_item(4, "Stream Power", faucetPowerDescription, Upgrades_GetFaucetPowerCost(), 1, Faucet_CanUpgradePower());
@@ -254,12 +254,12 @@ static void draw_shop(void) {
             nextCooldown = 0.0f;
         }
         sprintf_s(faucetCooldownDescription, sizeof(faucetCooldownDescription),
-            "Reduces stream cooldown\nLevel: %d (-%.0fs)\nCurrent: %.0fs\nNext: %.0fs",
+            "Reduces stream cooldown Level: %d (-%.0fs) Current: %.0fs Next: %.0fs",
             faucetCooldownLevel, cooldownReduction, currentCooldown, nextCooldown);
     }
     else {
         sprintf_s(faucetCooldownDescription, sizeof(faucetCooldownDescription),
-            "Reduces stream cooldown\nLevel: %d (-%.0fs)\nCurrent: %.0fs\nMaxed Out",
+            "Reduces stream cooldown Level: %d (-%.0fs) Current: %.0fs Maxed Out",
             faucetCooldownLevel, cooldownReduction, currentCooldown);
     }
     draw_shop_item(5, "Stream Cooldown", faucetCooldownDescription, Upgrades_GetFaucetCooldownCost(), 4, Faucet_CanUpgradeCooldown());
