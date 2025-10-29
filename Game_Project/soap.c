@@ -5,7 +5,7 @@
 static const float kSoapMaxStamina = 100.0f;
 static const float kSoapDrainPerSecond = 2.0f;
 static const float kSoapDrainReductionPerUpgrade = 0.001f;   // 0.1%
-static const int kSoapDrainUpgradeMaxLevel = 900;             // keeps multiplier >= 0.1
+static const int kSoapDrainUpgradeMaxLevel = 10;             // cap at 10 levels
 static const float kSoapMinDrainMultiplier = 0.1f;
 static float soapStamina = 0.0f;
 

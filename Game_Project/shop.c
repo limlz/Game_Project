@@ -13,6 +13,7 @@
 #include "timer.h"
 #include "soap.h"
 #include "roomba.h"
+#include "faucet.h"
 
 #define CENTER_X_POS CP_System_GetWindowWidth() / 2.0f
 #define CENTER_Y_POS CP_System_GetWindowHeight() / 2.0f
@@ -28,9 +29,10 @@ int shopToggle = 0;
 int roomba_purchased = 0;
 
 char currentLvlText[100];
-char upgradeText[20];
 char soapCostText[20];
 char soapUpgradeDescription[120];
+char faucetPowerDescription[120];
+char faucetCooldownDescription[120];
 
 int upgradeCost = 3;
 int increment = 1;
@@ -42,8 +44,15 @@ int soapDrainIncrement = 2;
 int roombaUpgradeCost = 20;
 int incrementRoomba = 5;
 
+static const int kFaucetPowerBaseCost = 15;
+static const int kFaucetPowerCostIncrement = 5;
+static const int kFaucetCooldownUpgradeCost = 20;
+
 CP_Image hamsta;
 
+static int GetFaucetPowerUpgradeCost(void) {
+	return kFaucetPowerBaseCost + Faucet_GetPowerLevel() * kFaucetPowerCostIncrement;
+}
 
 void upgrade_sponge_button(void) {
 	// Check if player has enough money to upgrade sponge
@@ -120,6 +129,30 @@ void soap_drain_upgrade_button(void)
         }
 }
 
+void faucet_power_upgrade_button(void) {
+	if (!Faucet_CanUpgradePower()) {
+		return;
+	}
+
+	int cost = GetFaucetPowerUpgradeCost();
+	if (GetCurrentMoney() >= cost) {
+		DecrementMoney(cost);
+		Faucet_UpgradePower();
+	}
+}
+
+void faucet_cooldown_upgrade_button(void) {
+	if (!Faucet_CanUpgradeCooldown()) {
+		return;
+	}
+
+	if (GetCurrentMoney() >= kFaucetCooldownUpgradeCost) {
+		DecrementMoney(kFaucetCooldownUpgradeCost);
+		Faucet_UpgradeCooldown();
+	}
+}
+
+
 void draw_shop_item(int itemNum, char* name, char* description, int cost, float height_offset, int upgradeable) {
 	switch (itemNum) {
 	case 0:
@@ -137,6 +170,22 @@ void draw_shop_item(int itemNum, char* name, char* description, int cost, float 
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 200));
 		CP_Graphics_DrawRectAdvanced(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 10, 30, 50, 0, 8);
 		break;
+	case 4:
+		CP_Settings_Fill(CP_Color_Create(0, 160, 255, 230));
+		CP_Graphics_DrawEllipse(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 70, 90);
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 220));
+		CP_Graphics_DrawRect(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 12, 45);
+		CP_Graphics_DrawRect(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 35, 12);
+		break;
+	case 5:
+		CP_Settings_Fill(CP_Color_Create(200, 200, 200, 230));
+		CP_Graphics_DrawEllipse(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 90, 90);
+		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 255));
+		CP_Graphics_DrawCircle(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 25, 25);
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		CP_Graphics_DrawRect(CENTER_X_POS - 300, CENTER_Y_POS + offset + height_offset + 5, 10, 40);
+		CP_Graphics_DrawRect(CENTER_X_POS - 270, CENTER_Y_POS + offset + height_offset + 25, 30, 10);
+		break;
 
 	}
 
@@ -148,15 +197,16 @@ void draw_shop_item(int itemNum, char* name, char* description, int cost, float 
 	CP_Settings_TextSize(20.0f);
 	CP_Font_DrawTextBox(description, CENTER_X_POS - 200, CENTER_Y_POS + offset + height_offset + 50, 300);
 
-	char costText[20];
+	char costText[32];
 	if (upgradeable) {
 		CP_Settings_Fill(CP_Color_Create(0, 200, 0, 100));
 		sprintf_s(costText, sizeof(costText), "Cost \n %d", cost);
 	}
 	else {
-		CP_Settings_Fill(CP_Color_Create(200, 0, 0, 100));
-		sprintf_s(costText, sizeof(costText), "Sold Out!");
+		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 160));
+		sprintf_s(costText, sizeof(costText), "Maxed Out");
 	}
+
 
 	CP_Graphics_DrawRectAdvanced(CENTER_X_POS + 400, CENTER_Y_POS + offset + height_offset + 25, 100.0f, 100.0f, 0.0f, 20.0f);
 	
@@ -181,6 +231,12 @@ void draw_shop_item(int itemNum, char* name, char* description, int cost, float 
 		case 3:
 			soap_drain_upgrade_button();
 			break;
+		case 4:
+			faucet_power_upgrade_button();
+			break;
+		case 5:
+			faucet_cooldown_upgrade_button();
+			break;
 		}
 	}
 }
@@ -204,18 +260,67 @@ void draw_shop(void) {
 	CP_Font_DrawText("Shop Menu", CENTER_X_POS, offset + 75);
 
 	sprintf_s(currentLvlText, sizeof(currentLvlText), "Upgrades Power of Sponge \n Current Level : %d", get_SpongePower());
-	draw_shop_item(0, "Sponge Power", currentLvlText, upgradeCost, -250, sponge_upgradeable());
+	draw_shop_item(0, "Sponge Power", currentLvlText, upgradeCost, -300, sponge_upgradeable());
 
-	draw_shop_item(1, "Soap Refill", "Refills soap to MAX", soapCost, -100, !Soap_IsFull());
+	int faucetPowerLevel = Faucet_GetPowerLevel();
+	float powerBonus = (Faucet_GetPowerMultiplier() - 1.0f) * 100.0f;
+	if (powerBonus < 0.0f) {
+		powerBonus = 0.0f;
+	}
+	if (powerBonus > 50.0f) {
+		powerBonus = 50.0f;
+	}
+
+	if (Faucet_CanUpgradePower()) {
+		float nextBonus = (float)(faucetPowerLevel + 1) * 5.0f;
+		if (nextBonus > 50.0f) {
+			nextBonus = 50.0f;
+		}
+		sprintf_s(faucetPowerDescription, sizeof(faucetPowerDescription),
+			"Boosts stream cleaning speed\nLevel: %d (+%.0f%%)\nNext: +%.0f%%",
+			faucetPowerLevel, powerBonus, nextBonus);
+	}
+	else {
+		sprintf_s(faucetPowerDescription, sizeof(faucetPowerDescription),
+			"Boosts stream cleaning speed\nLevel: %d (+%.0f%%)\nMaxed Out",
+			faucetPowerLevel, powerBonus);
+	}
+	draw_shop_item(4, "Stream Power", faucetPowerDescription, GetFaucetPowerUpgradeCost(), -150, Faucet_CanUpgradePower());
+
+	draw_shop_item(1, "Soap Refill", "Refills soap to MAX", soapCost, 0, !Soap_IsFull());
 
 	float totalReduction = (float)Soap_GetDrainUpgradeLevel() * 0.1f;
 	sprintf_s(soapUpgradeDescription, sizeof(soapUpgradeDescription),
 		"Reduces soap drain speed\nLevel: %d (-%.1f%%)",
 		Soap_GetDrainUpgradeLevel(), totalReduction);
-	draw_shop_item(3, "Soap Saver", soapUpgradeDescription, soapDrainUpgradeCost, 50, Soap_CanUpgradeDrain());
+	draw_shop_item(3, "Soap Saver", soapUpgradeDescription, soapDrainUpgradeCost, 150, Soap_CanUpgradeDrain());
+
+	int faucetCooldownLevel = Faucet_GetCooldownLevel();
+	float baseCooldown = Faucet_GetCooldownBase();
+	float currentCooldown = return_cooldown();
+	float cooldownReduction = baseCooldown - currentCooldown;
+	if (cooldownReduction < 0.0f) {
+		cooldownReduction = 0.0f;
+	}
+
+	if (Faucet_CanUpgradeCooldown()) {
+		float nextCooldown = baseCooldown - (float)(faucetCooldownLevel + 1);
+		if (nextCooldown < 0.0f) {
+			nextCooldown = 0.0f;
+		}
+		sprintf_s(faucetCooldownDescription, sizeof(faucetCooldownDescription),
+			"Reduces stream cooldown\nLevel: %d (-%.0fs)\nCurrent: %.0fs\nNext: %.0fs",
+			faucetCooldownLevel, cooldownReduction, currentCooldown, nextCooldown);
+	}
+	else {
+		sprintf_s(faucetCooldownDescription, sizeof(faucetCooldownDescription),
+			"Reduces stream cooldown\nLevel: %d (-%.0fs)\nCurrent: %.0fs\nMaxed Out",
+			faucetCooldownLevel, cooldownReduction, currentCooldown);
+	}
+	draw_shop_item(5, "Stream Cooldown", faucetCooldownDescription, kFaucetCooldownUpgradeCost, 300, Faucet_CanUpgradeCooldown());
 
 	if (RoombaPurchase()) {
-		draw_shop_item(2, "Cleaning Robot", "Upgrades robot that auto cleans", roombaUpgradeCost, 50, !RoombaPurchase);
+		draw_shop_item(2, "Cleaning Robot", "Upgrades robot that auto cleans", roombaUpgradeCost, 450, 1);
 	}
 }
 

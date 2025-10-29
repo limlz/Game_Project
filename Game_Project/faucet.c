@@ -3,9 +3,19 @@
 #include "dirt.h"
 #include "timer.h"
 #include "day.h"
+#include "faucet.h"
 
 #define MAX_DROPLETS		220
 #define AOE_DURATION		3.0f
+
+static const float kFaucetBaseCooldown = 20.0f;
+static const float kFaucetCooldownReductionPerLevel = 1.0f;
+static const int kFaucetCooldownMaxLevel = 10;
+
+static const float kFaucetPowerIncreasePerLevel = 0.05f;        // 5%
+static const float kFaucetPowerMaxMultiplier = 1.5f;            // 50% faster
+static const int kFaucetPowerMaxLevel = 10;
+
 
 typedef struct {
 	CP_Vector	position;
@@ -14,6 +24,13 @@ typedef struct {
 } Stream;
 
 Stream streamlist[MAX_DROPLETS];
+
+static int faucetPowerLevel = 0;
+static int faucetCooldownLevel = 0;
+static float faucetPowerOverflow = 0.0f;
+
+static void Faucet_UpdateCooldownValue(void);
+static float Faucet_ComputePowerMultiplier(void);
 
 //*----------------------   DRAWING FUNCTIONS : FOR STREAM AND FAUCET   ------------------------*//
 
@@ -70,6 +87,9 @@ CP_Font montserrat_light;
 CP_Font sub_font;
 
 void stream_init(void) {
+	faucetPowerOverflow = 0.0f;
+	Faucet_UpdateCooldownValue();
+
 	float center_x = CP_System_GetWindowWidth() * 0.5f;
 	float offset = 300.0f; //diameter of plate = 600.0f (plate.c)
 	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
@@ -117,7 +137,7 @@ void stop_stream(void) {
 
 static float	time_left = 0.0f;
 
-static float	cooldown = 20.0f;
+static float	cooldown = 0.0f;
 static float	cooldown_left = 0.0f;
 
 static int		attack_ready = 1;
@@ -152,7 +172,7 @@ void draw_stream_timer(void) {
 
 	if (checkGameRunning() && Day_IsInGameplay()) {
 		if (attack_ready == 0) {
-			if (cooldown_left >= 0.0f && cooldown_left <= 20.0f) {
+			if (cooldown_left >= 0.0f && cooldown_left <= kFaucetBaseCooldown) {
 				opacity = max_opacity;
 				cooldown_left -= CP_System_GetDt();
 			}
@@ -195,14 +215,32 @@ void clean_dirt_with_stream(void) {
 				float cleaning_radius = 50.0f;
 
 				if (distance < cleaning_radius) {
-					dirt_list[j].opacity -= 1;
+					float multiplier = Faucet_ComputePowerMultiplier();
+					float damage = multiplier;
+					int removal = (int)damage;
+					float fractional = damage - (float)removal;
+
+					faucetPowerOverflow += fractional;
+					if (faucetPowerOverflow >= 1.0f) {
+						int bonus = (int)faucetPowerOverflow;
+						removal += bonus;
+						faucetPowerOverflow -= (float)bonus;
+					}
+
+					if (removal < 1) {
+						removal = 1;
+					}
+
+					dirt_list[j].opacity -= removal;
 					if (dirt_list[j].opacity < 0)
 						dirt_list[j].opacity = 0;
+				
 				}
 			}
 		}
 	}
 }
+
 
 void AOE_stream(void) {
 	draw_stream_timer();
@@ -234,12 +272,96 @@ void AOE_stream(void) {
 
 //*---------------------------------   VALUES FOR UPGRADES   -----------------------------------*//
 
+static float Faucet_ComputePowerMultiplier(void) {
+	float multiplier = 1.0f + (float)faucetPowerLevel * kFaucetPowerIncreasePerLevel;
+	if (multiplier > kFaucetPowerMaxMultiplier) {
+		multiplier = kFaucetPowerMaxMultiplier;
+	}
+	return multiplier;
+}
+
+static void Faucet_UpdateCooldownValue(void) {
+	float minCooldown = kFaucetBaseCooldown - (float)kFaucetCooldownMaxLevel * kFaucetCooldownReductionPerLevel;
+	if (minCooldown < 0.0f) {
+		minCooldown = 0.0f;
+	}
+
+	float newCooldown = kFaucetBaseCooldown - (float)faucetCooldownLevel * kFaucetCooldownReductionPerLevel;
+	if (newCooldown < minCooldown) {
+		newCooldown = minCooldown;
+	}
+
+	cooldown = newCooldown;
+	if (cooldown_left > cooldown) {
+		cooldown_left = cooldown;
+	}
+}
+
 void reduce_cooldown(float reduction) {
+	float minCooldown = kFaucetBaseCooldown - (float)kFaucetCooldownMaxLevel * kFaucetCooldownReductionPerLevel;
+	if (minCooldown < 0.0f) {
+		minCooldown = 0.0f;
+	}
+
 	cooldown -= reduction;
+	if (cooldown < minCooldown) {
+		cooldown = minCooldown;
+	}
+
+	if (cooldown_left > cooldown) {
+		cooldown_left = cooldown;
+	}
 }
 
 void reset_cooldown(void) {
-	cooldown = 20.0f;
+	Faucet_UpdateCooldownValue();
+}
+
+void Faucet_UpgradePower(void) {
+	if (Faucet_CanUpgradePower()) {
+		faucetPowerLevel++;
+		if (faucetPowerLevel > kFaucetPowerMaxLevel) {
+			faucetPowerLevel = kFaucetPowerMaxLevel;
+		}
+	}
+}
+
+int Faucet_CanUpgradePower(void) {
+	return faucetPowerLevel < kFaucetPowerMaxLevel;
+}
+
+int Faucet_GetPowerLevel(void) {
+	return faucetPowerLevel;
+}
+
+float Faucet_GetPowerMultiplier(void) {
+	return Faucet_ComputePowerMultiplier();
+}
+
+void Faucet_UpgradeCooldown(void)
+{
+	if (Faucet_CanUpgradeCooldown())
+	{
+		faucetCooldownLevel++;
+		if (faucetCooldownLevel > kFaucetCooldownMaxLevel)
+		{
+			faucetCooldownLevel = kFaucetCooldownMaxLevel;
+		}
+		Faucet_UpdateCooldownValue();
+	}
+}
+
+int Faucet_CanUpgradeCooldown(void)
+{
+	return faucetCooldownLevel < kFaucetCooldownMaxLevel;
+}
+
+int Faucet_GetCooldownLevel(void) {
+	return faucetCooldownLevel;
+}
+
+float Faucet_GetCooldownBase(void) {
+    return kFaucetBaseCooldown;
 }
 
 float return_cooldown(void) {
