@@ -17,7 +17,6 @@ char score_text[50];
 
 void Game_Over_Init(void)
 {
-
 	title_font = CP_Font_Load("Assets/SuperWater.ttf");
 	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
 	white = CP_Color_Create(255, 255, 255, 255);
@@ -51,8 +50,8 @@ void Game_Over_Update(void)
 	// Draw rectangles for button_blue
 	CP_Settings_Fill(button_blue);
 	CP_Settings_NoStroke();
-	CP_Graphics_DrawRectAdvanced(center_x, button_y - OFFSET, 300 + try_pop, 200 + try_pop, 0, 50);
-	CP_Graphics_DrawRectAdvanced(center_x, button_y + OFFSET, 500 + menu_pop, 200 + menu_pop, 0, 50);
+	CP_Graphics_DrawRectAdvanced(center_x, button_y - OFFSET, 300.0f + try_pop, 200.0f + try_pop, 0, 50);
+	CP_Graphics_DrawRectAdvanced(center_x, button_y + OFFSET, 500.0f + menu_pop, 200.0f + menu_pop, 0, 50);
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 
 	// Draw text for button_blue

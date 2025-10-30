@@ -7,6 +7,7 @@
 #include "bubbles.h"
 #include "credits.h"
 #include "bubblegun.h"
+#include "gameover.h"
 
 #define OFFSET		275
 #define MOVE_DOWN   125
@@ -220,10 +221,10 @@ void Main_Menu_Update(void)
 		BulletsSpawn(hand_origin, CP_Vector_Set(mx, my), 400.0f, 10.0f);
 	}
 	if (hand_angle > 0 && hand_angle < 180) {
-		CP_Image_DrawAdvanced(arm, (float)(CP_System_GetWindowWidth() / 2 + 55.0f), (float)(CP_System_GetWindowHeight() - 130.0f), 80.0f, 80.0f, 255, hand_angle);
+		CP_Image_DrawAdvanced(arm, (float)(CP_System_GetWindowWidth() / 2.0f + 55.0f), (float)(CP_System_GetWindowHeight() - 130.0f), 80.0f, 80.0f, 255, hand_angle);
 	}
 	else {
-		CP_Image_DrawAdvanced(arm_flipped, (float)(CP_System_GetWindowWidth() / 2 + 55.0f), (float)(CP_System_GetWindowHeight() - 130.0f), 60.0f, 80.0f, 255, hand_angle);
+		CP_Image_DrawAdvanced(arm_flipped, (float)(CP_System_GetWindowWidth() / 2.0f + 55.0f), (float)(CP_System_GetWindowHeight() - 130.0f), 60.0f, 80.0f, 255, hand_angle);
 	}
 
 
@@ -231,9 +232,9 @@ void Main_Menu_Update(void)
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 	CP_Graphics_DrawRectAdvanced(1520.0f, 300.0f, 70.0f, 50.0f, sponge_arc, 0.0f);
 	
-	//go to credits (temporary)
-	if (CP_Input_KeyTriggered(KEY_C)) {
-		CP_Engine_SetNextGameState(credits_Init, credits_Update, credits_Exit);
+	//go to gameover (temporary)
+	if (CP_Input_KeyTriggered(KEY_G)) {
+		CP_Engine_SetNextGameState(Game_Over_Init, Game_Over_Update, Game_Over_Exit);
 	}
 }
 
