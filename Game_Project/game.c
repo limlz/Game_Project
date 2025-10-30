@@ -139,7 +139,6 @@ void Game_Exit(void)
 	CP_Font_Free(gameFont);
 	CP_Font_Free(sub_font);
 	ClearSounds();
-	ResetMoney();
 	ResetRoomba();
 }
 

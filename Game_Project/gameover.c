@@ -76,4 +76,5 @@ void Game_Over_Exit(void)
 {
 	CP_Font_Free(montserrat_light);
 	CP_Font_Free(title_font);
+	ResetMoney();
 }
