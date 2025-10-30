@@ -38,6 +38,7 @@ void Game_Init(void)
 
 }
 
+
 void Game_Update(void)
 {
 	CP_Font_Set(gameFont);
@@ -65,10 +66,13 @@ void Game_Update(void)
 		}
 	}
 
+
+
 	// displays current money
 	MoneyDisplay();
 	Day_DrawHUD(80.0f, 80.0f);
 
+	
 	/*
 	If the player is scrubbing, call the DirtScrubbed function to reduce opacity of dirt
 	Also checks to see if the game is running to prevent scrubbing while paused
@@ -112,6 +116,7 @@ void Game_Update(void)
 	Soap_Update();
 	shop_init();
 	
+
 	int attack_opacity = 1; // set as variable to be upgraded
 
 	AOE_stream(attack_opacity);
@@ -125,9 +130,12 @@ void Game_Update(void)
 	// cooldown_timer_stream();
 	timer_init();
 	Day_DrawPopup();
+
+
 }
 
-void Game_Exit(void) {
+void Game_Exit(void)
+{
 	CP_Font_Free(gameFont);
 	CP_Font_Free(sub_font);
 	ClearSounds();

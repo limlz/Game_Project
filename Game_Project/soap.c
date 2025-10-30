@@ -2,37 +2,43 @@
 #include <stdio.h>
 #include "soap.h"
 
-static const float SoapMaxStamina = 100.0f;
-static const float SoapDrainPerSecond = 2.0f;
-static const float SoapDrainReductionPerUpgrade = 0.001f;   // 0.1%
-static const int SoapDrainUpgradeMaxLevel = 10;             // cap at 10 levels
-static const float SoapMinDrainMultiplier = 0.1f;
+static const float kSoapMaxStamina = 100.0f;
+static const float kSoapDrainPerSecond = 2.0f;
+static const float kSoapDrainReductionPerUpgrade = 0.001f;   // 0.1%
+static const int kSoapDrainUpgradeMaxLevel = 10;             // cap at 10 levels
+static const float kSoapMinDrainMultiplier = 0.1f;
 static float soapStamina = 0.0f;
 
 static int soapDrainUpgradeLevel = 0;
 
-static float Soap_GetDrainMultiplier(void) {
-    float reduction = 1.0f - (float)soapDrainUpgradeLevel * SoapDrainReductionPerUpgrade;
-    if (reduction < SoapMinDrainMultiplier) {
-        reduction = SoapMinDrainMultiplier;
+static float Soap_GetDrainMultiplier(void)
+{
+    float reduction = 1.0f - (float)soapDrainUpgradeLevel * kSoapDrainReductionPerUpgrade;
+    if (reduction < kSoapMinDrainMultiplier)
+    {
+        reduction = kSoapMinDrainMultiplier;
     }
     return reduction;
 }
 
-static float Soap_GetDrainRate(void) {
-    return SoapDrainPerSecond * Soap_GetDrainMultiplier();
+static float Soap_GetDrainRate(void)
+{
+    return kSoapDrainPerSecond * Soap_GetDrainMultiplier();
 }
 
-static float Soap_GetNormalized(void) {
-    return soapStamina / SoapMaxStamina;
+static float Soap_GetNormalized(void)
+{
+    return soapStamina / kSoapMaxStamina;
 }
 
-void Soap_Init(void) {
-    soapStamina = SoapMaxStamina;
+void Soap_Init(void)
+{
+    soapStamina = kSoapMaxStamina;
     soapDrainUpgradeLevel = 0;
 }
 
-void Soap_Update(void) {
+void Soap_Update(void)
+{
     float barCenterX = 320.0f;
     float barCenterY = 750.0f;
     float barWidth = 250.0f;
@@ -73,7 +79,7 @@ void Soap_Update(void) {
     CP_Settings_TextSize(22.0f);
     CP_Font_DrawText(staminaText, barCenterX, barCenterY);
 
-    float reductionPercent = (float)soapDrainUpgradeLevel * SoapDrainReductionPerUpgrade * 100.0f;
+    float reductionPercent = (float)soapDrainUpgradeLevel * kSoapDrainReductionPerUpgrade * 100.0f;
     float multiplierPercent = Soap_GetDrainMultiplier() * 100.0f;
 
     CP_Settings_TextSize(20.0f);
@@ -92,7 +98,8 @@ void Soap_Update(void) {
 }
 
 
-void Soap_ConsumeOnScrub(void) {
+void Soap_ConsumeOnScrub(void)
+{
     if (soapStamina <= 0.0f) {
         soapStamina = 0.0f;
         return;
@@ -104,28 +111,35 @@ void Soap_ConsumeOnScrub(void) {
     }
 }
 
-int Soap_CanScrub(void) {
+int Soap_CanScrub(void)
+{
     return soapStamina > 0.0f;
 }
 
-int Soap_IsFull(void) {
-    return soapStamina >= SoapMaxStamina;
+int Soap_IsFull(void)
+{
+    return soapStamina >= kSoapMaxStamina;
 }
 
-void Soap_Refill(void) {
-    soapStamina = SoapMaxStamina;
+void Soap_Refill(void)
+{
+    soapStamina = kSoapMaxStamina;
 }
 
-void Soap_UpgradeDrain(void) {
-    if (Soap_CanUpgradeDrain()) {
+void Soap_UpgradeDrain(void)
+{
+    if (Soap_CanUpgradeDrain())
+    {
         soapDrainUpgradeLevel += 1;
     }
 }
 
-int Soap_CanUpgradeDrain(void) {
-    return soapDrainUpgradeLevel < SoapDrainUpgradeMaxLevel;
+int Soap_CanUpgradeDrain(void)
+{
+    return soapDrainUpgradeLevel < kSoapDrainUpgradeMaxLevel;
 }
 
-int Soap_GetDrainUpgradeLevel(void) {
+int Soap_GetDrainUpgradeLevel(void)
+{
     return soapDrainUpgradeLevel;
 }
