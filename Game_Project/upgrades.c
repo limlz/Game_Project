@@ -5,81 +5,81 @@
 #include "roomba.h"
 #include "faucet.h"
 
-static int s_spongeUpgradeCost = 3;
-static int s_spongeIncrement = 1;
+static int spongeUpgradeCost = 3;
+static int spongeIncrement = 1;
 
-static int s_soapCost = 2;
+static int soapCost = 2;
 
-static int s_soapDrainUpgradeCost = 6;
-static int s_soapDrainIncrement = 2;
+static int soapDrainUpgradeCost = 6;
+static int soapDrainIncrement = 2;
 
-static int s_roombaUpgradeCost = 20;
-static int s_roombaIncrement = 5;
+static int roombaUpgradeCost = 20;
+static int roombaIncrement = 5;
 
-static const int kFaucetPowerBaseCost = 15;
-static const int kFaucetPowerCostIncrement = 5;
-static const int kFaucetCooldownUpgradeCost = 20;
+static const int FaucetPowerBaseCost = 15;
+static const int FaucetPowerCostIncrement = 5;
+static const int FaucetCooldownUpgradeCost = 20;
 
 int Upgrades_GetSpongeCost(void) {
-    return s_spongeUpgradeCost;
+    return spongeUpgradeCost;
 }
 
 void Upgrades_AttemptSpongeUpgrade(void) {
-    if (GetCurrentMoney() < s_spongeUpgradeCost) {
+    if (GetCurrentMoney() < spongeUpgradeCost) {
         return;
     }
-    DecrementMoney(s_spongeUpgradeCost);
+    DecrementMoney(spongeUpgradeCost);
     upgrade_Sponge();
 
-    s_spongeUpgradeCost += s_spongeIncrement;
-    s_spongeIncrement++;
+    spongeUpgradeCost += spongeIncrement;
+    spongeIncrement++;
 }
 
 int Upgrades_GetSoapCost(void) {
-    return s_soapCost;
+    return soapCost;
 }
 
 void Upgrades_AttemptSoapPurchase(void) {
-    if (Soap_IsFull() || GetCurrentMoney() < s_soapCost) {
+    if (Soap_IsFull() || GetCurrentMoney() < soapCost) {
         return;
     }
-    DecrementMoney(s_soapCost);
+    DecrementMoney(soapCost);
     Soap_Refill();
 }
 
 int Upgrades_GetSoapDrainCost(void) {
-    return s_soapDrainUpgradeCost;
+    return soapDrainUpgradeCost;
 }
 
 void Upgrades_AttemptSoapDrainUpgrade(void) {
-    if (!Soap_CanUpgradeDrain() || GetCurrentMoney() < s_soapDrainUpgradeCost) {
+    if (!Soap_CanUpgradeDrain() || GetCurrentMoney() < soapDrainUpgradeCost) {
         return;
     }
-    DecrementMoney(s_soapDrainUpgradeCost);
+    DecrementMoney(soapDrainUpgradeCost);
     Soap_UpgradeDrain();
 
-    s_soapDrainUpgradeCost += s_soapDrainIncrement;
-    s_soapDrainIncrement++;
+    soapDrainUpgradeCost += soapDrainIncrement;
+    soapDrainIncrement++;
 }
 
 int Upgrades_GetRoombaCost(void) {
-    return s_roombaUpgradeCost;
+    return roombaUpgradeCost;
 }
 
 void Upgrades_AttemptRoombaUpgrade(void) {
-    if (GetCurrentMoney() < s_roombaUpgradeCost) {
+    if (GetCurrentMoney() < roombaUpgradeCost) {
         return;
     }
-    DecrementMoney(s_roombaUpgradeCost);
+    DecrementMoney(roombaUpgradeCost);
     AddRoombaStrength(2);
     AddRoombaSpeed(20.0f);
 
-    s_roombaUpgradeCost += s_roombaIncrement;
-    s_roombaIncrement++;
+    roombaUpgradeCost += roombaIncrement;
+    roombaIncrement++;
 }
 
 int Upgrades_GetFaucetPowerCost(void) {
-    return kFaucetPowerBaseCost + Faucet_GetPowerLevel() * kFaucetPowerCostIncrement;
+    return FaucetPowerBaseCost + Faucet_GetPowerLevel() * FaucetPowerCostIncrement;
 }
 
 void Upgrades_AttemptFaucetPowerUpgrade(void) {
@@ -95,13 +95,13 @@ void Upgrades_AttemptFaucetPowerUpgrade(void) {
 }
 
 int Upgrades_GetFaucetCooldownCost(void) {
-    return kFaucetCooldownUpgradeCost;
+    return FaucetCooldownUpgradeCost;
 }
 
 void Upgrades_AttemptFaucetCooldownUpgrade(void) {
-    if (!Faucet_CanUpgradeCooldown() || GetCurrentMoney() < kFaucetCooldownUpgradeCost) {
+    if (!Faucet_CanUpgradeCooldown() || GetCurrentMoney() < FaucetCooldownUpgradeCost) {
         return;
     }
-    DecrementMoney(kFaucetCooldownUpgradeCost);
+    DecrementMoney(FaucetCooldownUpgradeCost);
     Faucet_UpgradeCooldown();
 }
