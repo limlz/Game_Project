@@ -47,7 +47,7 @@ void Main_Menu_Init(void)
 
 void Main_Menu_Update(void)
 {
-	int play_pop = 0, exit_pop = 0, settings_pop = 0;
+	int play_pop = 0, exit_pop = 0, settings_pop = 0, credits_pop = 0, leaderboard_pop = 0;
 	// Get mouse x y
 	mx = CP_Input_GetMouseX();
 	my = CP_Input_GetMouseY();
@@ -75,8 +75,52 @@ void Main_Menu_Update(void)
 	else if (IsAreaClicked(120.0, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
 		settings_pop = 10;
 		BubblesManual(mx, my);
+
+		CP_Settings_Fill(button_blue);
+		CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 120.0f, 75.0f, 0.0f, 20.0f);
+
+		CP_Font_Set(montserrat_light);
+		CP_Settings_Fill(white);
+		CP_Settings_TextSize(30.0f);
+		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+		CP_Font_DrawText("Settings", 120, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f);
+
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_SetNextGameState(Settings_Init, Settings_Update, Settings_Exit);
+		}
+	}
+	else if (IsAreaClicked(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
+		credits_pop = 10;
+		BubblesManual(mx, my);
+
+		CP_Settings_Fill(button_blue);
+		CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 120.0f, 75.0f, 0.0f, 20.0f);
+
+		CP_Font_Set(montserrat_light);
+		CP_Settings_Fill(white);
+		CP_Settings_TextSize(30.0f);
+		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+		CP_Font_DrawText("Credits", CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f);
+
+		if (CP_Input_MouseClicked()) {
+			CP_Engine_SetNextGameState(credits_Init, credits_Update, credits_Exit);
+		}
+	}
+	else if (IsAreaClicked(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
+		leaderboard_pop = 10;
+		BubblesManual(mx, my);
+
+		CP_Settings_Fill(button_blue);
+		CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 170.0f, 75.0f, 0.0f, 20.0f);
+
+		CP_Font_Set(montserrat_light);
+		CP_Settings_Fill(white);
+		CP_Settings_TextSize(30.0f);
+		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+		CP_Font_DrawText("Leaderboard", CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f);
+
+		if (CP_Input_MouseClicked()) {
+			CP_Engine_SetNextGameState(credits_Init, credits_Update, credits_Exit);
 		}
 	}
 
@@ -95,10 +139,23 @@ void Main_Menu_Update(void)
 	CP_Graphics_DrawRectAdvanced(center_x + OFFSET, button_y + MOVE_DOWN, 300.0f + exit_pop, 150.0f + exit_pop, 0.0f, 50.0f);
 
 	// Draw settings button
+	CP_Settings_Fill(button_blue);
 	CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120.0f, 100.0f + settings_pop, 100.0f + settings_pop, 0.0f, 20.0f);
 	CP_Settings_Fill(white);
 	CP_Graphics_DrawCircle(120, CP_System_GetWindowHeight() - 120.0f, 50.0f);
 
+	// Draw Credits button
+	CP_Settings_Fill(button_blue);
+	CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + credits_pop, 100.0f + credits_pop, 0.0f, 20.0f);
+
+	// Draw leaderboard button
+	CP_Settings_Fill(button_blue);
+	CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + leaderboard_pop, 100.0f + leaderboard_pop, 0.0f, 20.0f);
+	CP_Settings_Fill(white);
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 20.0f, 60.0f);
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() - 240.0f + 20.0f, CP_System_GetWindowHeight() - 120.0f + 15.0f, 20.0f, 30.0f);
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() - 240.0f - 20.0f, CP_System_GetWindowHeight() - 120.0f + 10.0f, 20.0f, 40.0f);
+	
 	// Draw text for button_blue
 	CP_Font_Set(montserrat_light);
 	CP_Settings_Fill(white);
@@ -172,8 +229,6 @@ void Main_Menu_Update(void)
 	//go to credits (temporary)
 	if (CP_Input_KeyTriggered(KEY_C)) {
 		CP_Engine_SetNextGameState(credits_Init, credits_Update, credits_Exit);
-
-
 	}
 }
 
