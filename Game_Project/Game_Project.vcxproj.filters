@@ -78,9 +78,6 @@
     <ClCompile Include="soap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="nameentry.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="debug.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -88,6 +85,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="upgrades.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="leaderboardentry.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="leaderboard.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -152,9 +155,6 @@
     <ClInclude Include="soap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="nameentry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -162,6 +162,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="upgrades.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="leaderboardentry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="leaderboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

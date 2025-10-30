@@ -8,6 +8,8 @@
 #include "credits.h"
 #include "bubblegun.h"
 #include "gameover.h"
+#include "leaderboard.h"
+#include "leaderboardentry.h"	
 
 #define OFFSET		275
 #define MOVE_DOWN   125
@@ -121,7 +123,7 @@ void Main_Menu_Update(void)
 		CP_Font_DrawText("Leaderboard", CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f);
 
 		if (CP_Input_MouseClicked()) {
-			CP_Engine_SetNextGameState(credits_Init, credits_Update, credits_Exit);
+			CP_Engine_SetNextGameState(Leaderboard_Init, Leaderboard_Update, Leaderboard_Exit);
 		}
 	}
 
@@ -233,8 +235,8 @@ void Main_Menu_Update(void)
 	CP_Graphics_DrawRectAdvanced(1520.0f, 300.0f, 70.0f, 50.0f, sponge_arc, 0.0f);
 	
 	//go to gameover (temporary)
-	if (CP_Input_KeyTriggered(KEY_G)) {
-		CP_Engine_SetNextGameState(Game_Over_Init, Game_Over_Update, Game_Over_Exit);
+	if (CP_Input_KeyTriggered(KEY_L)) {
+		CP_Engine_SetNextGameState(Leaderboard_Entry_Init, Leaderboard_Entry_Update, Leaderboard_Entry_Exit);
 	}
 }
 
@@ -243,5 +245,8 @@ void Main_Menu_Exit(void)
 	CP_Font_Free(montserrat_light);
 	CP_Font_Free(title_font);
 	CP_Font_Free(sub_font);
+	CP_Image_Free(hamsta);
+	CP_Image_Free(arm);
+	CP_Image_Free(arm_flipped);
 }
 
