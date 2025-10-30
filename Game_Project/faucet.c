@@ -8,13 +8,13 @@
 #define MAX_DROPLETS		220
 #define AOE_DURATION		3.0f
 
-static const float kFaucetBaseCooldown = 20.0f;
-static const float kFaucetCooldownReductionPerLevel = 1.0f;
-static const int kFaucetCooldownMaxLevel = 10;
+static const float FaucetBaseCooldown = 20.0f;
+static const float FaucetCooldownReductionPerLevel = 1.0f;
+static const int FaucetCooldownMaxLevel = 10;
 
-static const float kFaucetPowerIncreasePerLevel = 0.05f;        // 5%
-static const float kFaucetPowerMaxMultiplier = 1.5f;            // 50% faster
-static const int kFaucetPowerMaxLevel = 10;
+static const float FaucetPowerIncreasePerLevel = 0.05f;        // 5%
+static const float FaucetPowerMaxMultiplier = 1.5f;            // 50% faster
+static const int FaucetPowerMaxLevel = 10;
 
 
 typedef struct {
@@ -96,8 +96,8 @@ void stream_init(void) {
 	sub_font = CP_Font_Load("Assets/MontserratBlackItalic.otf");
 
 	for (int i = 0; i < MAX_DROPLETS; i++) {
-		streamlist[i].position = CP_Vector_Set(CP_Random_RangeFloat(center_x - offset, center_x + offset), 
-								 CP_Random_RangeFloat((float)-CP_System_GetWindowHeight(), -20.0f));
+		streamlist[i].position = CP_Vector_Set(CP_Random_RangeFloat(center_x - offset, center_x + offset),
+			CP_Random_RangeFloat((float)-CP_System_GetWindowHeight(), -20.0f));
 		streamlist[i].velocity = CP_Vector_Set(0, 0);
 	}
 }
@@ -110,7 +110,7 @@ void update_stream(void) {
 		if (streamlist[i].position.y > CP_System_GetWindowHeight())
 			streamlist[i].position.y = CP_Random_RangeFloat(-100.0f, 0.0f);
 	}
-	
+
 }
 
 // function to stop the stream but ensure the droplets keep falling; to reset their position, 
@@ -118,7 +118,7 @@ void update_stream(void) {
 
 void stop_stream(void) {
 	float center_x = CP_System_GetWindowWidth() * 0.5f;
-	float offset = 300.0f; 
+	float offset = 300.0f;
 
 	for (int i = 0; i < MAX_DROPLETS; i++) {
 		streamlist[i].position = CP_Vector_Add(streamlist[i].position, streamlist[i].velocity);
@@ -126,7 +126,7 @@ void stop_stream(void) {
 		if (streamlist[i].position.y > CP_System_GetWindowHeight()) {
 			streamlist[i].position.y = CP_Random_RangeFloat(-100.0f, 0.0f);
 			streamlist[i].position = CP_Vector_Set(CP_Random_RangeFloat(center_x - offset, center_x + offset),
-									 CP_Random_RangeFloat((float)-CP_System_GetWindowHeight(), -20.0f));
+				CP_Random_RangeFloat((float)-CP_System_GetWindowHeight(), -20.0f));
 			streamlist[i].velocity = CP_Vector_Set(0, 0);
 		}
 
@@ -141,7 +141,7 @@ static float	cooldown = 0.0f;
 static float	cooldown_left = 0.0f;
 
 static int		attack_ready = 1;
-	   int		opacity = 0;
+int		opacity = 0;
 
 
 
@@ -152,7 +152,7 @@ void draw_stream_timer(void) {
 	float faucet_y = 705.0f;
 	int max_opacity = 150;
 	char timer_text[5];
-	
+
 	// white circular background for logo
 	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -172,7 +172,7 @@ void draw_stream_timer(void) {
 
 	if (checkGameRunning() && Day_IsInGameplay()) {
 		if (attack_ready == 0) {
-			if (cooldown_left >= 0.0f && cooldown_left <= kFaucetBaseCooldown) {
+			if (cooldown_left >= 0.0f && cooldown_left <= FaucetBaseCooldown) {
 				opacity = max_opacity;
 				cooldown_left -= CP_System_GetDt();
 			}
@@ -234,7 +234,7 @@ void clean_dirt_with_stream(void) {
 					dirt_list[j].opacity -= removal;
 					if (dirt_list[j].opacity < 0)
 						dirt_list[j].opacity = 0;
-				
+
 				}
 			}
 		}
@@ -242,7 +242,7 @@ void clean_dirt_with_stream(void) {
 }
 
 
-void AOE_stream(void) {
+static void AOE_stream(void) {
 	draw_stream_timer();
 	draw_stream();
 	clean_dirt_with_stream();
@@ -273,20 +273,20 @@ void AOE_stream(void) {
 //*---------------------------------   VALUES FOR UPGRADES   -----------------------------------*//
 
 static float Faucet_ComputePowerMultiplier(void) {
-	float multiplier = 1.0f + (float)faucetPowerLevel * kFaucetPowerIncreasePerLevel;
-	if (multiplier > kFaucetPowerMaxMultiplier) {
-		multiplier = kFaucetPowerMaxMultiplier;
+	float multiplier = 1.0f + (float)faucetPowerLevel * FaucetPowerIncreasePerLevel;
+	if (multiplier > FaucetPowerMaxMultiplier) {
+		multiplier = FaucetPowerMaxMultiplier;
 	}
 	return multiplier;
 }
 
 static void Faucet_UpdateCooldownValue(void) {
-	float minCooldown = kFaucetBaseCooldown - (float)kFaucetCooldownMaxLevel * kFaucetCooldownReductionPerLevel;
+	float minCooldown = FaucetBaseCooldown - (float)FaucetCooldownMaxLevel * FaucetCooldownReductionPerLevel;
 	if (minCooldown < 0.0f) {
 		minCooldown = 0.0f;
 	}
 
-	float newCooldown = kFaucetBaseCooldown - (float)faucetCooldownLevel * kFaucetCooldownReductionPerLevel;
+	float newCooldown = FaucetBaseCooldown - (float)faucetCooldownLevel * FaucetCooldownReductionPerLevel;
 	if (newCooldown < minCooldown) {
 		newCooldown = minCooldown;
 	}
@@ -298,7 +298,7 @@ static void Faucet_UpdateCooldownValue(void) {
 }
 
 void reduce_cooldown(float reduction) {
-	float minCooldown = kFaucetBaseCooldown - (float)kFaucetCooldownMaxLevel * kFaucetCooldownReductionPerLevel;
+	float minCooldown = FaucetBaseCooldown - (float)FaucetCooldownMaxLevel * FaucetCooldownReductionPerLevel;
 	if (minCooldown < 0.0f) {
 		minCooldown = 0.0f;
 	}
@@ -320,14 +320,14 @@ void reset_cooldown(void) {
 void Faucet_UpgradePower(void) {
 	if (Faucet_CanUpgradePower()) {
 		faucetPowerLevel++;
-		if (faucetPowerLevel > kFaucetPowerMaxLevel) {
-			faucetPowerLevel = kFaucetPowerMaxLevel;
+		if (faucetPowerLevel > FaucetPowerMaxLevel) {
+			faucetPowerLevel = FaucetPowerMaxLevel;
 		}
 	}
 }
 
 int Faucet_CanUpgradePower(void) {
-	return faucetPowerLevel < kFaucetPowerMaxLevel;
+	return faucetPowerLevel < FaucetPowerMaxLevel;
 }
 
 int Faucet_GetPowerLevel(void) {
@@ -343,9 +343,9 @@ void Faucet_UpgradeCooldown(void)
 	if (Faucet_CanUpgradeCooldown())
 	{
 		faucetCooldownLevel++;
-		if (faucetCooldownLevel > kFaucetCooldownMaxLevel)
+		if (faucetCooldownLevel > FaucetCooldownMaxLevel)
 		{
-			faucetCooldownLevel = kFaucetCooldownMaxLevel;
+			faucetCooldownLevel = FaucetCooldownMaxLevel;
 		}
 		Faucet_UpdateCooldownValue();
 	}
@@ -353,7 +353,7 @@ void Faucet_UpgradeCooldown(void)
 
 int Faucet_CanUpgradeCooldown(void)
 {
-	return faucetCooldownLevel < kFaucetCooldownMaxLevel;
+	return faucetCooldownLevel < FaucetCooldownMaxLevel;
 }
 
 int Faucet_GetCooldownLevel(void) {
@@ -361,7 +361,7 @@ int Faucet_GetCooldownLevel(void) {
 }
 
 float Faucet_GetCooldownBase(void) {
-    return kFaucetBaseCooldown;
+	return FaucetBaseCooldown;
 }
 
 float return_cooldown(void) {

@@ -33,31 +33,30 @@ static char faucetCooldownDescription[120];
 static CP_Image hamsta;
 static int hamstaLoaded = 0;
 
-static const float kRowBaseOffset = 165.0f;
-static const float kRowSpacing = 87.0f;
-static const float kRowHeight = 80.0f;
-static const float kCostButtonWidth = 100.0f;
-static const float kCostButtonHeight = 75.0f;
+static const float RowBaseOffset = 165.0f;
+static const float RowSpacing = 87.0f;
+static const float RowHeight = 80.0f;
+static const float CostButtonWidth = 100.0f;
+static const float CostButtonHeight = 75.0f;
 
 static void draw_shop_item(int itemNum, const char* name, const char* description, int cost, int rowIndex, int upgradeable);
 static void draw_shop(void);
 static void shop_menu(void);
 static void draw_next_day_button(float headerCenterY);
 
-static void draw_shop_item(int itemNum, const char* name, const char* description, int cost, int rowIndex, int upgradeable)
-{
+static void draw_shop_item(int itemNum, const char* name, const char* description, int cost, int rowIndex, int upgradeable) {
     float panelCenterY = CENTER_Y_POS + offset;
     float panelTop = panelCenterY - SHOP_HEIGHT / 2.0f;
     float panelLeft = CENTER_X_POS - SHOP_WIDTH / 2.0f;
     float panelRight = CENTER_X_POS + SHOP_WIDTH / 2.0f;
 
-    float itemY = panelTop + kRowBaseOffset + (float)rowIndex * kRowSpacing;
+    float itemY = panelTop + RowBaseOffset + (float)rowIndex * RowSpacing;
     float iconX = panelLeft + 110.0f;
     float textX = panelLeft + 190.0f;
     float costX = panelRight - 115.0f;
 
     CP_Settings_Fill(CP_Color_Create(255, 255, 255, 70));
-    CP_Graphics_DrawRectAdvanced(CENTER_X_POS, itemY, SHOP_WIDTH - 120.0f, kRowHeight, 0.0f, 18.0f);
+    CP_Graphics_DrawRectAdvanced(CENTER_X_POS, itemY, SHOP_WIDTH - 120.0f, RowHeight, 0.0f, 18.0f);
 
     switch (itemNum) {
     case 0:
@@ -119,14 +118,14 @@ static void draw_shop_item(int itemNum, const char* name, const char* descriptio
         sprintf_s(costText, sizeof(costText), "Maxed Out");
     }
 
-    CP_Graphics_DrawRectAdvanced(costX, itemY, kCostButtonWidth, kCostButtonHeight, 0.0f, 18.0f);
+    CP_Graphics_DrawRectAdvanced(costX, itemY, CostButtonWidth, CostButtonHeight, 0.0f, 18.0f);
 
     CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
     CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
     CP_Settings_TextSize(24.0f);
     CP_Font_DrawTextBox(costText, costX, itemY - 10.0f, 90.0f);
 
-    if (upgradeable && CP_Input_MouseClicked() && IsAreaClicked(costX, itemY, kCostButtonWidth, kCostButtonHeight, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+    if (upgradeable && CP_Input_MouseClicked() && IsAreaClicked(costX, itemY, CostButtonWidth, CostButtonHeight, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
         switch (itemNum) {
         case 0:
             Upgrades_AttemptSpongeUpgrade();
@@ -165,7 +164,7 @@ static void draw_next_day_button(float headerCenterY) {
     CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
     CP_Settings_Fill(CP_Color_Create(30, 60, 30, 255));
     CP_Settings_TextSize(28.0f);
-    CP_Font_DrawText("Next Day", buttonX -10.0f, buttonY);
+    CP_Font_DrawText("Next Day", buttonX - 10.0f, buttonY);
 
     if (CP_Input_MouseClicked() && IsAreaClicked(buttonX, buttonY, btnW, btnH, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
         timeReset();
@@ -230,14 +229,12 @@ static void draw_shop(void) {
             "Boosts stream cleaning speed\nLevel: %d (+%.0f%%) Maxed Out",
             faucetPowerLevel, powerBonus);
     }
-    draw_shop_item(4, "Stream Power", faucetPowerDescription, Upgrades_GetFaucetPowerCost(), 1, Faucet_CanUpgradePower());
 
+    draw_shop_item(4, "Stream Power", faucetPowerDescription, Upgrades_GetFaucetPowerCost(), 1, Faucet_CanUpgradePower());
     draw_shop_item(1, "Soap Refill", "Refills soap to MAX", Upgrades_GetSoapCost(), 2, !Soap_IsFull());
 
     float totalReduction = (float)Soap_GetDrainUpgradeLevel() * 0.1f;
-    sprintf_s(soapUpgradeDescription, sizeof(soapUpgradeDescription),
-        "Reduces soap drain speed\nLevel: %d (-%.1f%%)",
-        Soap_GetDrainUpgradeLevel(), totalReduction);
+    sprintf_s(soapUpgradeDescription, sizeof(soapUpgradeDescription), "Reduces soap drain speed\nLevel: %d (-%.1f%%)", Soap_GetDrainUpgradeLevel(), totalReduction);
     draw_shop_item(3, "Soap Saver", soapUpgradeDescription, Upgrades_GetSoapDrainCost(), 3, Soap_CanUpgradeDrain());
 
     int faucetCooldownLevel = Faucet_GetCooldownLevel();

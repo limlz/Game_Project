@@ -6,77 +6,66 @@
 #include "dirt.h"
 #include "game.h"
 
-/* ---------------- Global State ---------------- */
 static int show_day_complete_popup = 0;  // 1 = popup visible
 static const int DAY_BASE_GOAL = 5;
 static const int GOAL_STEP = 1;
 
-static int g_day = 0;
-static int g_goal = 5;
-static int g_cleaned = 0;
-static int g_inGameplay = 1; // 1 = washing, 0 = popup/shop
-static int g_readyForNextDay = 0;   // 1 means: show Next Day button in Shop
+static int day = 0;
+static int goal = 5;
+static int cleaned = 0;
+static int inGameplay = 1; // 1 = washing, 0 = popup/shop
+static int readyForNextDay = 0;   // 1 means: show Next Day button in Shop
 
-
-/* ---------------- Core Day Functions ---------------- */
-void Day_Init(void)
-{
-    g_day = 0;
-    g_goal = DAY_BASE_GOAL;
-    g_cleaned = 0;
-    g_inGameplay = 1;
+void Day_Init(void) {
+    day = 0;
+    goal = DAY_BASE_GOAL;
+    cleaned = 0;
+    inGameplay = 1;
     show_day_complete_popup = 0;
 }
 
-void Day_StartCurrentDay(void)
-{
-    g_cleaned = 0;
-    g_inGameplay = 1;
+void Day_StartCurrentDay(void) {
+    cleaned = 0;
+    inGameplay = 1;
     show_day_complete_popup = 0;
 }
 
-void Day_OnPlateCleaned(void)
-{
-    if (!g_inGameplay) return;
+void Day_OnPlateCleaned(void) {
+    if (!inGameplay) return;
 
-    g_cleaned += 1;
-    if (g_cleaned >= g_goal)
-    {
-        g_day += 1;
-        g_goal = DAY_BASE_GOAL + g_day * GOAL_STEP;
-        g_cleaned = 0;
-        g_inGameplay = 0;
+    cleaned += 1;
+    if (cleaned >= goal) {
+        day += 1;
+        goal = DAY_BASE_GOAL + day * GOAL_STEP;
+        cleaned = 0;
+        inGameplay = 0;
         show_day_complete_popup = 1;   // show popup overlay
         timeStop();                    // stop timer when target reached
     }
 }
 
-int Day_IsInGameplay(void)
-{
-    return g_inGameplay;
+int Day_IsInGameplay(void) {
+    return inGameplay;
 }
 
-void Day_DrawHUD(float x, float y)
-{
+void Day_DrawHUD(float x, float y) {
     char buffer[64];
     CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
     CP_Settings_TextSize(28.0f);
     CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 
-    snprintf(buffer, sizeof(buffer), "Day: %d", g_day);
+    snprintf(buffer, sizeof(buffer), "Day: %d", day);
     CP_Font_DrawText(buffer, x, y);
 
-    snprintf(buffer, sizeof(buffer), "Plates: %d / %d", g_cleaned, g_goal);
+    snprintf(buffer, sizeof(buffer), "Plates: %d / %d", cleaned, goal);
     CP_Font_DrawText(buffer, x + 32.5f, y + 30.0f);
 }
 
-int Day_GetDay(void) { return g_day; }
-int Day_GetCleaned(void) { return g_cleaned; }
-int Day_GetGoal(void) { return g_goal; }
+int Day_GetDay(void) { return day; }
+int Day_GetCleaned(void) { return cleaned; }
+int Day_GetGoal(void) { return goal; }
 
-
-void Day_DrawPopup(void)
-{
+static void Day_DrawPopup(void) {
     if (!show_day_complete_popup)
         return;
 
@@ -111,8 +100,7 @@ void Day_DrawPopup(void)
     float mx = CP_Input_GetMouseX();
     float my = CP_Input_GetMouseY();
 
-    for (int i = 0; i < 3; ++i)
-    {
+    for (int i = 0; i < 3; ++i) {
         float left = btnX[i] - btnW / 2.0f;
         float top = btnY - btnH / 2.0f;
 
@@ -123,24 +111,21 @@ void Day_DrawPopup(void)
         CP_Settings_TextSize(30.0f);
         CP_Font_DrawText(btnText[i], btnX[i], btnY);
 
-        if (CP_Input_MouseClicked())
-        {
-            if (mx >= left && mx <= left + btnW && my >= top && my <= top + btnH)
-            {
-                switch (i)
-                {
+        if (CP_Input_MouseClicked()) {
+            if (mx >= left && mx <= left + btnW && my >= top && my <= top + btnH) {
+                switch (i) {
                 case 0: // Next Day
                     timeReset();
                     Day_StartCurrentDay();
                     InitDirt();
                     ChangePlate();
                     show_day_complete_popup = 0;
-                    g_readyForNextDay = 0;          // <-- clear
+                    readyForNextDay = 0;          // <-- clear
                     break;
 
                 case 1: // Head to Shop
                     show_day_complete_popup = 0;
-                    g_readyForNextDay = 1;          // <-- tell shop to show Next Day button
+                    readyForNextDay = 1;          // <-- tell shop to show Next Day button
                     extern int shopToggle;
                     shopToggle = 1;
                     break;
@@ -154,17 +139,15 @@ void Day_DrawPopup(void)
         }
     }
 }
-int Day_IsReadyForNextDay(void) { return g_readyForNextDay; }
-void Day_ClearReadyForNextDay(void) { g_readyForNextDay = 0; }
+int Day_IsReadyForNextDay(void) { return readyForNextDay; }
+void Day_ClearReadyForNextDay(void) { readyForNextDay = 0; }
 
-void Day_ForceEndDay(void)
-{
-    if (g_inGameplay)
-    {
-        g_day += 1;
-        g_goal = DAY_BASE_GOAL + g_day * GOAL_STEP;
-        g_cleaned = 0;
-        g_inGameplay = 0;
+void Day_ForceEndDay(void) {
+    if (inGameplay) {
+        day += 1;
+        goal = DAY_BASE_GOAL + day * GOAL_STEP;
+        cleaned = 0;
+        inGameplay = 0;
         show_day_complete_popup = 1;   // show popup overlay
         timeStop();                    // stop timer when target reached
     }

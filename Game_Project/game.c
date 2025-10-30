@@ -21,7 +21,7 @@ CP_Font gameFont;
 CP_Font sub_font;
 
 void Game_Init(void)
-{	
+{
 	gameFont = CP_Font_Load("Assets/MontserratLight.ttf");
 	sub_font = CP_Font_Load("Assets/MontserratBlackItalic.otf");
 	// Initialise random variable required for bubble production
@@ -37,7 +37,6 @@ void Game_Init(void)
 	sponge_reset();
 
 }
-
 
 void Game_Update(void)
 {
@@ -66,21 +65,18 @@ void Game_Update(void)
 		}
 	}
 
-
-
 	// displays current money
 	MoneyDisplay();
 	Day_DrawHUD(80.0f, 80.0f);
 
-	
 	/*
 	If the player is scrubbing, call the DirtScrubbed function to reduce opacity of dirt
 	Also checks to see if the game is running to prevent scrubbing while paused
-	
-	Call dirt scrubbed function with parameters 
+
+	Call dirt scrubbed function with parameters
 		- Check if sponge is equipped
 		- Check sponge power level
-	*/ 
+	*/
 	if (is_Scrubbing() && checkGameRunning()) {
 		if (Soap_CanScrub()) {
 			DirtScrubbed(is_SpongeEquipped(), get_SpongePower());
@@ -115,7 +111,6 @@ void Game_Update(void)
 
 	Soap_Update();
 	shop_init();
-	
 
 	int attack_opacity = 1; // set as variable to be upgraded
 
@@ -126,20 +121,15 @@ void Game_Update(void)
 	CP_Settings_Fill(CP_Color_Create(186, 191, 197, 255));
 	CP_Settings_NoStroke();
 	CP_Graphics_DrawRect((float)CP_System_GetWindowWidth() * 0.5f, 850.0f, (float)CP_System_GetWindowWidth(), 100.0f);
-	
+
 	// cooldown_timer_stream();
 	timer_init();
 	Day_DrawPopup();
-
-
 }
 
-void Game_Exit(void)
-{
+void Game_Exit(void) {
 	CP_Font_Free(gameFont);
 	CP_Font_Free(sub_font);
 	ClearSounds();
 	ResetRoomba();
 }
-
-
