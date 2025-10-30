@@ -20,6 +20,15 @@ static const int FaucetPowerBaseCost = 15;
 static const int FaucetPowerCostIncrement = 5;
 static const int FaucetCooldownUpgradeCost = 20;
 
+static int faucetPowerLevel = 0;
+static int faucetCooldownLevel = 0;
+
+static const float FaucetPowerIncreasePerLevel = 0.05f;
+static const float FaucetPowerMaxMultiplier = 1.5f;
+static const int FaucetPowerMaxLevel = 10;
+static const int FaucetCooldownMaxLevel = 10;
+static const float FaucetBaseCooldownValue = 20.0f;
+
 int Upgrades_GetSpongeCost(void) {
     return spongeUpgradeCost;
 }
@@ -104,4 +113,51 @@ void Upgrades_AttemptFaucetCooldownUpgrade(void) {
     }
     DecrementMoney(FaucetCooldownUpgradeCost);
     Faucet_UpgradeCooldown();
+}
+
+void Faucet_UpgradePower(void) {
+    if (Faucet_CanUpgradePower()) {
+        faucetPowerLevel++;
+        if (faucetPowerLevel > FaucetPowerMaxLevel) {
+            faucetPowerLevel = FaucetPowerMaxLevel;
+        }
+    }
+}
+
+int Faucet_CanUpgradePower(void) {
+    return faucetPowerLevel < FaucetPowerMaxLevel;
+}
+
+int Faucet_GetPowerLevel(void) {
+    return faucetPowerLevel;
+}
+
+float Faucet_GetPowerMultiplier(void) {
+    float multiplier = 1.0f + (float)faucetPowerLevel * FaucetPowerIncreasePerLevel;
+    if (multiplier > FaucetPowerMaxMultiplier) {
+        multiplier = FaucetPowerMaxMultiplier;
+    }
+    return multiplier;
+}
+
+void Faucet_UpgradeCooldown(void) {
+    if (Faucet_CanUpgradeCooldown()) {
+        faucetCooldownLevel++;
+        if (faucetCooldownLevel > FaucetCooldownMaxLevel) {
+            faucetCooldownLevel = FaucetCooldownMaxLevel;
+        }
+        reset_cooldown();
+    }
+}
+
+int Faucet_CanUpgradeCooldown(void) {
+    return faucetCooldownLevel < FaucetCooldownMaxLevel;
+}
+
+int Faucet_GetCooldownLevel(void) {
+    return faucetCooldownLevel;
+}
+
+float Faucet_GetCooldownBase(void) {
+    return FaucetBaseCooldownValue;
 }

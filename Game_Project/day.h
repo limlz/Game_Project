@@ -4,6 +4,7 @@ void Day_Init(void);
 void Day_StartCurrentDay(void);
 void Day_OnPlateCleaned(void);
 void Day_DrawHUD(float x, float y);
+void Day_DrawPopup(void);
 
 int Day_IsInGameplay(void);
 int Day_GetDay(void);
@@ -13,3 +14,4 @@ int Day_GetGoal(void);
 int Day_IsReadyForNextDay(void);
 void Day_ClearReadyForNextDay(void);
 void Day_ForceEndDay(void);
+

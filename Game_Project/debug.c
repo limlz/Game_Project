@@ -7,6 +7,7 @@
 #include "soap.h"
 #include "day.h"
 #include "faucet.h"
+#include <stdio.h>
 
 #define ADD_SUB_BOX_HEIGHT			40
 #define ADD_SUB_BOX_WIDTH			120

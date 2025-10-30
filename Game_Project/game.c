@@ -14,6 +14,7 @@
 #include "day.h"
 #include "faucet.h"
 #include "soap.h"
+#include "debug.h"
 
 
 int debugging = 0;
@@ -112,7 +113,7 @@ void Game_Update(void)
 	Soap_Update();
 	shop_init();
 
-	int attack_opacity = 1; // set as variable to be upgraded
+	float attack_opacity = 1.0f; // set as variable to be upgraded
 
 	AOE_stream(attack_opacity);
 	sponge_init();

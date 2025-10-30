@@ -12,11 +12,6 @@ static const float FaucetBaseCooldown = 20.0f;
 static const float FaucetCooldownReductionPerLevel = 1.0f;
 static const int FaucetCooldownMaxLevel = 10;
 
-static const float FaucetPowerIncreasePerLevel = 0.05f;        // 5%
-static const float FaucetPowerMaxMultiplier = 1.5f;            // 50% faster
-static const int FaucetPowerMaxLevel = 10;
-
-
 typedef struct {
 	CP_Vector	position;
 	CP_Vector	velocity;
@@ -25,12 +20,9 @@ typedef struct {
 
 Stream streamlist[MAX_DROPLETS];
 
-static int faucetPowerLevel = 0;
-static int faucetCooldownLevel = 0;
 static float faucetPowerOverflow = 0.0f;
 
 static void Faucet_UpdateCooldownValue(void);
-static float Faucet_ComputePowerMultiplier(void);
 
 //*----------------------   DRAWING FUNCTIONS : FOR STREAM AND FAUCET   ------------------------*//
 
@@ -215,7 +207,7 @@ void clean_dirt_with_stream(void) {
 				float cleaning_radius = 50.0f;
 
 				if (distance < cleaning_radius) {
-					float multiplier = Faucet_ComputePowerMultiplier();
+					float multiplier = Faucet_GetPowerMultiplier();
 					float damage = multiplier;
 					int removal = (int)damage;
 					float fractional = damage - (float)removal;
@@ -242,12 +234,12 @@ void clean_dirt_with_stream(void) {
 }
 
 
-static void AOE_stream(void) {
+void AOE_stream() {
 	draw_stream_timer();
 	draw_stream();
 	clean_dirt_with_stream();
 
-	if (CP_Input_KeyTriggered(KEY_W) && attack_ready == 1) {
+	if (CP_Input_KeyTriggered(KEY_W) && attack_ready == 1 && stream_on == 0) {
 		stream_on = 1;
 		aoe_time_left = AOE_DURATION;
 	}
@@ -270,23 +262,13 @@ static void AOE_stream(void) {
 	}
 }
 
-//*---------------------------------   VALUES FOR UPGRADES   -----------------------------------*//
-
-static float Faucet_ComputePowerMultiplier(void) {
-	float multiplier = 1.0f + (float)faucetPowerLevel * FaucetPowerIncreasePerLevel;
-	if (multiplier > FaucetPowerMaxMultiplier) {
-		multiplier = FaucetPowerMaxMultiplier;
-	}
-	return multiplier;
-}
-
 static void Faucet_UpdateCooldownValue(void) {
 	float minCooldown = FaucetBaseCooldown - (float)FaucetCooldownMaxLevel * FaucetCooldownReductionPerLevel;
 	if (minCooldown < 0.0f) {
 		minCooldown = 0.0f;
 	}
 
-	float newCooldown = FaucetBaseCooldown - (float)faucetCooldownLevel * FaucetCooldownReductionPerLevel;
+	float newCooldown = FaucetBaseCooldown - (float)Faucet_GetCooldownLevel() * FaucetCooldownReductionPerLevel;
 	if (newCooldown < minCooldown) {
 		newCooldown = minCooldown;
 	}
@@ -315,53 +297,6 @@ void reduce_cooldown(float reduction) {
 
 void reset_cooldown(void) {
 	Faucet_UpdateCooldownValue();
-}
-
-void Faucet_UpgradePower(void) {
-	if (Faucet_CanUpgradePower()) {
-		faucetPowerLevel++;
-		if (faucetPowerLevel > FaucetPowerMaxLevel) {
-			faucetPowerLevel = FaucetPowerMaxLevel;
-		}
-	}
-}
-
-int Faucet_CanUpgradePower(void) {
-	return faucetPowerLevel < FaucetPowerMaxLevel;
-}
-
-int Faucet_GetPowerLevel(void) {
-	return faucetPowerLevel;
-}
-
-float Faucet_GetPowerMultiplier(void) {
-	return Faucet_ComputePowerMultiplier();
-}
-
-void Faucet_UpgradeCooldown(void)
-{
-	if (Faucet_CanUpgradeCooldown())
-	{
-		faucetCooldownLevel++;
-		if (faucetCooldownLevel > FaucetCooldownMaxLevel)
-		{
-			faucetCooldownLevel = FaucetCooldownMaxLevel;
-		}
-		Faucet_UpdateCooldownValue();
-	}
-}
-
-int Faucet_CanUpgradeCooldown(void)
-{
-	return faucetCooldownLevel < FaucetCooldownMaxLevel;
-}
-
-int Faucet_GetCooldownLevel(void) {
-	return faucetCooldownLevel;
-}
-
-float Faucet_GetCooldownBase(void) {
-	return FaucetBaseCooldown;
 }
 
 float return_cooldown(void) {

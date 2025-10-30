@@ -65,7 +65,7 @@ int Day_GetDay(void) { return day; }
 int Day_GetCleaned(void) { return cleaned; }
 int Day_GetGoal(void) { return goal; }
 
-static void Day_DrawPopup(void) {
+void Day_DrawPopup(void) {
     if (!show_day_complete_popup)
         return;
 
