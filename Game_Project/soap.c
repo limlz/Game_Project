@@ -1,6 +1,7 @@
 #include "cprocessing.h"
 #include <stdio.h>
 #include "soap.h"
+#include "img_font_init.h"
 
 static const float SoapMaxStamina = 100.0f;
 static const float SoapDrainPerSecond = 2.0f;
@@ -47,16 +48,16 @@ void Soap_Update(void) {
     }
 
     CP_Settings_NoStroke();
-    CP_Settings_Fill(CP_Color_Create(40, 40, 40, 180));
+    CP_Settings_Fill(dark_grey);
     CP_Graphics_DrawRect(barCenterX, barCenterY, barWidth, barHeight);
 
     float fillWidth = barWidth * normalized;
     float fillCenterX = barCenterX - (barWidth - fillWidth) * 0.5f;
-    CP_Settings_Fill(CP_Color_Create(255, 214, 10, 255));
+    CP_Settings_Fill(yellow);
     CP_Graphics_DrawRect(fillCenterX, barCenterY, fillWidth, barHeight - 6.0f);
 
     CP_Settings_StrokeWeight(2.0f);
-    CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
+    CP_Settings_Stroke(black);
     CP_Settings_NoFill();
     CP_Graphics_DrawRect(barCenterX, barCenterY, barWidth, barHeight);
 

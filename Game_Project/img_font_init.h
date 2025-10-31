@@ -4,7 +4,7 @@ void InitImagesFontsColors(void);
 void FreeImagesFonts(void);
 
 
-CP_Image sink;
+CP_Image cart;
 CP_Image sponge_cat;
 CP_Image soap_bottle;
 CP_Image hamsta;
@@ -22,6 +22,15 @@ CP_Font sub_font;
 CP_Color button_blue;
 CP_Color roomba_color;
 CP_Color white;
+CP_Color black;
+CP_Color red;
+CP_Color yellow;
+CP_Color dark_grey;
+CP_Color blue_chalk;
+CP_Color blue_grey;
+CP_Color green;
+CP_Color grey;
 CP_Color plate_outer;
 CP_Color plate_inner;
 CP_Color roomba_color;
+

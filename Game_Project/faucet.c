@@ -4,6 +4,7 @@
 #include "timer.h"
 #include "day.h"
 #include "faucet.h"
+#include "img_font_init.h"
 
 #define MAX_DROPLETS		220
 #define AOE_DURATION		3.0f
@@ -75,8 +76,6 @@ void draw_faucet(void) {
 
 //*-----------------------------------   STREAM CONTROLS   -------------------------------------*//
 
-CP_Font montserrat_light;
-CP_Font sub_font;
 
 void stream_init(void) {
 	faucetPowerOverflow = 0.0f;
@@ -84,8 +83,6 @@ void stream_init(void) {
 
 	float center_x = CP_System_GetWindowWidth() * 0.5f;
 	float offset = 300.0f; //diameter of plate = 600.0f (plate.c)
-	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
-	sub_font = CP_Font_Load("Assets/MontserratBlackItalic.otf");
 
 	for (int i = 0; i < MAX_DROPLETS; i++) {
 		streamlist[i].position = CP_Vector_Set(CP_Random_RangeFloat(center_x - offset, center_x + offset),
@@ -187,11 +184,13 @@ void draw_stream_timer(void) {
 
 	if (attack_ready == 0) {
 		CP_Font_Set(sub_font);
-		CP_Settings_Fill(CP_Color_Create(244, 3, 48, 255));
+		CP_Settings_Fill(red);
 		CP_Settings_TextSize(100.0f);
 		snprintf(timer_text, sizeof(timer_text), "%.0f", cooldown_left);
+		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 		CP_Font_DrawText(timer_text, faucet_x, faucet_y);
 	}
+	CP_Font_Set(montserrat_light);
 }
 
 

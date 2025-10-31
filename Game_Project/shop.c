@@ -34,7 +34,7 @@ static const float RowHeight = 96.0f;
 static const float CostButtonWidth = 100.0f;
 static const float CostButtonHeight = 70.0f;
 
-static float x_pos = 1400.0f;
+static float x_pos = 1500.0f;
 static float y_pos = 300.0f;
 static float offset = 1000.0f;
 int shop_toggle = 0;
@@ -108,7 +108,7 @@ static void draw_shop_item(int itemNum, const char* name, const char* descriptio
     }
 
     // Text
-    CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+    CP_Settings_Fill(black);
     CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_MIDDLE);
     CP_Settings_TextSize(30.0f);
     CP_Font_DrawText(name, textX, itemY - 30.0f);
@@ -119,11 +119,11 @@ static void draw_shop_item(int itemNum, const char* name, const char* descriptio
     // Cost / Buy button
     char costText[28];
     if (upgradeable) {
-        CP_Settings_Fill(CP_Color_Create(0, 200, 0, 140));
+        CP_Settings_Fill(green);
         sprintf_s(costText, sizeof(costText), "Cost\n%d", cost);
     }
     else {
-        CP_Settings_Fill(CP_Color_Create(150, 150, 150, 160));
+        CP_Settings_Fill(grey);
         sprintf_s(costText, sizeof(costText), "Maxed Out");
     }
     CP_Graphics_DrawRectAdvanced(costX, itemY, CostButtonWidth, CostButtonHeight, 0.0f, 18.0f);
@@ -193,12 +193,12 @@ static void draw_shop(void) {
 
     // Header
     float headerCenterY = panelTop + HEADER_TOP_OFFSET;
-    CP_Settings_Fill(CP_Color_Create(121, 212, 237, 255));
+    CP_Settings_Fill(blue_grey);
     CP_Graphics_DrawRectAdvanced(CENTER_X_POS, headerCenterY, SHOP_WIDTH - 120.0f, HEADER_HEIGHT, 0.0f, 26.0f);
 
     CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
     CP_Settings_TextSize(50.0f);
-    CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
+    CP_Settings_Fill(dark_grey);
     CP_Font_DrawText("Shop Menu", CENTER_X_POS, headerCenterY);
 
     if (Day_IsReadyForNextDay()) {
@@ -273,7 +273,7 @@ static void draw_shop(void) {
     float scrollBarX = panelRight - 20.0f;
     float scrollBarW = 8.0f;
     float scrollBarH = listHeight;
-    CP_Settings_Fill(CP_Color_Create(0, 0, 0, 30));
+    CP_Settings_Fill(dark_grey);
     CP_Graphics_DrawRectAdvanced(scrollBarX, listTop + scrollBarH * 0.5f, scrollBarW, scrollBarH, 0.0f, 4.0f);
 
     // Thumb size proportional to visible fraction
@@ -282,7 +282,8 @@ static void draw_shop(void) {
     float thumbMaxTravel = scrollBarH - thumbH;
     float thumbY = listTop + (maxScroll == 0.0f ? 0.0f : (listScroll / maxScroll) * thumbMaxTravel) + thumbH * 0.5f;
 
-    CP_Settings_Fill(CP_Color_Create(80, 80, 80, 160));
+	// Color of scroll thumb
+    CP_Settings_Fill(blue_grey);
     CP_Graphics_DrawRectAdvanced(scrollBarX, thumbY, scrollBarW, thumbH, 0.0f, 4.0f);
 
     // Mouse wheel scroll (only when cursor is over the list area)
@@ -343,6 +344,8 @@ void shop_init(void) {
         shop_menu();
     }
 
+	CP_Settings_TextSize(24.0f);
     CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
-    CP_Font_DrawText("Press [F] to open Shop", x_pos, y_pos - 200.0f);
+	CP_Image_Draw(cart, x_pos, y_pos - 200.0f, 80.0f, 80.0f, 255);
+    CP_Font_DrawText("Shop [F]", x_pos, y_pos - 150.0f);
 }

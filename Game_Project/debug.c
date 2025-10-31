@@ -42,7 +42,7 @@ void DebugPrint(void) {
 	CP_Settings_TextSize(20.0f);
 	text_x = CP_System_GetWindowWidth() - 250;
 	box_x = CP_System_GetWindowWidth() - 260;
-	box_y = 150.0f;
+	box_y = 200.0f;
 
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	CP_Font_DrawText("Force Next Day", box_x + 125, box_y);
@@ -53,7 +53,7 @@ void DebugPrint(void) {
 	}
 
 
-	box_y = 240.0f;
+	box_y = 290.0f;
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	CP_Font_DrawText("Money", box_x + 125, box_y);
 	CP_Settings_Fill(addition_color);
@@ -81,7 +81,7 @@ void DebugPrint(void) {
 
 
 	if (RoombaPurchase()) {
-		text_y = CP_System_GetWindowHeight() - 340;
+		text_y = CP_System_GetWindowHeight() - 290;
 		CP_Settings_Fill(debug_box_color);
 		CP_Graphics_DrawRect(text_x - 10, text_y - 20, 250, 160);
 
@@ -110,7 +110,7 @@ void DebugPrint(void) {
 	}
 
 	CP_Settings_Fill(debug_box_color);
-	text_y = CP_System_GetWindowHeight() - 550;
+	text_y = CP_System_GetWindowHeight() - 500;
 	CP_Graphics_DrawRect(text_x - 10, text_y - 20, 250, 180);
 
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -140,8 +140,9 @@ void DebugPrint(void) {
 
 
 	text_x = 20;
+	text_y = text_y - 150;
 	CP_Settings_Fill(debug_box_color);
-	CP_Graphics_DrawRect(text_x - 10, text_y - 20, 250, 60);
+	CP_Graphics_DrawRect(text_x - 10, text_y - 20, 250, 80);
 
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	sprintf_s(display, sizeof(display), "Sponge can scrub: %s", Soap_CanScrub() ? "Yes" : "No");
@@ -150,9 +151,12 @@ void DebugPrint(void) {
 	sprintf_s(display, sizeof(display), "Soap is full: %s", Soap_IsFull() ? "Yes" : "No");
 	CP_Font_DrawText(display, text_x, text_y + 20);
 
-	text_y = text_y + 90;
+	sprintf_s(display, sizeof(display), "Soap drain level: %i", Soap_GetDrainUpgradeLevel() ? Soap_GetDrainUpgradeLevel() : 0);
+	CP_Font_DrawText(display, text_x, text_y + 40);
+
+	text_y = text_y + 110;
 	CP_Settings_Fill(debug_box_color);
-	CP_Graphics_DrawRect(text_x - 10, text_y - 20, 250, 100);
+	CP_Graphics_DrawRect(text_x - 10, text_y - 20, 250, 120);
 
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	sprintf_s(display, sizeof(display), "Stream cooldown: %.2f", return_cooldown());
@@ -161,11 +165,15 @@ void DebugPrint(void) {
 	sprintf_s(display, sizeof(display), "Stream runtime left: %.2f", return_aoe_time_left() < 0 ? 0 : return_aoe_time_left());
 	CP_Font_DrawText(display, text_x, text_y + 20);
 
-	sprintf_s(display, sizeof(display), "Stream active: %s", return_is_attack_ready() ? "Yes" : "No");
+	sprintf_s(display, sizeof(display), "Stream ready: %s", return_is_attack_ready() ? "Yes" : "No");
 	CP_Font_DrawText(display, text_x, text_y + 40);
 
-	sprintf_s(display, sizeof(display), "Stream ready: %s", return_stream_on() ? "Yes" : "No");
+	sprintf_s(display, sizeof(display), "Stream active: %s", return_stream_on() ? "Yes" : "No");
 	CP_Font_DrawText(display, text_x, text_y + 60);
 
+	sprintf_s(display, sizeof(display), "Stream power level: %i", Faucet_GetPowerLevel());
+	CP_Font_DrawText(display, text_x, text_y + 80);
+
 	CP_Settings_RectMode(CP_POSITION_CENTER);
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 }

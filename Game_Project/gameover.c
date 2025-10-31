@@ -3,30 +3,23 @@
 #include "game.h"
 #include "mainmenu.h"
 #include "money.h"
+#include "img_font_init.h"
 
 #define OFFSET		150
 
 #include <stdio.h>
 
-CP_Font montserrat_light;
-CP_Font title_font;
-CP_Color button_blue;
-CP_Color white;
 float mx, my;
 char score_text[50];
 
 void Game_Over_Init(void)
 {
-	title_font = CP_Font_Load("Assets/SuperWater.ttf");
-	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
-	white = CP_Color_Create(255, 255, 255, 255);
-	button_blue = CP_Color_Create(123, 183, 220, 255);
-	CP_System_ShowCursor(1);
+	InitImagesFontsColors();
 }
 
 void Game_Over_Update(void)
 {
-	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
+	CP_Graphics_ClearBackground(blue_chalk);
 
 	float center_x = CP_System_GetWindowWidth() * 0.5f;
 	float button_y = CP_System_GetWindowHeight() * 0.5f;
@@ -75,7 +68,6 @@ void Game_Over_Update(void)
 
 void Game_Over_Exit(void)
 {
-	CP_Font_Free(montserrat_light);
-	CP_Font_Free(title_font);
+	FreeImagesFonts();
 	ResetMoney();
 }

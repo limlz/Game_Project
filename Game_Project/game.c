@@ -44,8 +44,8 @@ void Game_Update(void)
 	CP_Font_Set(gameFont);
 
 	//General UI - scene setting (sink base) pt 1
-	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
-	CP_Settings_Fill(CP_Color_Create(186, 191, 197, 255));
+	CP_Graphics_ClearBackground(blue_chalk);
+	CP_Settings_Fill(blue_grey);
 	CP_Settings_NoStroke();
 	CP_Graphics_DrawRect((float)CP_System_GetWindowWidth() * 0.5f, 30.0f, (float)CP_System_GetWindowWidth(), 60.0f);
 
