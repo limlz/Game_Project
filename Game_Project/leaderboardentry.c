@@ -38,6 +38,8 @@ static char player_name[MAX_NAME_LENGTH + 1];
 static int name_entered;
 
 void Leaderboard_Entry_Init(void) {
+
+	CP_System_ShowCursor(1);
 	white = CP_Color_Create(255, 255, 255, 255);
 	black = CP_Color_Create(0, 0, 0, 255);
 	background_colour = CP_Color_Create(233, 239, 255, 255);

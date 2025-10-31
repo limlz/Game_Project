@@ -21,6 +21,7 @@ void Game_Over_Init(void)
 	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
 	white = CP_Color_Create(255, 255, 255, 255);
 	button_blue = CP_Color_Create(123, 183, 220, 255);
+	CP_System_ShowCursor(1);
 }
 
 void Game_Over_Update(void)
