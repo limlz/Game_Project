@@ -5,6 +5,7 @@
 #include "timer.h"
 #include "day.h"
 #include "debug.h"
+#include "img_font_init.h"
 
 #define ROOMBA_PRICE         20
 
@@ -20,8 +21,6 @@ int current_frame = 0;
 float anitimer = 0.0f;
 float elapsed = 2.0f;
 float frame_duration = 0.1f; // seconds per frame
-CP_Color roomba_color;
-CP_Image jiggle1, jiggle2, jiggle3, front;
 
 int GetRoombaStrength(void) {
 	return roomba_strength;
@@ -53,11 +52,6 @@ void ResetRoomba(void) {
 void InitRoomba(void) {
 	roomba_x = CP_System_GetWindowWidth() / 2;
 	roomba_y = CP_System_GetWindowHeight() / 2;
-	roomba_color = CP_Color_Create(255, 255, 255, 200);
-	front = CP_Image_Load("Assets/hamface.gif");
-	jiggle1 = CP_Image_Load("Assets/jiggle1.gif");
-	jiggle2 = CP_Image_Load("Assets/jiggle2.gif");
-	jiggle3 = CP_Image_Load("Assets/jiggle3.gif");
 }
 
 void PurchaseRoomba(void) {

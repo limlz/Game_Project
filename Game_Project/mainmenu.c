@@ -10,20 +10,12 @@
 #include "gameover.h"
 #include "leaderboard.h"
 #include "leaderboardentry.h"	
+#include "img_font_init.h"
 
 #define OFFSET		275
 #define MOVE_DOWN   125
 
-CP_Font montserrat_light;
-CP_Font title_font;
-CP_Font sub_font;
-CP_Color button_blue;
-CP_Color white;
-CP_Color plate_outer;
-CP_Color plate_inner;
-CP_Image arm;
-CP_Image arm_flipped;
-CP_Image hamsta;
+
 float mx, my;
 float sponge_arc = 20.0f;
 int dir = 1;
@@ -32,16 +24,7 @@ int dir = 1;
 void Main_Menu_Init(void)
 {
 	BulletsInit();
-	hamsta = CP_Image_Load("Assets/hambod.gif");
-	arm = CP_Image_Load("Assets/hamgun.gif");
-	arm_flipped = CP_Image_Load("Assets/hamgunflip.gif");
-	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
-	title_font = CP_Font_Load("Assets/SuperWater.ttf");
-	sub_font = CP_Font_Load("Assets/MontserratBlackItalic.otf");
-	white = CP_Color_Create(255, 255, 255, 255);
-	button_blue = CP_Color_Create(123, 183, 220 , 255);
-	plate_outer = CP_Color_Create(230, 230, 230, 255);
-	plate_inner = CP_Color_Create(210, 210, 210, 255);
+	InitImagesFontsColors();
 	InitBackgrounMusic();
 	UpdateVolume();
 	BubblesInit();
@@ -242,11 +225,6 @@ void Main_Menu_Update(void)
 
 void Main_Menu_Exit(void)
 {
-	CP_Font_Free(montserrat_light);
-	CP_Font_Free(title_font);
-	CP_Font_Free(sub_font);
-	CP_Image_Free(hamsta);
-	CP_Image_Free(arm);
-	CP_Image_Free(arm_flipped);
+	FreeImagesFonts();
 }
 

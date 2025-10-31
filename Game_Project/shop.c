@@ -1,6 +1,7 @@
 #include "cprocessing.h"
 #include <stdio.h>
 
+#include "img_font_init.h"
 #include "utils.h"
 #include "sponge.h"
 #include "money.h"
@@ -43,7 +44,6 @@ static char soapUpgradeDescription[120];
 static char faucetPowerDescription[120];
 static char faucetCooldownDescription[120];
 
-static CP_Image hamsta;
 static int hamstaLoaded = 0;
 
 static float listScroll = 0.0f; 
@@ -74,26 +74,18 @@ static void draw_shop_item(int itemNum, const char* name, const char* descriptio
 
     // Icon
     switch (itemNum) {
+    // 0: Sponge, 1: Soap Refill, 2: Roomba (conditional), 3: Soap Saver, 4: Stream Power, 5: Stream Cooldown
     case 0:
-        CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
-        CP_Graphics_DrawRectAdvanced(iconX, itemY, 70.0f, 70.0f, 0.0f, 14.0f);
+		CP_Image_Draw(sponge_cat, iconX, itemY, 80.0f, 80.0f, 255);
         break;
     case 1:
-        CP_Settings_Fill(CP_Color_Create(230, 230, 255, 255));
-        CP_Graphics_DrawEllipse(iconX, itemY, 60.0f, 80.0f);
-        CP_Settings_Fill(CP_Color_Create(140, 200, 255, 255));
-        CP_Graphics_DrawEllipse(iconX, itemY - 8.0f, 38.0f, 50.0f);
+        CP_Image_Draw(soap_bottle, iconX, itemY, 80.0f, 80.0f, 255);
         break;
     case 2:
-        if (hamstaLoaded) {
-            CP_Image_Draw(hamsta, iconX, itemY, 110.0f, 90.0f, 255);
-        }
+        CP_Image_Draw(hamstamugshot, iconX, itemY, 100.0f, 85.0f, 255);
         break;
     case 3:
-        CP_Settings_Fill(CP_Color_Create(140, 200, 255, 220));
-        CP_Graphics_DrawEllipse(iconX, itemY, 68.0f, 52.0f);
-        CP_Settings_Fill(CP_Color_Create(255, 255, 255, 210));
-        CP_Graphics_DrawRectAdvanced(iconX, itemY + 2.0f, 28.0f, 38.0f, 0.0f, 10.0f);
+        CP_Image_Draw(soap_bottle, iconX, itemY, 80.0f, 80.0f, 255);
         break;
     case 4:
         CP_Settings_Fill(CP_Color_Create(0, 160, 255, 230));
@@ -342,10 +334,6 @@ static void shop_menu(void) {
 }
 
 void shop_init(void) {
-    if (!hamstaLoaded) {
-        hamsta = CP_Image_Load("Assets/hamstermugshot.gif");
-        hamstaLoaded = 1;
-    }
 
     if (CP_Input_KeyTriggered(KEY_F)) {
         shop_toggle = (shop_toggle == 0) ? 1 : 0;

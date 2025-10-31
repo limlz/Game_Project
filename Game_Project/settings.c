@@ -6,27 +6,14 @@
 #include "sounds.h"
 #include "bubbles.h"
 #include "bubblegun.h"
+#include "img_font_init.h"
 
 int volume_level = 0;
-CP_Font montserrat_light;
-CP_Font title_font;
-CP_Font sub_font;
-CP_Color white, button_blue;
-CP_Image arm;
-CP_Image arm_flipped;
-CP_Image hamsta;
 float mousex = 0, mousey = 0;
 
 void Settings_Init(void)
 {
-	hamsta = CP_Image_Load("Assets/hambod.gif");
-	arm = CP_Image_Load("Assets/hamgun.gif");
-	arm_flipped = CP_Image_Load("Assets/hamgunflip.gif");
-	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
-	title_font = CP_Font_Load("Assets/SuperWater.ttf");
-	sub_font = CP_Font_Load("Assets/MontserratBlackItalic.otf");
-	white = CP_Color_Create(255, 255, 255, 255);
-	button_blue = CP_Color_Create(123, 183, 220, 255);
+	InitImagesFontsColors();
 	BubblesInit();
 	BulletsInit();
 }
@@ -105,7 +92,5 @@ void Settings_Update(void)
 
 void Settings_Exit(void)
 {
-	CP_Font_Free(montserrat_light);
-	CP_Font_Free(sub_font);
-	CP_Font_Free(title_font);
+	FreeImagesFonts();
 }

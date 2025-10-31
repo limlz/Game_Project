@@ -14,6 +14,7 @@ While holding the sponge, hold down left mouse button and drag across the screen
 #include "timer.h"
 #include "debug.h"
 #include "dirt.h"
+#include "img_font_init.h"
 
 // Bool to check if sponge is equipped by player
 static int sponge_equipped;
@@ -79,6 +80,7 @@ void SpongeInit(void) {
 			sponge_x = 320.0f;
 			sponge_y = 670.0f;
 
+			CP_System_ShowCursor(1); // Hide cursor when sponge is equipped
 			CP_Settings_TextSize(20.0f);
 			CP_Font_DrawText("Equip [E]", 320.0f, 780.0f);
 		} 
@@ -86,7 +88,7 @@ void SpongeInit(void) {
 		else {
 			sponge_x = CP_Input_GetMouseX();
 			sponge_y = CP_Input_GetMouseY();
-
+			CP_System_ShowCursor(0); // Hide cursor when sponge is equipped
 			CP_Settings_TextSize(20.0f);
 			CP_Font_DrawText("Unequip [E]", 320.0f, 780.0f);
 		}
@@ -96,9 +98,7 @@ void SpongeInit(void) {
 	
 	// Draw the sponge
 	if (!IsCurrentlyDebugging()) {
-		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
-		CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
-		CP_Graphics_DrawRect(sponge_x, sponge_y, sponge_height, sponge_width);
+		CP_Image_Draw(sponge_cat, sponge_x, sponge_y, sponge_height, sponge_width, 255);
 	}
 	else {
 		CP_Settings_Fill(CP_Color_Create(255, 0, 0, 150));

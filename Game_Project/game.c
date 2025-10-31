@@ -15,6 +15,7 @@
 #include "faucet.h"
 #include "soap.h"
 #include "debug.h"
+#include "img_font_init.h"
 
 
 int debugging = 0;
@@ -23,8 +24,7 @@ CP_Font sub_font;
 
 void Game_Init(void)
 {
-	gameFont = CP_Font_Load("Assets/MontserratLight.ttf");
-	sub_font = CP_Font_Load("Assets/MontserratBlackItalic.otf");
+	InitImagesFontsColors();
 	// Initialise random variable required for bubble production
 	BubblesInit();
 	InitScrubbingSounds();
@@ -130,8 +130,7 @@ void Game_Update(void)
 }
 
 void Game_Exit(void) {
-	CP_Font_Free(gameFont);
-	CP_Font_Free(sub_font);
+	FreeImagesFonts();
 	ClearSounds();
 	ResetRoomba();
 }
