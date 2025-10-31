@@ -226,7 +226,7 @@ void Main_Menu_Update(void)
 		CP_Image_DrawAdvanced(arm, (float)(CP_System_GetWindowWidth() / 2.0f + 55.0f), (float)(CP_System_GetWindowHeight() - 130.0f), 80.0f, 80.0f, 255, hand_angle);
 	}
 	else {
-		CP_Image_DrawAdvanced(arm_flipped, (float)(CP_System_GetWindowWidth() / 2.0f + 55.0f), (float)(CP_System_GetWindowHeight() - 130.0f), 60.0f, 80.0f, 255, hand_angle);
+		CP_Image_DrawAdvanced(arm_flipped, (float)(CP_System_GetWindowWidth() / 2.0f + 55.0f), (float)(CP_System_GetWindowHeight() - 130.0f), 80.0f, 80.0f, 255, hand_angle);
 	}
 
 
