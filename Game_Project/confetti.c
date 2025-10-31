@@ -42,7 +42,7 @@ void UpdateConfetti(float dt) {
         confetti[i].vy += 110 * dt;                                             //gravity      
         confetti[i].vx *= 1.0f;                                                 //slow or speed up horizontal movement
 
-        if (confetti[i].y > CP_System_GetWindowHeight() + 20)
+        if (confetti[i].y > CP_System_GetWindowHeight() + 20)                   //delete confetti after falling to the bottom
             confetti[i].active = 0;
 
         CP_Settings_Stroke(confetti[i].color);
