@@ -77,7 +77,7 @@ void BubblesUpdate(void) {
     spawn_cooldown_timer -= delta_time;
 
     // Spawn new bubbles if mouse is dragged and cooldown is done
-    if (CP_Input_MouseDragged(MOUSE_BUTTON_LEFT) && spawn_cooldown_timer <= 0.0f && is_SpongeEquipped()) {
+    if (CP_Input_MouseDragged(MOUSE_BUTTON_LEFT) && spawn_cooldown_timer <= 0.0f && IsSpongeEquipped()) {
         spawn_cooldown_timer = SPAWN_COOLDOWN;
         for (int i = 0; i < BUBBLES_PER_SPAWN; ++i) {
             SpawnBubble(mouse_x, mouse_y);

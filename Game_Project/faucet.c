@@ -51,7 +51,7 @@ void draw_faucet(void) {
 	if (CP_Input_KeyTriggered(KEY_W))
 		faucet_on = 1;
 
-	if (checkGameRunning() && Day_IsInGameplay()) {
+	if (CheckGameRunning() && Day_IsInGameplay()) {
 		if (faucet_on == 1) {
 			rotation1 += 60.0f * CP_System_GetDt() * movement;
 			rotation2 += 60.0f * CP_System_GetDt() * movement;
@@ -162,7 +162,7 @@ void draw_stream_timer(void) {
 		opacity = 0;
 	}
 
-	if (checkGameRunning() && Day_IsInGameplay()) {
+	if (CheckGameRunning() && Day_IsInGameplay()) {
 		if (attack_ready == 0) {
 			if (cooldown_left >= 0.0f && cooldown_left <= FaucetBaseCooldown) {
 				opacity = max_opacity;
@@ -200,7 +200,7 @@ void draw_stream_timer(void) {
 static float	aoe_time_left = 0.0f;
 
 void clean_dirt_with_stream(void) {
-	if (checkGameRunning() && Day_IsInGameplay()) {
+	if (CheckGameRunning() && Day_IsInGameplay()) {
 		for (int i = 0; i < MAX_DROPLETS; i++) {
 			for (int j = 0; j < GetNumberOfDirt(); j++) {
 				float distance = CP_Math_Distance(streamlist[i].position.x, streamlist[i].position.y, dirt_list[j].position_x, dirt_list[j].position_y);
@@ -245,7 +245,7 @@ void AOE_stream() {
 	}
 
 	//set to 3 seconds for AOE attack
-	if (checkGameRunning() && Day_IsInGameplay()) {
+	if (CheckGameRunning() && Day_IsInGameplay()) {
 		if (stream_on == 1) {
 			update_stream();
 			aoe_time_left -= CP_System_GetDt();

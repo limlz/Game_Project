@@ -36,7 +36,7 @@ static const float CostButtonHeight = 70.0f;
 static float x_pos = 1400.0f;
 static float y_pos = 300.0f;
 static float offset = 1000.0f;
-int shopToggle = 0;
+int shop_toggle = 0;
 
 static char currentLvlText[80];
 static char soapUpgradeDescription[120];
@@ -172,21 +172,21 @@ static void draw_next_day_button(float headerCenterY) {
     CP_Font_DrawText("Next Day", buttonX - 10.0f, buttonY);
 
     if (CP_Input_MouseClicked() && IsAreaClicked(buttonX, buttonY, btnW, btnH, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
-        timeReset();
+        TimeReset();
         Day_StartCurrentDay();
         InitDirt();
         ChangePlate();
         Day_ClearReadyForNextDay();
-        shopToggle = 0;
+        shop_toggle = 0;
     }
 }
 
 static void draw_shop(void) {
     // Slide the whole panel in/out
-    if (shopToggle && offset > MIN_OFFSET) {
+    if (shop_toggle && offset > MIN_OFFSET) {
         offset -= 5000.0f * CP_System_GetDt();
     }
-    else if (!shopToggle && offset < MAX_OFFSET) {
+    else if (!shop_toggle && offset < MAX_OFFSET) {
         offset += 5000.0f * CP_System_GetDt();
     }
     offset = CP_Math_ClampInt(offset, MIN_OFFSET, MAX_OFFSET);
@@ -231,7 +231,7 @@ static void draw_shop(void) {
             faucetPowerLevel, powerBonus);
     }
 
-    sprintf_s(currentLvlText, sizeof(currentLvlText), "Upgrades Power of Sponge\nCurrent Level: %d", get_SpongePower());
+    sprintf_s(currentLvlText, sizeof(currentLvlText), "Upgrades Power of Sponge\nCurrent Level: %d", GetSpongePower());
 
     float totalReduction = (float)Soap_GetDrainUpgradeLevel() * 0.1f;
     sprintf_s(soapUpgradeDescription, sizeof(soapUpgradeDescription),
@@ -312,7 +312,7 @@ static void draw_shop(void) {
 
     // Sponge Power
     draw_shop_item(0, "Sponge Power", currentLvlText, Upgrades_GetSpongeCost(),
-        row++, sponge_upgradeable(), listTop, listHeight, panelLeft, panelRight);
+        row++, SpongeUpgradeable(), listTop, listHeight, panelLeft, panelRight);
 
     // Stream Power
     draw_shop_item(4, "Stream Power", faucetPowerDescription, Upgrades_GetFaucetPowerCost(),
@@ -348,10 +348,10 @@ void shop_init(void) {
     }
 
     if (CP_Input_KeyTriggered(KEY_F)) {
-        shopToggle = (shopToggle == 0) ? 1 : 0;
+        shop_toggle = (shop_toggle == 0) ? 1 : 0;
     }
 
-    if (shopToggle || offset < MAX_OFFSET) {
+    if (shop_toggle || offset < MAX_OFFSET) {
         shop_menu();
     }
 

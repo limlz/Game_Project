@@ -5,12 +5,12 @@ CP_Font montserrat_light;
 CP_Image logo;
 float timer = 0.0f;
 
-void Splash_Screen_Init(void)
+void SplashScreenInit(void)
 {
 	logo = CP_Image_Load("Assets/DigiPen_Singapore_WEB_RED.png");
 }
 
-void Splash_Screen_Update(void)
+void SplashScreenUpdate(void)
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Image_DrawAdvanced(logo, (CP_System_GetWindowWidth() / 2), (CP_System_GetWindowHeight() / 2), CP_Image_GetWidth(logo), CP_Image_GetHeight(logo), 255, 0);
@@ -21,7 +21,7 @@ void Splash_Screen_Update(void)
 	}
 }
 
-void Splash_Screen_Exit(void)
+void SplashScreenExit(void)
 {
 	void CP_Image_Free(logo);
 }

@@ -35,7 +35,7 @@ void Game_Init(void)
 	stream_init();
 	Day_StartCurrentDay();   // begin Day 0 (goal = 5 plates)
 	Soap_Init();
-	sponge_reset();
+	SpongeReset();
 
 }
 
@@ -78,9 +78,9 @@ void Game_Update(void)
 		- Check if sponge is equipped
 		- Check sponge power level
 	*/
-	if (is_Scrubbing() && checkGameRunning()) {
+	if (IsScrubbing() && CheckGameRunning()) {
 		if (Soap_CanScrub()) {
-			DirtScrubbed(is_SpongeEquipped(), get_SpongePower());
+			DirtScrubbed(IsSpongeEquipped(), GetSpongePower());
 			Soap_ConsumeOnScrub();
 			StartScrubbingSounds();
 		}
@@ -122,9 +122,9 @@ void Game_Update(void)
 	CP_Graphics_DrawRect((float)CP_System_GetWindowWidth() * 0.5f, 850.0f, (float)CP_System_GetWindowWidth(), 100.0f);
 
 	// cooldown_timer_stream();
-	sponge_init();
+	SpongeInit();
 	Soap_Update();
-	timer_init();
+	TimerInit();
 	shop_init();
 	Day_DrawPopup();
 }

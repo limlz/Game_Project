@@ -123,13 +123,13 @@ void DebugPrint(void) {
 	sprintf_s(display, sizeof(display), "Total dirt opacity: %d", GetTotalOpacity());
 	CP_Font_DrawText(display, text_x, text_y + 40);
 
-	sprintf_s(display, sizeof(display), "Equipped sponge?: %s", is_SpongeEquipped() ? "Yes" : "No");
+	sprintf_s(display, sizeof(display), "Equipped sponge?: %s", IsSpongeEquipped() ? "Yes" : "No");
 	CP_Font_DrawText(display, text_x, text_y + 60);
 
-	sprintf_s(display, sizeof(display), "Sponge power: %d", get_SpongePower());
+	sprintf_s(display, sizeof(display), "Sponge power: %d", GetSpongePower());
 	CP_Font_DrawText(display, text_x, text_y + 80);
 
-	sprintf_s(display, sizeof(display), "Scrubbing?: %s", is_Scrubbing() ? "Yes" : "No");
+	sprintf_s(display, sizeof(display), "Scrubbing?: %s", IsScrubbing() ? "Yes" : "No");
 	CP_Font_DrawText(display, text_x, text_y + 100);
 
 	sprintf_s(display, sizeof(display), "Current Plate value: %d", GetPlateValue());

@@ -27,42 +27,42 @@ static float sponge_width = 100.0f;
 // How much damage the sponge does
 static int sponge_power = 5;
 
-static const int kSpongeBasePower = 5;
-static const int kSpongeMaxPower = 100;
+static const int init_sponge_base_power = 5;
+static const int init_sponge_max_power = 100;
 
 // Bool to check if the player is scrubbing while using the sponge
-int is_Scrubbing(void) {
+int IsScrubbing(void) {
 	return (sponge_equipped == 1 && CP_Input_MouseDragged(MOUSE_BUTTON_LEFT));
 }
 
-int is_SpongeEquipped(void) {
+int IsSpongeEquipped(void) {
 	return sponge_equipped;
 }
 
-int get_SpongePower(void) {
+int GetSpongePower(void) {
 	return sponge_power;
 }
-int sponge_upgradeable(void) {
-	return sponge_power < kSpongeMaxPower ? 1 : 0;
+int SpongeUpgradeable(void) {
+	return sponge_power < init_sponge_max_power ? 1 : 0;
 }
 
-void upgrade_Sponge(void) {
-	if (sponge_upgradeable()) {
+void UpgradeSponge(void) {
+	if (SpongeUpgradeable()) {
 		sponge_power += 5;
-		if (sponge_power > kSpongeMaxPower) {
-			sponge_power = kSpongeMaxPower;
+		if (sponge_power > init_sponge_max_power) {
+			sponge_power = init_sponge_max_power;
 		}
 	}
 }
 
-void sponge_reset(void) {
+void SpongeReset(void) {
 	sponge_equipped = 0;
-	sponge_power = kSpongeBasePower;
+	sponge_power = init_sponge_base_power;
 	sponge_x = 100.0f;
 	sponge_y = 220.0f;
 }
 
-static void sponge_input(void) {
+static void SpongeInput(void) {
 	// Check if 'E' key is pressed and mouse is over the sponge
 	if (CP_Input_KeyTriggered(KEY_E) && IsAreaClicked(sponge_x, sponge_y, sponge_height, sponge_width, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 		// Toggle sponge equipped state
@@ -70,8 +70,8 @@ static void sponge_input(void) {
 	}
 }
 
-void sponge_init(void) {
-	if (checkGameRunning()) {
+void SpongeInit(void) {
+	if (CheckGameRunning()) {
 		// Sponge not equipped by player, sets its location back to the original position
 		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
 		if (sponge_equipped != 1) {
@@ -91,7 +91,7 @@ void sponge_init(void) {
 			CP_Font_DrawText("Unequip [E]", 320.0f, 780.0f);
 		}
 		// Handle input for the sponge
-		sponge_input();
+		SpongeInput();
 	}
 	
 	// Draw the sponge

@@ -1,3 +1,3 @@
-void Splash_Screen_Init(void);
-void Splash_Screen_Update(void);
-void Splash_Screen_Exit(void);
+void SplashScreenInit(void);
+void SplashScreenUpdate(void);
+void SplashScreenExit(void);

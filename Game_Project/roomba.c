@@ -111,7 +111,7 @@ void RoombaFunction(void) {
 	roomba_angle = CP_Vector_AngleCW(up, CP_Vector_Negate(dir));
 
 	// move directly toward dirt if not close enough
-	if (checkGameRunning() && Day_IsInGameplay()) {
+	if (CheckGameRunning() && Day_IsInGameplay()) {
 		if (CP_Vector_Distance(dirt_v, roomba_v) > 3) {
 			dir = CP_Vector_Normalize(dir);
 			float speed = roomba_speed * CP_System_GetDt();

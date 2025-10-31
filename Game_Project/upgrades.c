@@ -38,7 +38,7 @@ void Upgrades_AttemptSpongeUpgrade(void) {
         return;
     }
     DecrementMoney(spongeUpgradeCost);
-    upgrade_Sponge();
+    UpgradeSponge();
 
     spongeUpgradeCost += spongeIncrement;
     spongeIncrement++;

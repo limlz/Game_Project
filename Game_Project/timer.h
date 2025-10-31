@@ -1,8 +1,6 @@
-void timer_init();
-
-void timeReset(void);
-
+void TimerInit(void);
+void TimeReset(void);
 
 // Return`s 1 if the game is running, 0 if paused
-int checkGameRunning();
-void timeStop(void);
+int CheckGameRunning(void);
+void TimeStop(void);

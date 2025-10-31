@@ -1,19 +1,19 @@
-void sponge_init(void);
+void SpongeInit(void);
 
 // Check if sponge is scrubbing
-int is_Scrubbing(void);
+int IsScrubbing(void);
 
 // Check if sponge is equipped (Return 1 if equipped, 0 if not)
-int is_SpongeEquipped(void);
+int IsSpongeEquipped(void);
 
 //Get the sponge current power (Returns an int based on the power)
-int get_SpongePower(void);
+int GetSpongePower(void);
 
 // Upgrade the sponge power by 5, max power is 100
-void upgrade_Sponge(void);
+void UpgradeSponge(void);
 
 // Check if sponge is upgradeable (Returns 1 if upgradeable, 0 if maxed)
-int sponge_upgradeable(void);
+int SpongeUpgradeable(void);
 
 // Reset sponge state for a new game session
-void sponge_reset(void);
+void SpongeReset(void);
