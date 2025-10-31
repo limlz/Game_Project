@@ -4,17 +4,187 @@
 #include <cprocessing.h>
 #include "money.h"
 #include "mainmenu.h"
+#include "bubbles.h"	
+#include "utils.h"	
 
-#define MAX_ENTRIES 5
+#define MAX_NAME_LENGTH 8
+#define MAX_LEADERBOARD_ENTRIES 5
+CP_TEXT_ALIGN_HORIZONTAL horizontal = CP_TEXT_ALIGN_H_CENTER;
+CP_TEXT_ALIGN_VERTICAL vertical = CP_TEXT_ALIGN_V_MIDDLE;
+
+typedef struct {
+	char name[MAX_NAME_LENGTH + 1];
+	int score;
+} Entry;
+
+static Entry leaderboard[MAX_LEADERBOARD_ENTRIES];
+
+typedef struct {
+	float x;
+	float y;
+	float width;
+	float height;
+	float degrees;
+	float corner_radius;
+} RectAdvanced;
+
+static RectAdvanced draw_leaderboard[MAX_LEADERBOARD_ENTRIES];
+
+typedef struct {
+	float x;
+	float y;
+} Text;
+
+static Text title;
 
 CP_Font title_font, montserrat_light;
-CP_Color black;
-char score_string[9];
-int lowest_score;
+CP_Color black, button_blue, background_colour, white;
+static char score_string[9];
+static float center_x, center_y;
+static int lowest_score;
+static char rank[8];
+static float mx, my;
+
+FILE* leaderboard_file;
+
+void Leaderboard_Init(void) {
+	title_font = CP_Font_Load("Assets/SuperWater.ttf");
+	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
+	black = CP_Color_Create(0, 0, 0, 255);
+	button_blue = CP_Color_Create(123, 183, 220, 255);
+	background_colour = CP_Color_Create(233, 239, 255, 255);
+	white = CP_Color_Create(255, 255, 255, 255);
+
+	center_x = CP_System_GetWindowWidth() * 0.5f;
+	center_y = CP_System_GetWindowHeight() * 0.5f;
+
+	lowest_score = GetLowestScore();
+
+	title.x = center_x;
+	title.y = 100.0f;
+
+	errno_t err = fopen_s(&leaderboard_file, "Assets/leaderboard.txt", "r");
+	if (err != 0 || leaderboard_file == NULL) {
+		return;
+	}
+	for (int j = 0; j < MAX_LEADERBOARD_ENTRIES; j++) {
+		fscanf_s(leaderboard_file, "%8s %d",
+			leaderboard[j].name, MAX_NAME_LENGTH + 1,
+			&leaderboard[j].score);
+	}
+	fclose(leaderboard_file);
+	BubblesInit();
+}
+
+
+void Leaderboard_Update(void) {
+	CP_Graphics_ClearBackground(background_colour);
+
+	mx = CP_Input_GetMouseX();
+	my = CP_Input_GetMouseY();
+	int leaderboard_pop = 0;
+
+	if (IsAreaClicked(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
+		leaderboard_pop = 10;
+		BubblesManual(mx, my);
+
+		if (CP_Input_MouseClicked()) {
+			CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
+		}
+	}
+
+	//title shadow
+	CP_Font_Set(title_font);
+	CP_Settings_Fill(white);
+	CP_Settings_TextSize(80.0f);
+	CP_Settings_TextAlignment(horizontal, vertical);
+	CP_Font_DrawText("LEADERBOARD", title.x + 10, title.y - 10);
+
+	//draw title
+	CP_Font_Set(title_font);
+	CP_Settings_TextSize(80.0f);
+	CP_Settings_Fill(button_blue);
+	CP_Settings_TextAlignment(horizontal, vertical);
+	CP_Font_DrawText("LEADERBOARD", title.x, title.y);
+
+	//draw table
+	CP_Settings_NoStroke();
+	CP_Settings_Fill(button_blue);
+	draw_leaderboard[0].width = 900.0f;
+	draw_leaderboard[0].height = 100.0f;
+	draw_leaderboard[0].x = center_x;
+	draw_leaderboard[0].y = draw_leaderboard[0].height / 2.0f + title.y + 50.0f;
+	draw_leaderboard[0].degrees = 0.0f;
+	draw_leaderboard[0].corner_radius = 20.0f;
+	CP_Settings_RectMode(CP_POSITION_CENTER);
+	CP_Graphics_DrawRectAdvanced(draw_leaderboard[0].x,
+								draw_leaderboard[0].y,
+								draw_leaderboard[0].width,
+								draw_leaderboard[0].height,
+								draw_leaderboard[0].degrees,
+								draw_leaderboard[0].corner_radius);
+
+	CP_Font_Set(title_font);
+	CP_Settings_TextSize(80.0f);
+	CP_Settings_TextAlignment(horizontal, vertical);
+	CP_Font_DrawText("1", 300, draw_leaderboard[0].y);
+
+	CP_Settings_Fill(background_colour);
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, vertical);
+	CP_Font_DrawText(leaderboard[0].name, 375, draw_leaderboard[0].y);
+
+	sprintf_s(score_string, sizeof(score_string), "%d", leaderboard[0].score);
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_RIGHT, vertical);
+	CP_Font_DrawText(score_string, 1225, draw_leaderboard[0].y);
+
+	for (int i = 1; i < MAX_LEADERBOARD_ENTRIES; i++) {
+		CP_Settings_NoStroke();
+		CP_Settings_Fill(button_blue);
+		draw_leaderboard[i].width = 900.0f;
+		draw_leaderboard[i].height = 100.0f;
+		draw_leaderboard[i].x = center_x;
+		draw_leaderboard[i].y = draw_leaderboard[i].height / 2.0f + draw_leaderboard[i - 1].y + 70.0f;
+		draw_leaderboard[i].degrees = 0.0f;
+		draw_leaderboard[i].corner_radius = 20.0f;
+		CP_Graphics_DrawRectAdvanced(draw_leaderboard[i].x,
+									 draw_leaderboard[i].y,
+									 draw_leaderboard[i].width,
+									 draw_leaderboard[i].height,
+									 draw_leaderboard[i].degrees,
+									 draw_leaderboard[i].corner_radius);
+		CP_Settings_TextAlignment(horizontal, vertical);
+		sprintf_s(rank, sizeof(rank), "%d", i + 1);
+		CP_Font_DrawText(rank, 300, draw_leaderboard[i].y);
+		CP_Settings_Fill(background_colour);
+
+		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, vertical);
+		CP_Font_DrawText(leaderboard[i].name, 375, draw_leaderboard[i].y);
+
+		sprintf_s(score_string, sizeof(score_string), "%d", leaderboard[i].score);
+		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_RIGHT, vertical);
+		CP_Font_DrawText(score_string, 1225, draw_leaderboard[i].y);
+	}
+
+	// Draw leaderboard button
+	CP_Settings_NoStroke();
+	CP_Settings_Fill(button_blue);
+	CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + leaderboard_pop, 100.0f + leaderboard_pop, 0.0f, 20.0f);
+	CP_Settings_Fill(white);
+	CP_Settings_Stroke(button_blue);
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 20.0f, 60.0f);
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() - 240.0f + 20.0f, CP_System_GetWindowHeight() - 120.0f + 15.0f, 20.0f, 30.0f);
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() - 240.0f - 20.0f, CP_System_GetWindowHeight() - 120.0f + 10.0f, 20.0f, 40.0f);
+
+	Bubbles_Draw();
+}
+void Leaderboard_Exit(void) {
+	CP_Font_Free(montserrat_light);
+	CP_Font_Free(title_font);
+}
 
 int GetLowestScore(void) {
 	FILE* leaderboard_file;
-	char name[4];
+	char name[MAX_NAME_LENGTH + 1];
 	int score = 0;
 	int lowest = INT_MAX;
 
@@ -22,36 +192,11 @@ int GetLowestScore(void) {
 	if (err != 0 || leaderboard_file == NULL) {
 		return -1;
 	}
-	while (fscanf_s(leaderboard_file, "%3s %d", name, (unsigned)(sizeof(name)/sizeof(name[0])), &score) == 2) {
+	while (fscanf_s(leaderboard_file, "%8s %d", name, (unsigned)(sizeof(name) / sizeof(name[0])), &score) == 2) {
 		if (score < lowest) {
 			lowest = score;
 		}
 	}
 	fclose(leaderboard_file);
 	return lowest;
-}
-
-
-
-void Leaderboard_Init(void) {
-	title_font = CP_Font_Load("Assets/SuperWater.ttf");
-	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
-	black = CP_Color_Create(0, 0, 0, 255);
-	lowest_score = GetLowestScore();
-}
-void Leaderboard_Update(void) {
-	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
-	CP_Font_Set(montserrat_light);
-	CP_Settings_Fill(black);
-	CP_Settings_TextSize(60.0f);
-	sprintf_s(score_string, sizeof(score_string),"%d", lowest_score);
-	CP_Font_DrawText(score_string, 450.0f, 450.0f);
-
-	if (CP_Input_KeyTriggered(KEY_C)) {
-		CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
-	}
-}
-void Leaderboard_Exit(void) {
-	CP_Font_Free(montserrat_light);
-	CP_Font_Free(title_font);
 }
