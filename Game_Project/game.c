@@ -109,14 +109,14 @@ void Game_Update(void)
 	if (IsCurrentlyDebugging()) {
 		DebugPrint();
 	}
-
+	sponge_init();
 	Soap_Update();
 	shop_init();
 
 	float attack_opacity = 1.0f; // set as variable to be upgraded
 
 	AOE_stream(attack_opacity);
-	sponge_init();
+
 
 	//General UI - scene setting (sink base) pt 2
 	CP_Settings_Fill(CP_Color_Create(186, 191, 197, 255));
