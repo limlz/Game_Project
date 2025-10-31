@@ -15,6 +15,7 @@
 #include "faucet.h"
 #include "soap.h"
 #include "debug.h"
+#include "img_font_init.h"
 
 
 int debugging = 0;
@@ -23,8 +24,7 @@ CP_Font sub_font;
 
 void Game_Init(void)
 {
-	gameFont = CP_Font_Load("Assets/MontserratLight.ttf");
-	sub_font = CP_Font_Load("Assets/MontserratBlackItalic.otf");
+	InitImagesFontsColors();
 	// Initialise random variable required for bubble production
 	BubblesInit();
 	InitScrubbingSounds();
@@ -35,7 +35,7 @@ void Game_Init(void)
 	stream_init();
 	Day_StartCurrentDay();   // begin Day 0 (goal = 5 plates)
 	Soap_Init();
-	sponge_reset();
+	SpongeReset();
 
 }
 
@@ -78,9 +78,9 @@ void Game_Update(void)
 		- Check if sponge is equipped
 		- Check sponge power level
 	*/
-	if (is_Scrubbing() && checkGameRunning()) {
+	if (IsScrubbing() && CheckGameRunning()) {
 		if (Soap_CanScrub()) {
-			DirtScrubbed(is_SpongeEquipped(), get_SpongePower());
+			DirtScrubbed(IsSpongeEquipped(), GetSpongePower());
 			Soap_ConsumeOnScrub();
 			StartScrubbingSounds();
 		}
@@ -122,16 +122,15 @@ void Game_Update(void)
 	CP_Graphics_DrawRect((float)CP_System_GetWindowWidth() * 0.5f, 850.0f, (float)CP_System_GetWindowWidth(), 100.0f);
 
 	// cooldown_timer_stream();
-	sponge_init();
+	SpongeInit();
 	Soap_Update();
-	timer_init();
+	TimerInit();
 	shop_init();
 	Day_DrawPopup();
 }
 
 void Game_Exit(void) {
-	CP_Font_Free(gameFont);
-	CP_Font_Free(sub_font);
+	FreeImagesFonts();
 	ClearSounds();
 	ResetRoomba();
 }

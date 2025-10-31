@@ -40,7 +40,7 @@ void Day_OnPlateCleaned(void) {
         cleaned = 0;
         inGameplay = 0;
         show_day_complete_popup = 1;   // show popup overlay
-        timeStop();                    // stop timer when target reached
+        TimeStop();                    // stop timer when target reached
     }
 }
 
@@ -115,7 +115,7 @@ void Day_DrawPopup(void) {
             if (mx >= left && mx <= left + btnW && my >= top && my <= top + btnH) {
                 switch (i) {
                 case 0: // Next Day
-                    timeReset();
+                    TimeReset();
                     Day_StartCurrentDay();
                     InitDirt();
                     ChangePlate();
@@ -126,8 +126,8 @@ void Day_DrawPopup(void) {
                 case 1: // Head to Shop
                     show_day_complete_popup = 0;
                     readyForNextDay = 1;          // <-- tell shop to show Next Day button
-                    extern int shopToggle;
-                    shopToggle = 1;
+                    extern int shop_toggle;
+                    shop_toggle = 1;
                     break;
 
                 case 2: // Save & Exit
@@ -149,6 +149,6 @@ void Day_ForceEndDay(void) {
         cleaned = 0;
         inGameplay = 0;
         show_day_complete_popup = 1;   // show popup overlay
-        timeStop();                    // stop timer when target reached
+        TimeStop();                    // stop timer when target reached
     }
 }
