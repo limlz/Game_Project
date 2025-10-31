@@ -110,10 +110,7 @@ void Game_Update(void)
 		DebugPrint();
 	}
 
-
-	float attack_opacity = 1.0f; // set as variable to be upgraded
-
-	AOE_stream(attack_opacity);
+	AOE_stream();
 
 
 	//General UI - scene setting (sink base) pt 2

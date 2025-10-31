@@ -233,7 +233,7 @@ void clean_dirt_with_stream(void) {
 }
 
 
-void AOE_stream() {
+void AOE_stream(void) {
 	draw_stream_timer();
 	draw_stream();
 	clean_dirt_with_stream();
