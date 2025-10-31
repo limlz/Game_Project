@@ -6,9 +6,10 @@
 #include <stdio.h>
 #include "leaderboard.h"
 #include "confetti.h"
+#include "bubbles.h"
 
 #define OFFSET		150
-#define MAX_NAME_LENGTH 3
+#define MAX_NAME_LENGTH 8
 #define MAX_LEADERBOARD_ENTRIES 5
 
 
@@ -16,7 +17,7 @@ typedef struct {
 	char name[MAX_NAME_LENGTH + 1];
 	int score;
 } Entry;
-Entry leaderboard[MAX_LEADERBOARD_ENTRIES];
+static Entry leaderboard[MAX_LEADERBOARD_ENTRIES];
 static int entry_count = 0;
 static int lowest_score;
 
@@ -30,6 +31,7 @@ CP_Font title_font;
 CP_Font montserrat_light;
 static float mx, my;
 static char score_text[50];
+static char lowest_text[10];
 
 //variables for keyboard input
 static char player_name[MAX_NAME_LENGTH + 1];
@@ -52,7 +54,7 @@ void Leaderboard_Entry_Init(void) {
 	}
 
 	while (entry_count < MAX_LEADERBOARD_ENTRIES &&
-	       fscanf_s(leaderboard_file, "%3s %d",
+	       fscanf_s(leaderboard_file, "%8s %d",
 	                leaderboard[entry_count].name, MAX_NAME_LENGTH + 1,
 	                &leaderboard[entry_count].score) == 2) {
 		entry_count++;
@@ -63,49 +65,53 @@ void Leaderboard_Entry_Init(void) {
 	printf("Loaded %d entries from file\n", entry_count);
 
 	InitConfetti();
+	BubblesInit();
 }
 
 void Leaderboard_Entry_Update(void) {
-	float dt = CP_System_GetDt();
 
-	
+	float dt = CP_System_GetDt();
 	CP_Graphics_ClearBackground(background_colour);
 
 	float center_x = CP_System_GetWindowWidth() * 0.5f;
-	float button_y = CP_System_GetWindowHeight() * 0.5f;
+	float center_y = CP_System_GetWindowHeight() * 0.5f;
 	mx = CP_Input_GetMouseX();
 	my = CP_Input_GetMouseY();
-	int try_pop = 0;
-	int menu_pop = 0;
+	int try_pop = 0, menu_pop = 0;
 
-	if (IsAreaClicked(center_x, button_y - OFFSET, 300, 200, mx, my)) {
-		try_pop = 10;
-		if (CP_Input_MouseClicked()) {
-			CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
-		}
-	}
-	else if (IsAreaClicked(center_x, button_y + OFFSET, 500, 200, mx, my)) {
+	
+	if (IsAreaClicked(center_x, center_y + OFFSET, 500, 200, mx, my)) {
 		menu_pop = 10;
+		BubblesManual(mx, my);
 		if (CP_Input_MouseClicked()) {
-			CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
+			CP_Engine_SetNextGameState(Leaderboard_Init, Leaderboard_Update, Leaderboard_Exit);
 		}
-
 	}
 
 	// Draw rectangles for button_blue
 	CP_Settings_Fill(button_blue);
 	CP_Settings_NoStroke();
-	CP_Graphics_DrawRectAdvanced(center_x, button_y - OFFSET, 300.0f + try_pop, 200.0f + try_pop, 0, 50);
-	CP_Graphics_DrawRectAdvanced(center_x, button_y + OFFSET, 500.0f + menu_pop, 200.0f + menu_pop, 0, 50);
+	CP_Graphics_DrawRectAdvanced(center_x, center_y + OFFSET, 500.0f + menu_pop, 200.0f + menu_pop, 0, 50);
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 
-	// Draw text for button_blue
-	CP_Font_Set(montserrat_light);
+	CP_Settings_Fill(button_blue);
+	CP_Font_DrawText("type name pls?", center_x, center_y - OFFSET);
+
 	CP_Settings_Fill(white);
-	CP_Settings_TextSize(60.0f);
-	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
-	CP_Font_DrawText("ahhhhhh?", center_x, button_y - OFFSET);
-	CP_Font_DrawText("Exit to Main Menu", center_x, button_y + OFFSET);
+	CP_Font_DrawText("leaderboard", center_x, center_y + OFFSET);
+
+
+	CP_Settings_Fill(button_blue);
+	CP_Font_DrawText("main menu", 900, 800);
+	CP_Font_DrawText("tryagain", 300, 800);
+
+
+	//title shadow
+	CP_Font_Set(title_font);
+	CP_Settings_Fill(white);
+	CP_Settings_TextSize(80.0f);
+	sprintf_s(score_text, sizeof(score_text), "NEW HIGHSCORE : %d", GetTotalEarned());
+	CP_Font_DrawText(score_text, 800 + 10, 100 - 10);
 
 	// Draw score
 	CP_Font_Set(title_font);
@@ -116,24 +122,23 @@ void Leaderboard_Entry_Update(void) {
 
 	//get keyboard input for player name
 	for (int c = 65; c <= 90; c++) {
-		if (CP_Input_KeyTriggered(c) && strlen(player_name) < MAX_NAME_LENGTH) {
+		if (CP_Input_KeyTriggered(c) && (strlen(player_name) < MAX_NAME_LENGTH)) {
 			size_t len = strlen(player_name);
 			player_name[len] = c;
 			player_name[len + 1] = '\0';
 		}
 	}
-
 	if (CP_Input_KeyTriggered(KEY_BACKSPACE) && strlen(player_name) > 0) {
 		player_name[strlen(player_name) - 1] = '\0';
 	}
-
 	if (CP_Input_KeyTriggered(KEY_ENTER) && strlen(player_name) > 0) {
 		name_entered = 1;
 	}
 
-	CP_Font_DrawText(player_name, 450, 450);
+	CP_Font_DrawText(player_name, center_x, 450); //temporary
 
 	UpdateConfetti(dt); //confetti hehe
+	Bubbles_Draw();
 }
 
 void Leaderboard_Entry_Exit(void) {
