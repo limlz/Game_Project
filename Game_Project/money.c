@@ -6,7 +6,7 @@
 
 char money_text[64];
 int current_dollars = 0;
-int total_earned = 0;
+int total_earned = 20;
 int dollars_per_plate = 1;
 
 // returns current money
