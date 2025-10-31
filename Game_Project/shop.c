@@ -21,17 +21,17 @@
 #define MAX_OFFSET 1000.0f
 int oldMouseWheel = 0;
 
-// --- Scroll config ---
-static const float HEADER_HEIGHT = 110.0f;
-static const float HEADER_TOP_OFFSET = 70.0f;     // distance from panelTop to header center
-static const float LIST_TOP_MARGIN = 40.0f;       // gap below header
-static const float LIST_BOTTOM_MARGIN = 40.0f;    // gap above bottom of panel
 
-// Spacing (more room between items)
-static const float RowSpacing = 120.0f;           // distance between item centers
-static const float RowHeight = 96.0f;             // background capsule height
-static const float CostButtonWidth = 110.0f;
-static const float CostButtonHeight = 80.0f;
+static const float HEADER_HEIGHT = 110.0f;
+static const float HEADER_TOP_OFFSET = 70.0f;   
+static const float LIST_TOP_MARGIN = 40.0f;       
+static const float LIST_BOTTOM_MARGIN = 40.0f;    
+
+
+static const float RowSpacing = 120.0f;          
+static const float RowHeight = 96.0f;             
+static const float CostButtonWidth = 100.0f;
+static const float CostButtonHeight = 70.0f;
 
 static float x_pos = 1400.0f;
 static float y_pos = 300.0f;
@@ -46,32 +46,22 @@ static char faucetCooldownDescription[120];
 static CP_Image hamsta;
 static int hamstaLoaded = 0;
 
-static float listScroll = 0.0f; // current scroll offset of the list (in pixels)
+static float listScroll = 0.0f; 
 
-// Forward decls
 static void draw_shop_item(int itemNum, const char* name, const char* description, int cost,
-    int rowIndex, int upgradeable,
-    float listTop, float listHeight, float panelLeft, float panelRight);
+int rowIndex, int upgradeable,
+float listTop, float listHeight, float panelLeft, float panelRight);
 static void draw_shop(void);
 static void shop_menu(void);
 static void draw_next_day_button(float headerCenterY);
 
-// Helper: clamp
-static float clampf(float v, float lo, float hi) {
-    if (v < lo) return lo;
-    if (v > hi) return hi;
-    return v;
-}
 
-static void draw_shop_item(int itemNum, const char* name, const char* description, int cost,
-    int rowIndex, int upgradeable,
-    float listTop, float listHeight, float panelLeft, float panelRight) {
+static void draw_shop_item(int itemNum, const char* name, const char* description, int cost, int rowIndex, int upgradeable, float listTop, float listHeight, float panelLeft, float panelRight) {
 
-    // Compute this row's center Y inside the scrollable list area
     float itemY = listTop + (RowHeight * 0.5f) + (float)rowIndex * RowSpacing - listScroll;
 
-    // Cull if item is outside the visible list region (with small padding)
-    if (itemY < listTop - RowHeight || itemY >(listTop + listHeight + RowHeight))
+
+    if (itemY <= listTop + RowHeight*0.4 || itemY > (listTop + listHeight - RowHeight*0.5))
         return;
 
     float iconX = panelLeft + 110.0f;
@@ -199,7 +189,7 @@ static void draw_shop(void) {
     else if (!shopToggle && offset < MAX_OFFSET) {
         offset += 5000.0f * CP_System_GetDt();
     }
-
+    offset = CP_Math_ClampInt(offset, MIN_OFFSET, MAX_OFFSET);
     float panelCenterY = CENTER_Y_POS + offset;
     float panelTop = panelCenterY - SHOP_HEIGHT / 2.0f;
     float panelLeft = CENTER_X_POS - SHOP_WIDTH / 2.0f;
@@ -273,19 +263,19 @@ static void draw_shop(void) {
 
     // Determine how many items we have and their order (sequential rows)
     // 0: Sponge, 1: Soap Refill, 2: Roomba (conditional), 3: Soap Saver, 4: Stream Power, 5: Stream Cooldown
-    int hasRoomba = RoombaPurchase() ? 1 : 0;
-    int totalItems = hasRoomba ? 6 : 5;
+    int totalItems = RoombaPurchase() ? 6 : 5;
 
     // Compute content height and clamp scroll
-    float contentHeight = (float)totalItems * RowSpacing; // spacing governs layout
+    float contentHeight = (float)totalItems * RowSpacing + 150.0f; // spacing governs layout
     float maxScroll = contentHeight - listHeight;
-    if (maxScroll < 0.0f) maxScroll = 0.0f;
-    listScroll = clampf(listScroll, 0.0f, maxScroll);
+    if (maxScroll < 0.0f) {
+        maxScroll = 0.0f;// no scrolling if content fits
+    }
+    listScroll = CP_Math_ClampFloat(listScroll, 0.0f, maxScroll);
 
     // Draw a subtle list background
     CP_Settings_Fill(CP_Color_Create(255, 255, 255, 30));
-    CP_Graphics_DrawRectAdvanced(CENTER_X_POS, listTop + listHeight * 0.5f,
-        SHOP_WIDTH - 80.0f, listHeight, 0.0f, 18.0f);
+    CP_Graphics_DrawRectAdvanced(CENTER_X_POS, listTop + listHeight * 0.5f, SHOP_WIDTH - 80.0f, listHeight + 30, 0.0f, 18.0f);
 
     // Scrollbar (right side)
     float scrollBarX = panelRight - 20.0f;
@@ -313,13 +303,11 @@ static void draw_shop(void) {
 
     if (wheelDelta != 0 && mx >= (CENTER_X_POS - SHOP_WIDTH / 2.0f) && mx <= (CENTER_X_POS + SHOP_WIDTH / 2.0f)
         && my >= listTop && my <= listTop + listHeight) {
-        // negative delta usually means wheel scrolled down; adjust if your API is opposite
-        listScroll = clampf(listScroll - (float)wheelDelta * 40.0f, 0.0f, maxScroll);
+        listScroll = CP_Math_ClampFloat(listScroll - (float)wheelDelta * 40.0f, 0.0f, maxScroll);
         oldMouseWheel = newWheel;
     }
 
 
-    // --- Draw items in order, using continuous row indices (0..totalItems-1) ---
     int row = 0;
 
     // Sponge Power
@@ -343,7 +331,7 @@ static void draw_shop(void) {
         row++, Faucet_CanUpgradeCooldown(), listTop, listHeight, panelLeft, panelRight);
 
     // Roomba (conditional)
-    if (hasRoomba) {
+    if (RoombaPurchase()) {
         draw_shop_item(2, "Cleaning Robot", "Upgrades robot that auto cleans", Upgrades_GetRoombaCost(),
             row++, 1, listTop, listHeight, panelLeft, panelRight);
     }

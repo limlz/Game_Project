@@ -109,9 +109,7 @@ void Game_Update(void)
 	if (IsCurrentlyDebugging()) {
 		DebugPrint();
 	}
-	sponge_init();
-	Soap_Update();
-	shop_init();
+
 
 	float attack_opacity = 1.0f; // set as variable to be upgraded
 
@@ -124,7 +122,10 @@ void Game_Update(void)
 	CP_Graphics_DrawRect((float)CP_System_GetWindowWidth() * 0.5f, 850.0f, (float)CP_System_GetWindowWidth(), 100.0f);
 
 	// cooldown_timer_stream();
+	sponge_init();
+	Soap_Update();
 	timer_init();
+	shop_init();
 	Day_DrawPopup();
 }
 
