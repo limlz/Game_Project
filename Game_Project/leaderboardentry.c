@@ -16,7 +16,7 @@ typedef struct {
 	int score;
 } Entry;
 Entry leaderboard[MAX_LEADERBOARD_ENTRIES];
-int entry_count;
+int entry_count = 0;
 int lowest_score;
 
 FILE* leaderboard_file;
@@ -42,11 +42,8 @@ void Leaderboard_Entry_Init(void) {
 	title_font = CP_Font_Load("Assets/SuperWater.ttf");
 	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
 	name_entered = 0;
-	entry_count = 0;
 
-	// Initialize globals (do NOT shadow)
 	player_name[0] = '\0';
-	entry_count = 0;
 
 	errno_t err = fopen_s(&leaderboard_file, "Assets/leaderboard.txt", "r");
 	if (err != 0 || leaderboard_file == NULL) {
@@ -64,6 +61,7 @@ void Leaderboard_Entry_Init(void) {
 	fclose(leaderboard_file);
 
 	lowest_score = GetLowestScore();
+	printf("Loaded %d entries from file\n", entry_count);
 }
 
 void Leaderboard_Entry_Update(void) {
@@ -163,6 +161,11 @@ void Leaderboard_Entry_Exit(void) {
 		if (entry_count > MAX_LEADERBOARD_ENTRIES)
 			entry_count = MAX_LEADERBOARD_ENTRIES;
 	}
+
+	if (leaderboard_file)
+		printf("File opened successfully for writing!\n");
+	else
+		printf("File open failed!\n");
 
 	//open leaderboard.txt to write
 	errno_t err = fopen_s(&leaderboard_file, "Assets/leaderboard.txt", "w");
