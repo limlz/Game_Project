@@ -5,6 +5,7 @@
 #include "money.h"
 #include <stdio.h>
 #include "leaderboard.h"
+#include "confetti.h"
 
 #define OFFSET		150
 #define MAX_NAME_LENGTH 3
@@ -16,8 +17,8 @@ typedef struct {
 	int score;
 } Entry;
 Entry leaderboard[MAX_LEADERBOARD_ENTRIES];
-int entry_count = 0;
-int lowest_score;
+static int entry_count = 0;
+static int lowest_score;
 
 FILE* leaderboard_file;
 
@@ -27,12 +28,12 @@ CP_Color background_colour;
 CP_Color button_blue;
 CP_Font title_font;
 CP_Font montserrat_light;
-float mx, my;
-char score_text[50];
+static float mx, my;
+static char score_text[50];
 
 //variables for keyboard input
-char player_name[MAX_NAME_LENGTH + 1];
-int name_entered;
+static char player_name[MAX_NAME_LENGTH + 1];
+static int name_entered;
 
 void Leaderboard_Entry_Init(void) {
 	white = CP_Color_Create(255, 255, 255, 255);
@@ -47,11 +48,9 @@ void Leaderboard_Entry_Init(void) {
 
 	errno_t err = fopen_s(&leaderboard_file, "Assets/leaderboard.txt", "r");
 	if (err != 0 || leaderboard_file == NULL) {
-		// file not found or cannot be opened; leave entry_count == 0
 		return;
 	}
 
-	// Read into the global leaderboard array and update the global entry_count
 	while (entry_count < MAX_LEADERBOARD_ENTRIES &&
 	       fscanf_s(leaderboard_file, "%3s %d",
 	                leaderboard[entry_count].name, MAX_NAME_LENGTH + 1,
@@ -62,9 +61,14 @@ void Leaderboard_Entry_Init(void) {
 
 	lowest_score = GetLowestScore();
 	printf("Loaded %d entries from file\n", entry_count);
+
+	InitConfetti();
 }
 
 void Leaderboard_Entry_Update(void) {
+	float dt = CP_System_GetDt();
+
+	
 	CP_Graphics_ClearBackground(background_colour);
 
 	float center_x = CP_System_GetWindowWidth() * 0.5f;
@@ -128,6 +132,8 @@ void Leaderboard_Entry_Update(void) {
 	}
 
 	CP_Font_DrawText(player_name, 450, 450);
+
+	UpdateConfetti(dt); //confetti hehe
 }
 
 void Leaderboard_Entry_Exit(void) {
@@ -161,11 +167,6 @@ void Leaderboard_Entry_Exit(void) {
 		if (entry_count > MAX_LEADERBOARD_ENTRIES)
 			entry_count = MAX_LEADERBOARD_ENTRIES;
 	}
-
-	if (leaderboard_file)
-		printf("File opened successfully for writing!\n");
-	else
-		printf("File open failed!\n");
 
 	//open leaderboard.txt to write
 	errno_t err = fopen_s(&leaderboard_file, "Assets/leaderboard.txt", "w");
