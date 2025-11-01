@@ -77,12 +77,12 @@ void SpongeInit(void) {
 		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
 		if (sponge_equipped != 1) {
 
-			sponge_x = 320.0f;
-			sponge_y = 670.0f;
+			sponge_x = 335.0f;
+			sponge_y = 630.0f;
 
 			CP_System_ShowCursor(1); // Hide cursor when sponge is equipped
 			CP_Settings_TextSize(20.0f);
-			CP_Font_DrawText("Equip [E]", 320.0f, 780.0f);
+			CP_Font_DrawText("Equip [E]", 335.0f, 700.0f);
 		} 
 		// player is now equipped with the sponge, sponge will follow the mouse
 		else {
@@ -90,7 +90,7 @@ void SpongeInit(void) {
 			sponge_y = CP_Input_GetMouseY();
 			CP_System_ShowCursor(0); // Hide cursor when sponge is equipped
 			CP_Settings_TextSize(20.0f);
-			CP_Font_DrawText("Unequip [E]", 320.0f, 780.0f);
+			CP_Font_DrawText("Unequip [E]", 335.0f, 700.0f);
 		}
 		// Handle input for the sponge
 		SpongeInput();

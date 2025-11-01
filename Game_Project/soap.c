@@ -34,8 +34,8 @@ void Soap_Init(void) {
 }
 
 void Soap_Update(void) {
-    float barCenterX = 320.0f;
-    float barCenterY = 750.0f;
+    float barCenterX = 335.0f;
+    float barCenterY = 730.0f;
     float barWidth = 250.0f;
     float barHeight = 28.0f;
 
@@ -77,19 +77,20 @@ void Soap_Update(void) {
     float reductionPercent = (float)soapDrainUpgradeLevel * SoapDrainReductionPerUpgrade * 100.0f;
     float multiplierPercent = Soap_GetDrainMultiplier() * 100.0f;
 
+    CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
     CP_Settings_TextSize(20.0f);
     if (!Soap_CanScrub()) {
-        CP_Font_DrawText("Out of soap! Buy more in the shop.", barCenterX, barCenterY + 42.0f);
+        CP_Font_DrawText("Out of soap! Buy more in the shop.", barCenterX, barCenterY - 30.0f);
     }
     char upgradeText[64];
     CP_Settings_TextSize(20.0f);
     sprintf_s(upgradeText, sizeof(upgradeText), "Soap Saver Lv %d", soapDrainUpgradeLevel);
-    CP_Font_DrawText(upgradeText, barCenterX, barCenterY + 70.0f);
+    CP_Font_DrawText(upgradeText, barCenterX, barCenterY + 30.0f);
 
     CP_Settings_TextSize(18.0f);
     sprintf_s(upgradeText, sizeof(upgradeText), "Drain Rate: %.2f/s (%.1f%% of base, -%.1f%%)",
         Soap_GetDrainRate(), multiplierPercent, reductionPercent);
-    CP_Font_DrawText(upgradeText, barCenterX, barCenterY + 95.0f);
+    CP_Font_DrawText(upgradeText, barCenterX, barCenterY + 50.0f);
 }
 
 

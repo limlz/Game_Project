@@ -146,7 +146,7 @@ void Faucet_UpgradeCooldown(void) {
         if (faucetCooldownLevel > FaucetCooldownMaxLevel) {
             faucetCooldownLevel = FaucetCooldownMaxLevel;
         }
-        reset_cooldown();
+        Faucet_ResetCooldown();
     }
 }
 

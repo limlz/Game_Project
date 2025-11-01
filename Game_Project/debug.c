@@ -159,16 +159,16 @@ void DebugPrint(void) {
 	CP_Graphics_DrawRect(text_x - 10, text_y - 20, 250, 120);
 
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-	sprintf_s(display, sizeof(display), "Stream cooldown: %.2f", return_cooldown());
+	sprintf_s(display, sizeof(display), "Stream cooldown: %.2f", Faucet_ReturnCooldown());
 	CP_Font_DrawText(display, text_x, text_y);
 
-	sprintf_s(display, sizeof(display), "Stream runtime left: %.2f", return_aoe_time_left() < 0 ? 0 : return_aoe_time_left());
+	sprintf_s(display, sizeof(display), "Stream runtime left: %.2f", Faucet_ReturnAOETimeLeft() < 0 ? 0 : Faucet_ReturnAOETimeLeft());
 	CP_Font_DrawText(display, text_x, text_y + 20);
 
-	sprintf_s(display, sizeof(display), "Stream ready: %s", return_is_attack_ready() ? "Yes" : "No");
+	sprintf_s(display, sizeof(display), "Stream ready: %s", Faucet_ReturnIsAttackReady() ? "Yes" : "No");
 	CP_Font_DrawText(display, text_x, text_y + 40);
 
-	sprintf_s(display, sizeof(display), "Stream active: %s", return_stream_on() ? "Yes" : "No");
+	sprintf_s(display, sizeof(display), "Stream active: %s", Faucet_ReturnStreamOn() ? "Yes" : "No");
 	CP_Font_DrawText(display, text_x, text_y + 60);
 
 	sprintf_s(display, sizeof(display), "Stream power level: %i", Faucet_GetPowerLevel());

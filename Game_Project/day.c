@@ -7,6 +7,7 @@
 #include "game.h"
 #include "img_font_init.h"
 #include "confetti.h"
+#include "shop.h"
 
 static int show_day_complete_popup = 0;  // 1 = popup visible
 static const int DAY_BASE_GOAL = 5;
@@ -25,7 +26,7 @@ void Day_Init(void) {
     cleaned = 0;
     inGameplay = 1;
     show_day_complete_popup = 0;
-    time_beforenext = 3.0f;
+    time_beforenext = 1.5f;
 }
 
 void Day_StartCurrentDay(void) {
@@ -71,6 +72,7 @@ int Day_GetGoal(void) { return goal; }
 
 void Day_DrawPopup(void) {
     char buffer[64];
+
     if (!show_day_complete_popup)
         return;
 
@@ -91,9 +93,14 @@ void Day_DrawPopup(void) {
         Day_StartCurrentDay();
         InitDirt();
         ChangePlate();
-        time_beforenext = 3.0f;
+        UnequipSponge();
+        time_beforenext = 1.5f;
         show_day_complete_popup = 0;
-        readyForNextDay = 0;          // <-- clear
+
+        readyForNextDay = 1;
+        extern int shop_toggle;
+        shop_toggle = 1;
+        TimeStop();
     }
 
     /*
@@ -104,7 +111,7 @@ void Day_DrawPopup(void) {
     // Popup box
     CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
     CP_Graphics_DrawRect(centerX, centerY, 920, 400);
-
+    
     CP_Settings_TextSize(45.0f);
     CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
     CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);

@@ -161,7 +161,7 @@ static void draw_next_day_button(float headerCenterY) {
     CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
     CP_Settings_Fill(CP_Color_Create(30, 60, 30, 255));
     CP_Settings_TextSize(28.0f);
-    CP_Font_DrawText("Next Day", buttonX - 10.0f, buttonY);
+    CP_Font_DrawText("Ready!", buttonX - 10.0f, buttonY);
 
     if (CP_Input_MouseClicked() && IsAreaClicked(buttonX, buttonY, btnW, btnH, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
         TimeReset();
@@ -187,7 +187,11 @@ static void draw_shop(void) {
     float panelLeft = CENTER_X_POS - SHOP_WIDTH / 2.0f;
     float panelRight = CENTER_X_POS + SHOP_WIDTH / 2.0f;
 
-    // Panel background
+    // Panel background'
+    if (Day_IsReadyForNextDay()) {
+        CP_Graphics_ClearBackground(blue_chalk);
+    }
+
     CP_Settings_Fill(CP_Color_Create(211, 211, 211, 255));
     CP_Graphics_DrawRectAdvanced(CENTER_X_POS, panelCenterY, SHOP_WIDTH, SHOP_HEIGHT, 0.0f, 30.0f);
 
@@ -202,6 +206,7 @@ static void draw_shop(void) {
     CP_Font_DrawText("Shop Menu", CENTER_X_POS, headerCenterY);
 
     if (Day_IsReadyForNextDay()) {
+        MoneyDisplay();
         draw_next_day_button(headerCenterY);
     }
 
@@ -231,7 +236,7 @@ static void draw_shop(void) {
 
     int faucetCooldownLevel = Faucet_GetCooldownLevel();
     float baseCooldown = Faucet_GetCooldownBase();
-    float currentCooldown = return_cooldown();
+    float currentCooldown = Faucet_ReturnCooldown();
     float cooldownReduction = baseCooldown - currentCooldown;
     if (cooldownReduction < 0.0f) cooldownReduction = 0.0f;
 
@@ -335,6 +340,12 @@ static void shop_menu(void) {
 }
 
 void shop_init(void) {
+    if (CheckGameRunning()) {
+        CP_Settings_TextSize(24.0f);
+        CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
+        CP_Image_Draw(cart, x_pos, y_pos - 200.0f, 80.0f, 80.0f, 255);
+        CP_Font_DrawText("Shop [F]", x_pos, y_pos - 150.0f);
+    }
 
     if (CP_Input_KeyTriggered(KEY_F)) {
         shop_toggle = (shop_toggle == 0) ? 1 : 0;
@@ -346,9 +357,4 @@ void shop_init(void) {
     if (shop_toggle || offset < MAX_OFFSET) {
         shop_menu();
     }
-
-	CP_Settings_TextSize(24.0f);
-    CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
-	CP_Image_Draw(cart, x_pos, y_pos - 200.0f, 80.0f, 80.0f, 255);
-    CP_Font_DrawText("Shop [F]", x_pos, y_pos - 150.0f);
 }

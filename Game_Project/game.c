@@ -32,7 +32,7 @@ void Game_Init(void)
 	InitRoomba();
 	InitDirt();
 	Day_Init();
-	stream_init();
+	InitStream();
 	Day_StartCurrentDay();   // begin Day 0 (goal = 5 plates)
 	Soap_Init();
 	SpongeReset();
@@ -50,7 +50,7 @@ void Game_Update(void)
 	CP_Graphics_DrawRect((float)CP_System_GetWindowWidth() * 0.5f, 30.0f, (float)CP_System_GetWindowWidth(), 60.0f);
 
 	DrawPlate();
-	draw_faucet();
+	DrawFaucet();
 
 	//Function to spawn dirts on plate, takes 1 or 0 to decide if it should spawn new dirt in random spots
 	DrawDirt();
@@ -62,7 +62,12 @@ void Game_Update(void)
 		// Only spawn a new plate if still in gameplay (not in shop phase)
 		if (Day_IsInGameplay()) {
 			InitDirt();
-			ChangePlate();
+			if (Day_GetDay() < 3) {
+				EasyModeChangePlate();
+			}
+			else {
+				ChangePlate();
+			}
 		}
 	}
 
@@ -110,7 +115,7 @@ void Game_Update(void)
 		DebugPrint();
 	}
 
-	AOE_stream();
+	AOEStream();
 
 
 	//General UI - scene setting (sink base) pt 2

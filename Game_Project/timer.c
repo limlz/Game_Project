@@ -3,6 +3,9 @@
 #include "money.h"
 #include "leaderboardentry.h"
 #include "leaderboard.h"
+#include "img_font_init.h"
+#include "settings.h"
+#include "mainmenu.h"
 
 // Timer variable as 100%
 static float timer = 100.0f;
@@ -48,21 +51,58 @@ static void TimeUpdate(void) {
 
 
 	if (!CheckGameRunning()) {
+		UnequipSponge();
+		float mx = CP_Input_GetMouseX();
+		float my = CP_Input_GetMouseY();
+		float center_X = CP_System_GetWindowWidth() / 2.0f;
+		float center_Y = CP_System_GetWindowHeight() / 2.0f;
+
+		float btn_width = 300.0f;
+		float btn_height = 150.0f;
+		float gap = btn_height + 50.0f;
+
 		// Do not decrement; do not touch isTimerStopped here
-		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 200));
+		CP_Graphics_ClearBackground(blue_chalk);
+		CP_Font_Set(sub_font);
+		CP_Settings_Fill(button_blue);
 		CP_Settings_TextSize(100.0f);
-		CP_Font_DrawText("GAME PAUSED", 800, 200);
+		CP_Font_DrawText("GAME PAUSED", center_X, center_Y - gap);
+
+		float buttons_Y[2] = { center_Y, center_Y + gap };
+		const char* btnText[2] = { "Resume Game", "Save & Exit" };
+		CP_Color btnColor[2] = {
+			CP_Color_Create(136, 172, 219,255),
+			CP_Color_Create(81, 103, 131, 255),
+		};
+
+		for (int i = 0; i < 2; ++i) {
+			CP_Settings_NoStroke();
+			CP_Settings_Fill(button_blue);
+			CP_Graphics_DrawRectAdvanced(center_X, buttons_Y[i], btn_width, btn_height, 0, 25.0f);
+			CP_Settings_Fill(white);
+			CP_Font_Set(montserrat_light);
+			CP_Settings_TextSize(45.0f);
+			CP_Font_DrawText(btnText[i], center_X, buttons_Y[i]);
+
+			if (CP_Input_MouseClicked()) {
+				int on_button = (mx >= center_X - btn_width * 0.5f && mx <= center_X + btn_width * 0.5f 
+					&& my >= buttons_Y[i] - btn_height * 0.5f && my <= buttons_Y[i] + btn_height * 0.5f);
+				if (on_button) {
+					switch (i) {
+					case 0: is_game_running = 1; break;
+					case 1: CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit); break;
+					}
+				}
+			}
+		}
 	}
 	else {
 		TimeStart(); // will only tick if !isTimerStopped
 	}
-
-
+			
 
 	if (timer <= 0.0f) {
 		// Timer has reached zero, TODO: Handle end-of-timer event here
-		// 
-		// 
 		//CP_Engine_SetNextGameState(Game_Over_Init, Game_Over_Update, Game_Over_Exit);
 		current_score = GetTotalEarned();
 		CP_Engine_SetNextGameState(Game_Over_Init, Game_Over_Update, Game_Over_Exit);

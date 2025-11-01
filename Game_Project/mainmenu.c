@@ -11,6 +11,7 @@
 #include "leaderboard.h"
 #include "leaderboardentry.h"	
 #include "img_font_init.h"
+#include "mainmenu.h"
 
 #define OFFSET		275
 #define MOVE_DOWN   125

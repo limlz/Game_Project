@@ -5,7 +5,7 @@
 
 int random_num = 0;
 
-// function for when player decides to upgrade/change plates
+// function for when player decides to randomise plates
 void ChangePlate(void) {
 	random_num = CP_Random_RangeInt(1, 100);
 	if (random_num >= 90 && random_num <= 100) {
@@ -27,6 +27,23 @@ void ChangePlate(void) {
 		SetPlateValue(2);
 	}
 	else if (random_num >= 0 && random_num <= 40) {
+		plate_outer = CP_Color_Create(230, 230, 230, 255);
+		plate_inner = CP_Color_Create(210, 210, 210, 255);
+		SetNumberOfDirt(5);
+		SetPlateValue(1);
+	}
+}
+
+// function for when player decides to randomise plates - in early stages (easy mode)
+void EasyModeChangePlate(void) {
+	random_num = CP_Random_RangeInt(1, 100);
+	if (random_num >= 75 && random_num <= 100) {
+		plate_outer = CP_Color_Create(255, 158, 170, 255);
+		plate_inner = CP_Color_Create(252, 192, 199, 255);
+		SetNumberOfDirt(10);
+		SetPlateValue(2);
+	}
+	else if (random_num >= 0 && random_num <= 75) {
 		plate_outer = CP_Color_Create(230, 230, 230, 255);
 		plate_inner = CP_Color_Create(210, 210, 210, 255);
 		SetNumberOfDirt(5);

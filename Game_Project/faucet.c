@@ -33,7 +33,7 @@ static float	rotation1 = 45.0f;
 static float	rotation2 = 90.0f;
 int				movement = 1;
 
-void draw_stream(void) {
+void DrawStream(void) {
 	for (int i = 0; i < MAX_DROPLETS; i++) {
 		CP_Settings_Stroke(CP_Color_Create(123, 183, 220, 100));
 		CP_Settings_Fill(CP_Color_Create(135, 206, 235, 120));
@@ -42,7 +42,7 @@ void draw_stream(void) {
 	}
 }
 
-void draw_faucet(void) {
+void DrawFaucet(void) {
 	float faucet_x = CP_System_GetWindowWidth() * 0.5f;
 	float faucet_y = 35.0f;
 	float radius = 140.0f;
@@ -77,7 +77,7 @@ void draw_faucet(void) {
 //*-----------------------------------   STREAM CONTROLS   -------------------------------------*//
 
 
-void stream_init(void) {
+void InitStream(void) {
 	faucetPowerOverflow = 0.0f;
 	Faucet_UpdateCooldownValue();
 
@@ -91,7 +91,7 @@ void stream_init(void) {
 	}
 }
 
-void update_stream(void) {
+void UpdateStream(void) {
 	for (int i = 0; i < MAX_DROPLETS; i++) {
 		streamlist[i].velocity = CP_Vector_Set(0, CP_Random_RangeFloat(4, 8));
 		streamlist[i].position = CP_Vector_Add(streamlist[i].position, streamlist[i].velocity);
@@ -105,7 +105,7 @@ void update_stream(void) {
 // function to stop the stream but ensure the droplets keep falling; to reset their position, 
 // with no velocity when they go off screen
 
-void stop_stream(void) {
+void StopStream(void) {
 	float center_x = CP_System_GetWindowWidth() * 0.5f;
 	float offset = 300.0f;
 
@@ -134,7 +134,7 @@ int		opacity = 0;
 
 
 
-void draw_stream_timer(void) {
+void DrawStreamTimer(void) {
 
 	float radius = 60.0f;
 	float faucet_x = 110.0f;
@@ -198,7 +198,7 @@ void draw_stream_timer(void) {
 
 static float	aoe_time_left = 0.0f;
 
-void clean_dirt_with_stream(void) {
+void CleanDirtWithStream(void) {
 	if (CheckGameRunning() && Day_IsInGameplay()) {
 		for (int i = 0; i < MAX_DROPLETS; i++) {
 			for (int j = 0; j < GetNumberOfDirt(); j++) {
@@ -233,10 +233,10 @@ void clean_dirt_with_stream(void) {
 }
 
 
-void AOE_stream(void) {
-	draw_stream_timer();
-	draw_stream();
-	clean_dirt_with_stream();
+void AOEStream(void) {
+	DrawStreamTimer();
+	DrawStream();
+	CleanDirtWithStream();
 
 	if (CP_Input_KeyTriggered(KEY_W) && attack_ready == 1 && stream_on == 0) {
 		stream_on = 1;
@@ -246,7 +246,7 @@ void AOE_stream(void) {
 	//set to 3 seconds for AOE attack
 	if (CheckGameRunning() && Day_IsInGameplay()) {
 		if (stream_on == 1) {
-			update_stream();
+			UpdateStream();
 			aoe_time_left -= CP_System_GetDt();
 			if (aoe_time_left <= 0.0f) {
 				stream_on = 0;
@@ -256,11 +256,11 @@ void AOE_stream(void) {
 
 		}
 		else {
-			stop_stream();
+			StopStream();
 		}
 	}
 	else if (!Day_IsInGameplay()) {
-		stream_init();
+		InitStream();
 		stream_on = 0;
 		attack_ready = 1;
 	}
@@ -283,7 +283,7 @@ static void Faucet_UpdateCooldownValue(void) {
 	}
 }
 
-void reduce_cooldown(float reduction) {
+void Faucet_ReduceCooldown(float reduction) {
 	float minCooldown = FaucetBaseCooldown - (float)FaucetCooldownMaxLevel * FaucetCooldownReductionPerLevel;
 	if (minCooldown < 0.0f) {
 		minCooldown = 0.0f;
@@ -299,22 +299,22 @@ void reduce_cooldown(float reduction) {
 	}
 }
 
-void reset_cooldown(void) {
+void Faucet_ResetCooldown(void) {
 	Faucet_UpdateCooldownValue();
 }
 
-float return_cooldown(void) {
+float Faucet_ReturnCooldown(void) {
 	return cooldown;
 }
 
-float return_aoe_time_left(void) {
+float Faucet_ReturnAOETimeLeft(void) {
 	return aoe_time_left;
 }
 
-int return_is_attack_ready(void) {
+int Faucet_ReturnIsAttackReady(void) {
 	return attack_ready;
 }
 
-int return_stream_on(void) {
+int Faucet_ReturnStreamOn(void) {
 	return stream_on;
 }
