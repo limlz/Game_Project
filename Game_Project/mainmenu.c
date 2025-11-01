@@ -28,7 +28,6 @@ void Main_Menu_Init(void)
 	InitBackgrounMusic();
 	UpdateVolume();
 	BubblesInit();
-	ChangePlate();
 }
 
 void Main_Menu_Update(void)

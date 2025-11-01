@@ -1,7 +1,9 @@
 #include "cprocessing.h"
 #include "img_font_init.h"
+#include "plate.h"
 
 void InitImagesFontsColors(void) {
+	ChangePlate();
 	// Load images
 	sponge_cat = CP_Image_Load("Assets/sponge_cat.gif");
 	soap_bottle = CP_Image_Load("Assets/soap_bottle.gif");
@@ -31,8 +33,6 @@ void InitImagesFontsColors(void) {
 	red = CP_Color_Create(244, 3, 48, 255);
 	grey = CP_Color_Create(150, 150, 150, 160);
 	button_blue = CP_Color_Create(123, 183, 220, 255);
-	plate_outer = CP_Color_Create(230, 230, 230, 255);
-	plate_inner = CP_Color_Create(210, 210, 210, 255);
 	roomba_color = CP_Color_Create(255, 255, 255, 200);
 }
 

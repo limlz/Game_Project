@@ -130,7 +130,7 @@ void Game_Update(void)
 }
 
 void Game_Exit(void) {
-	CP_System_ShowCursor(1);
+	UnequipSponge();
 	FreeImagesFonts();
 	ClearSounds();
 	ResetRoomba();

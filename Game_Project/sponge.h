@@ -17,3 +17,5 @@ int SpongeUpgradeable(void);
 
 // Reset sponge state for a new game session
 void SpongeReset(void);
+
+void UnequipSponge(void);

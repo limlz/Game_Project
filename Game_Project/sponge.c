@@ -107,3 +107,8 @@ void SpongeInit(void) {
 
 
 }
+
+void UnequipSponge(void) {
+	sponge_equipped = 0;
+	CP_System_ShowCursor(1);
+}

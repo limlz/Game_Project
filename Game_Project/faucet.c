@@ -259,6 +259,11 @@ void AOE_stream() {
 			stop_stream();
 		}
 	}
+	else if (!Day_IsInGameplay()) {
+		stream_init();
+		stream_on = 0;
+		attack_ready = 1;
+	}
 }
 
 static void Faucet_UpdateCooldownValue(void) {

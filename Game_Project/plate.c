@@ -1,11 +1,9 @@
 #include "cprocessing.h"
 #include "money.h"
 #include "dirt.h"
-
+#include "img_font_init.h"
 
 int random_num = 0;
-CP_Color plate_outer;
-CP_Color plate_inner;
 
 // function for when player decides to upgrade/change plates
 void ChangePlate(void) {

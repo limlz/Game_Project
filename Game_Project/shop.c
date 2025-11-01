@@ -338,6 +338,9 @@ void shop_init(void) {
 
     if (CP_Input_KeyTriggered(KEY_F)) {
         shop_toggle = (shop_toggle == 0) ? 1 : 0;
+        if (shop_toggle) {
+			UnequipSponge();
+        }
     }
 
     if (shop_toggle || offset < MAX_OFFSET) {
