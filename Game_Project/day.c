@@ -5,6 +5,8 @@
 #include "plate.h"
 #include "dirt.h"
 #include "game.h"
+#include "img_font_init.h"
+#include "confetti.h"
 
 static int show_day_complete_popup = 0;  // 1 = popup visible
 static const int DAY_BASE_GOAL = 5;
@@ -15,6 +17,7 @@ static int goal = 5;
 static int cleaned = 0;
 static int inGameplay = 1; // 1 = washing, 0 = popup/shop
 static int readyForNextDay = 0;   // 1 means: show Next Day button in Shop
+static float time_beforenext;
 
 void Day_Init(void) {
     day = 0;
@@ -22,6 +25,7 @@ void Day_Init(void) {
     cleaned = 0;
     inGameplay = 1;
     show_day_complete_popup = 0;
+    time_beforenext = 3.0f;
 }
 
 void Day_StartCurrentDay(void) {
@@ -53,7 +57,7 @@ void Day_DrawHUD(float x, float y) {
     CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
     CP_Settings_TextSize(28.0f);
     CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-
+      
     snprintf(buffer, sizeof(buffer), "Day: %d", day);
     CP_Font_DrawText(buffer, x, y);
 
@@ -66,12 +70,33 @@ int Day_GetCleaned(void) { return cleaned; }
 int Day_GetGoal(void) { return goal; }
 
 void Day_DrawPopup(void) {
+    char buffer[64];
     if (!show_day_complete_popup)
         return;
 
     float centerX = CP_System_GetWindowWidth() / 2.0f;
     float centerY = CP_System_GetWindowHeight() / 2.0f;
 
+    CP_Graphics_ClearBackground(blue_chalk);
+    CP_Font_Set(sub_font);
+    CP_Settings_Stroke(dark_grey);
+    CP_Settings_TextSize(60.0f);
+    snprintf(buffer, sizeof(buffer), "DAY %d", day);
+    CP_Font_DrawText(buffer, centerX, centerY);
+
+    time_beforenext -= CP_System_GetDt();
+
+    if (time_beforenext <= 0.0f) {
+        TimeReset();
+        Day_StartCurrentDay();
+        InitDirt();
+        ChangePlate();
+        time_beforenext = 3.0f;
+        show_day_complete_popup = 0;
+        readyForNextDay = 0;          // <-- clear
+    }
+
+    /*
     // Dim background
     CP_Settings_Fill(CP_Color_Create(0, 0, 0, 150));
     CP_Graphics_DrawRect(centerX, centerY, 1600, 900);
@@ -138,7 +163,9 @@ void Day_DrawPopup(void) {
             }
         }
     }
+    */
 }
+
 int Day_IsReadyForNextDay(void) { return readyForNextDay; }
 void Day_ClearReadyForNextDay(void) { readyForNextDay = 0; }
 
