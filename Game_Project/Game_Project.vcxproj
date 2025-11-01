@@ -107,7 +107,6 @@ xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /
     <ClCompile Include="gameover.c" />
     <ClCompile Include="img_font_init.c" />
     <ClCompile Include="leaderboard.c" />
-    <ClCompile Include="leaderboardentry.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mainmenu.c" />
     <ClCompile Include="plate.c" />

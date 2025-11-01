@@ -19,7 +19,7 @@ int lowest_leaderboard_score;
 // Function to start the timer countdown, when started timer will decrease
 static void TimeStart(void) {
 	if (timer > 0.0f && !is_timer_stopped) {
-		timer -= (3 * (CP_System_GetDt()));
+		timer -= (2 * (CP_System_GetDt()));
 	}
 }
 
@@ -65,15 +65,8 @@ static void TimeUpdate(void) {
 		// 
 		//CP_Engine_SetNextGameState(Game_Over_Init, Game_Over_Update, Game_Over_Exit);
 		current_score = GetTotalEarned();
-		if (current_score > lowest_leaderboard_score) {
-			CP_Engine_SetNextGameState(Leaderboard_Entry_Init, Leaderboard_Entry_Update, Leaderboard_Entry_Exit);
-			TimeReset();
-		}
-		else
-		{
-			CP_Engine_SetNextGameState(Game_Over_Init, Game_Over_Update, Game_Over_Exit);
-			TimeReset();
-		}
+		CP_Engine_SetNextGameState(Game_Over_Init, Game_Over_Update, Game_Over_Exit);
+		TimeReset();
 	}
 }
 

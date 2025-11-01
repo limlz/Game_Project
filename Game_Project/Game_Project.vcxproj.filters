@@ -87,10 +87,13 @@
     <ClCompile Include="upgrades.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="leaderboardentry.c">
+    <ClCompile Include="leaderboard.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="leaderboard.c">
+    <ClCompile Include="confetti.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="img_font_init.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -168,6 +171,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="leaderboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="confetti.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="img_font_init.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

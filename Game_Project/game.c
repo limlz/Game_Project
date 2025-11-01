@@ -133,5 +133,4 @@ void Game_Exit(void) {
 	UnequipSponge();
 	FreeImagesFonts();
 	ClearSounds();
-	ResetRoomba();
 }

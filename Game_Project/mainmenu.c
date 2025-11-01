@@ -216,10 +216,7 @@ void Main_Menu_Update(void)
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 	CP_Graphics_DrawRectAdvanced(1520.0f, 300.0f, 70.0f, 50.0f, sponge_arc, 0.0f);
 	
-	//go to gameover (temporary)
-	if (CP_Input_KeyTriggered(KEY_L)) {
-		CP_Engine_SetNextGameState(Leaderboard_Entry_Init, Leaderboard_Entry_Update, Leaderboard_Entry_Exit);
-	}
+
 }
 
 void Main_Menu_Exit(void)

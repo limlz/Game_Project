@@ -200,3 +200,21 @@ int GetLowestScore(void) {
 	fclose(leaderboard_file);
 	return lowest;
 }
+
+int GetHighestScore(void) {
+	FILE* leaderboard_file;
+	char name[MAX_NAME_LENGTH + 1];
+	int score = 0;
+	int highest = 0;
+	errno_t err = fopen_s(&leaderboard_file, "Assets/leaderboard.txt", "r");
+	if (err != 0 || leaderboard_file == NULL) {
+		return -1;
+	}
+	while (fscanf_s(leaderboard_file, "%8s %d", name, (unsigned)(sizeof(name) / sizeof(name[0])), &score) == 2) {
+		if (score > highest) {
+			highest = score;
+		}
+	}
+	fclose(leaderboard_file);
+	return highest;
+}
