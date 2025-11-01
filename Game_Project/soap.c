@@ -80,7 +80,7 @@ void Soap_Update(void) {
     CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
     CP_Settings_TextSize(20.0f);
     if (!Soap_CanScrub()) {
-        CP_Font_DrawText("Out of soap! Buy more in the shop.", barCenterX, barCenterY - 30.0f);
+        CP_Font_DrawText("Out of soap! Buy more in the shop.", barCenterX, barCenterY + 30.0f);
     }
     char upgradeText[64];
     CP_Settings_TextSize(20.0f);
