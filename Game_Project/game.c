@@ -36,6 +36,7 @@ void Game_Init(void)
 	Day_StartCurrentDay();   // begin Day 0 (goal = 5 plates)
 	Soap_Init();
 	SpongeReset();
+	EasyModeChangePlate();
 
 }
 
