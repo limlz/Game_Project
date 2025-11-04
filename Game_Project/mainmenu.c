@@ -19,10 +19,11 @@
 float mx, my;
 float sponge_arc = 20.0f;
 int dir = 1;
-
+int rand_sub_text = 0;
 
 void Main_Menu_Init(void)
 {
+	rand_sub_text = CP_Random_RangeInt(0, 9);
 	BulletsInit();
 	InitImagesFontsColors();
 	InitBackgrounMusic();
@@ -168,10 +169,23 @@ void Main_Menu_Update(void)
 	CP_Font_DrawText("WEWASHPL8", center_x, button_y - 200);
 
 	// Draw Subtext below Game Title
+	char subtext[10][64] = {"The Ultimate Dish-Washing Simulator",
+							"Become a Pro at Cleaning Plates!",
+							"Scrub Away Your Worries!",
+							"Where Every Plate Tells a Story",
+							"Get Ready to Rinse and Repeat!",
+							"Making Dishes Sparkle, One Plate at a Time",
+							"Join the Clean Plate Revolution!",
+							"From Grimy to Gleaming!",
+							"Wash, Rinse, Repeat - The Fun Never Ends!",
+							"Turn Dirty Dishes into Shiny Smiles!" };
+	if (CP_Input_MouseClicked()) {
+		rand_sub_text = CP_Random_RangeInt(0, 9);
+	}
 	CP_Font_Set(sub_font);
 	CP_Settings_Fill(button_blue);
-	CP_Settings_TextSize(70.0f);
-	CP_Font_DrawText("Be the best dish-washer in town!", center_x, button_y - 70);
+	CP_Settings_TextSize(CP_Math_LerpFloat(60.0f,70.0f,breathing_counter));
+	CP_Font_DrawText(subtext[rand_sub_text], center_x, button_y - 70);
 
 	// UI decor - wobble sponge :D
 	if (dir == 1) {

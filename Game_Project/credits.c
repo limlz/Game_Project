@@ -62,8 +62,7 @@ void credits_Update(void) {
 
 	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
 
-	CP_Image_Draw(prassana.image, CP_System_GetWindowWidth() / 2.0f, scrollY, prassana.width, prassana.height, 255);
-
+	CP_Image_Draw(prassana.image, CP_System_GetWindowWidth() / 2.0f, scrollY, prassana.width*5, prassana.height*5, 255);
 	// Draw credits
 	CP_Font_Set(montserrat_light);
 	CP_Settings_Fill(black);

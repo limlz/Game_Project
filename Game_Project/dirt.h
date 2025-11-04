@@ -12,6 +12,7 @@ typedef struct dirt {
     float position_x;
     float position_y;
     int opacity;
+    int size;
 } dirt;
 
 extern dirt dirt_list[];

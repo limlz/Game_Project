@@ -45,6 +45,7 @@ void InitDirt(void) {
 		dirt_list[i].position_x = (float)CP_System_GetWindowWidth() / 2 - 250 + CP_Random_RangeInt(0, 500);
 		dirt_list[i].position_y = (float)CP_System_GetWindowHeight() / 2 - 250 + CP_Random_RangeInt(0, 500);
 		dirt_list[i].opacity = 220;
+		dirt_list[i].size = DIRT_RADIUS;
 	}
 	plate_awarded = 0;  // <-- reset award latch when new dirt/plate is created
 }
@@ -61,7 +62,7 @@ void DrawDirt(void)
 	for (int i = 0; i < num_of_dirt; i++) {
 		CP_Settings_NoStroke();
 		CP_Settings_Fill(CP_Color_Create(157, 92, 61, dirt_list[i].opacity));
-		CP_Graphics_DrawCircle(dirt_list[i].position_x, dirt_list[i].position_y, DIRT_RADIUS * 2);
+		CP_Graphics_DrawCircle(dirt_list[i].position_x, dirt_list[i].position_y, dirt_list[i].size * 2);
 		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
 		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	}
