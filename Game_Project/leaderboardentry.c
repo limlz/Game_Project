@@ -148,7 +148,7 @@ void Leaderboard_Entry_Exit(void) {
 		strncpy_s(leaderboard[entry_count - 1].name, sizeof(leaderboard[entry_count - 1].name),player_name,_TRUNCATE);
 		leaderboard[entry_count - 1].name[MAX_NAME_LENGTH] = '\0';
 
-		//sort by descending order (selection sort)
+		//sort by descending order 
 		for (int i = 0; i < entry_count - 1; i++) {
 			for (int j = i + 1; j < entry_count; j++) {
 				if (leaderboard[j].score > leaderboard[i].score) {
