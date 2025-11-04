@@ -121,7 +121,12 @@ void Game_Over_Update(void)
 	CP_Settings_Fill(button_blue);
 	CP_Settings_TextSize(50.0f);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_MIDDLE);
-	snprintf(highest_text, sizeof(highest_text), "Highest Score: %d", high_score);
+	if (high_score > GetTotalEarned()) {
+		snprintf(highest_text, sizeof(highest_text), "Highest Score: %d", high_score);
+	}
+	else {
+		snprintf(highest_text, sizeof(highest_text), "Highest Score: %d", GetTotalEarned());
+	}
 	CP_Font_DrawText(highest_text, 60.0f, CP_System_GetWindowHeight() - 120.0f);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 

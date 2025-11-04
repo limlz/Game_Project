@@ -1,7 +1,6 @@
 #include "cprocessing.h"
 #include "gameover.h"
 #include "money.h"
-#include "leaderboardentry.h"
 #include "leaderboard.h"
 #include "img_font_init.h"
 #include "settings.h"

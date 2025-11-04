@@ -8,8 +8,7 @@
 #include "credits.h"
 #include "bubblegun.h"
 #include "gameover.h"
-#include "leaderboard.h"
-#include "leaderboardentry.h"	
+#include "leaderboard.h"	
 #include "img_font_init.h"
 #include "mainmenu.h"
 
