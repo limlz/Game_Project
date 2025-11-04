@@ -167,9 +167,6 @@
     <ClInclude Include="upgrades.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="leaderboardentry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="leaderboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>

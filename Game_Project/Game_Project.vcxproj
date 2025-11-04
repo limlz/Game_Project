@@ -137,7 +137,6 @@ xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /
     <ClInclude Include="day.h" />
     <ClInclude Include="img_font_init.h" />
     <ClInclude Include="leaderboard.h" />
-    <ClInclude Include="leaderboardentry.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="plate.h" />
     <ClInclude Include="roomba.h" />
