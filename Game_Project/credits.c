@@ -5,14 +5,14 @@
 
 #define MAX_LINES 200
 
-struct image
+typedef struct 
 {
 	CP_Image image;
 	float width;
 	float height;
-};
+}image;
 
-struct image prassana;
+static image prassana;
 
 CP_Font montserrat_light;
 FILE *creditsFile;
@@ -30,8 +30,8 @@ void credits_Init(void) {
 	// load image
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	prassana.image = CP_Image_Load("Assets/Prasanna Ghali.jpg");
-	prassana.height = CP_Image_GetHeight(prassana.image);
-	prassana.width = CP_Image_GetWidth(prassana.image);
+	prassana.height = CP_Image_GetHeight(prassana.image) * 5;
+	prassana.width = CP_Image_GetWidth(prassana.image) * 5;
 
 	// load font
 	montserrat_light = CP_Font_Load("Assets/Exo2-Regular.ttf");
@@ -54,7 +54,7 @@ void credits_Init(void) {
 	fclose(creditsFile);
 
 	scrollY = CP_System_GetWindowHeight();
-	speed = 60.0f;
+	speed = 200.0f;
 
 }
 void credits_Update(void) {
@@ -62,14 +62,14 @@ void credits_Update(void) {
 
 	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
 
-	CP_Image_Draw(prassana.image, CP_System_GetWindowWidth() / 2.0f, scrollY, prassana.width*5, prassana.height*5, 255);
+	CP_Image_Draw(prassana.image, CP_System_GetWindowWidth() / 2.0f, scrollY, prassana.width, prassana.height, 255);
 	// Draw credits
 	CP_Font_Set(montserrat_light);
 	CP_Settings_Fill(black);
 	CP_Settings_TextSize(15.0f);
 
 	for (int i = 0; i < totalLines; i++) {
-		CP_Font_DrawText(creditsLines[i], CP_System_GetWindowWidth() / 2.0f, scrollY + prassana.height + i * 15.0f);
+		CP_Font_DrawText(creditsLines[i], CP_System_GetWindowWidth() / 2.0f, scrollY + prassana.height/2.0f + 15.0f + i * 15.0f);
 	}
 
 	// scroll upwards
