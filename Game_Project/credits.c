@@ -83,4 +83,4 @@ void credits_Update(void) {
 void credits_Exit(void) {
 	CP_Font_Free(montserrat_light);
 	CP_Image_Free(prassana.image);
-} 
+}  
