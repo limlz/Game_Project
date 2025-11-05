@@ -184,7 +184,7 @@ void Main_Menu_Update(void)
 	}
 	CP_Font_Set(sub_font);
 	CP_Settings_Fill(button_blue);
-	CP_Settings_TextSize(CP_Math_LerpFloat(60.0f,70.0f,breathing_counter));
+	CP_Settings_TextSize(70.0f);
 	CP_Font_DrawText(subtext[rand_sub_text], center_x, button_y - 70);
 
 	// UI decor - wobble sponge :D
