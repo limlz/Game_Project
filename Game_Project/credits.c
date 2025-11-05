@@ -30,8 +30,8 @@ void credits_Init(void) {
 	// load image
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	prassana.image = CP_Image_Load("Assets/Prasanna Ghali.jpg");
-	prassana.height = CP_Image_GetHeight(prassana.image) * 5;
-	prassana.width = CP_Image_GetWidth(prassana.image) * 5;
+	prassana.height = CP_Image_GetHeight(prassana.image) * 3;
+	prassana.width = CP_Image_GetWidth(prassana.image) * 7;
 
 	// load font
 	montserrat_light = CP_Font_Load("Assets/Exo2-Regular.ttf");
