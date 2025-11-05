@@ -66,7 +66,7 @@ void credits_Update(void) {
 	// Draw credits
 	CP_Font_Set(montserrat_light);
 	CP_Settings_Fill(black);
-	CP_Settings_TextSize(15.0f);
+	CP_Settings_TextSize(30.0f);
 
 	for (int i = 0; i < totalLines; i++) {
 		CP_Font_DrawText(creditsLines[i], CP_System_GetWindowWidth() / 2.0f, scrollY + prassana.height/2.0f + 15.0f + i * 15.0f);
@@ -83,4 +83,4 @@ void credits_Update(void) {
 void credits_Exit(void) {
 	CP_Font_Free(montserrat_light);
 	CP_Image_Free(prassana.image);
-}
+} 
