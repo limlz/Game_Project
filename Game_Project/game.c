@@ -16,6 +16,7 @@
 #include "soap.h"
 #include "debug.h"
 #include "img_font_init.h"
+#include "tutorial.h"
 
 
 int debugging = 0;
@@ -100,10 +101,31 @@ void Game_Update(void)
 
 	// Bubble drawing function
 	Bubbles_Draw();
-	PurchaseRoomba();
 	if (RoombaPurchase()) {
 		RoombaFunction();
 	}
+
+	AOEStream();
+
+	//General UI - scene setting (sink base) pt 2
+	CP_Settings_Fill(CP_Color_Create(186, 191, 197, 255));
+	CP_Settings_NoStroke();
+	CP_Graphics_DrawRect((float)CP_System_GetWindowWidth() * 0.5f, 850.0f, (float)CP_System_GetWindowWidth(), 100.0f);
+
+	SpongeInit();
+	Soap_Update();
+	TimerInit();
+	shop_init();
+	
+
+	if (Day_IsInGameplay() && (Day_GetDay() == 0)) {
+		TutorialYesorNo();
+		TutorialDayZero();
+	} else {
+		PurchaseRoomba();
+	}
+
+	Day_DrawPopup();
 
 	if (CP_Input_KeyDown(KEY_6) && CP_Input_KeyTriggered(KEY_7) && IsCurrentlyDebugging() == 0) {
 		StartDebugging();
@@ -115,21 +137,6 @@ void Game_Update(void)
 	if (IsCurrentlyDebugging()) {
 		DebugPrint();
 	}
-
-	AOEStream();
-
-
-	//General UI - scene setting (sink base) pt 2
-	CP_Settings_Fill(CP_Color_Create(186, 191, 197, 255));
-	CP_Settings_NoStroke();
-	CP_Graphics_DrawRect((float)CP_System_GetWindowWidth() * 0.5f, 850.0f, (float)CP_System_GetWindowWidth(), 100.0f);
-
-	// cooldown_timer_stream();
-	SpongeInit();
-	Soap_Update();
-	TimerInit();
-	shop_init();
-	Day_DrawPopup();
 }
 
 void Game_Exit(void) {

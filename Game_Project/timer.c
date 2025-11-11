@@ -112,6 +112,7 @@ static void TimeUpdate(void) {
 void TimerInit() {
 	TimeUpdate();
 
+	CP_Settings_Stroke(black);
 	CP_Settings_Fill(CP_Color_Create((int)timer, (int)(timer * 2), (int)(255 - timer), 200));
 	// Draw the timer bar 
 	CP_Graphics_DrawQuadAdvanced(

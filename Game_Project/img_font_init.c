@@ -11,6 +11,8 @@ void InitImagesFontsColors(void) {
 	hamstamugshot = CP_Image_Load("Assets/hamstermugshot.gif");
 	arm = CP_Image_Load("Assets/hamgun.gif");
 	arm_flipped = CP_Image_Load("Assets/hamgunflip.gif");
+	arm_arrow_left = CP_Image_Load("Assets/hamarrorlef.gif");
+	arm_arrow_right = CP_Image_Load("Assets/hamarrorit.gif");
 	cart = CP_Image_Load("Assets/cart.gif");
 	front = CP_Image_Load("Assets/hamface.gif");
 	jiggle1 = CP_Image_Load("Assets/jiggle1.gif");
@@ -43,6 +45,14 @@ void FreeImagesFonts(void) {
 	CP_Image_Free(hamsta);
 	CP_Image_Free(arm);
 	CP_Image_Free(arm_flipped);
+	CP_Image_Free(hamstamugshot);
+	CP_Image_Free(arm_arrow_left);
+	CP_Image_Free(arm_arrow_right);
+	CP_Image_Free(jiggle1);
+	CP_Image_Free(jiggle2);
+	CP_Image_Free(jiggle3);
+	CP_Image_Free(front);
+	CP_Image_Free(cart);
 
 	// Free fonts
 	CP_Font_Free(montserrat_light);

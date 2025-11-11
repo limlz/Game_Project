@@ -1,0 +1,5 @@
+#pragma once
+
+void TutorialStart(void);
+void TutorialDayZero(void);
+void TutorialYesorNo(void);

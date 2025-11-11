@@ -358,3 +358,7 @@ void shop_init(void) {
         shop_menu();
     }
 }
+
+int IsShopOpen(void) {
+    return shop_toggle;
+}

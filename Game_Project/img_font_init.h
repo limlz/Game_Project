@@ -12,6 +12,7 @@ CP_Image arm;
 CP_Image arm_flipped;
 CP_Image hamstamugshot;
 CP_Image jiggle1, jiggle2, jiggle3, front;
+CP_Image arm_arrow_left, arm_arrow_right;
 
 
 CP_Font montserrat_light;
