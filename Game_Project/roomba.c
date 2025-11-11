@@ -59,6 +59,7 @@ void PurchaseRoomba(void) {
 	if (!ham_purchased) {
 		CP_Image_Draw(front, CP_System_GetWindowWidth()- 130, CP_System_GetWindowHeight() - 210, 190, 150, 255);
 		char roomba_price[50];
+		CP_Font_Set(montserrat_light);
 		sprintf_s(roomba_price, sizeof(roomba_price), "Cost: $%d", ROOMBA_PRICE);
 		CP_Font_DrawText(roomba_price, CP_System_GetWindowWidth() - 135, CP_System_GetWindowHeight() - 120);
 		if (IsAreaClicked(CP_System_GetWindowWidth() - 130, CP_System_GetWindowHeight() - 250, 190, 150, CP_Input_GetMouseX(), CP_Input_GetMouseY()) && CP_Input_MouseClicked()) {

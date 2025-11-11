@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "utils.h"
 #include "dirt.h"
+#include "img_font_init.h"
 
 
 char money_text[64];
@@ -47,6 +48,7 @@ int GetPlateValue(void) {
 // function to draw current money
 void MoneyDisplay(void) {
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+	CP_Font_Set(montserrat_light);
 	CP_Settings_TextSize(30);
 	sprintf_s(money_text,32, "Money: %d",current_dollars);
 	CP_Font_DrawTextBox(money_text, 755, 35, 90);
