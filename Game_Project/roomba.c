@@ -55,9 +55,10 @@ void InitRoomba(void) {
 }
 
 void PurchaseRoomba(void) {
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_BASELINE);
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	if (!ham_purchased) {
-		CP_Image_Draw(front, CP_System_GetWindowWidth()- 130, CP_System_GetWindowHeight() - 210, 190, 150, 255);
+		CP_Image_Draw(front, CP_System_GetWindowWidth()- 130, CP_System_GetWindowHeight() - 210, 200, 140, 255);
 		char roomba_price[50];
 		CP_Font_Set(montserrat_light);
 		sprintf_s(roomba_price, sizeof(roomba_price), "Cost: $%d", ROOMBA_PRICE);

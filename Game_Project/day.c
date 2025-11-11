@@ -8,6 +8,7 @@
 #include "img_font_init.h"
 #include "confetti.h"
 #include "shop.h"
+#include "tutorial.h"
 
 static int show_day_complete_popup = 0;  // 1 = popup visible
 static const int DAY_BASE_GOAL = 5;
@@ -19,6 +20,8 @@ static int cleaned = 0;
 static int inGameplay = 1; // 1 = washing, 0 = popup/shop
 static int readyForNextDay = 0;   // 1 means: show Next Day button in Shop
 static float time_beforenext;
+
+int TutorialFinishing = 1;
 
 void Day_Init(void) {
     day = 0;
@@ -85,10 +88,26 @@ void Day_DrawPopup(void) {
 
     CP_Graphics_ClearBackground(blue_chalk);
     CP_Font_Set(sub_font);
-    CP_Settings_Stroke(dark_grey);
+    CP_Settings_Fill(dark_grey);
     CP_Settings_TextSize(60.0f);
-    snprintf(buffer, sizeof(buffer), "DAY %d", day);
-    CP_Font_DrawText(buffer, centerX, centerY);
+
+    if (day == 1 && TutorialIsActive() == 1) {
+        if (TutorialFinishing) {
+			time_beforenext = 3.0f;
+			TutorialFinishing = 0;
+        }
+        snprintf(buffer, sizeof(buffer), "TUTORIAL COMPLETE!");
+        CP_Font_DrawText(buffer, centerX, centerY);
+    }
+    else if (day == 1) {
+        snprintf(buffer, sizeof(buffer), "DAY %d", day);
+        CP_Font_DrawText(buffer, centerX, centerY);
+    }
+    else {
+        snprintf(buffer, sizeof(buffer), "DAY %d", day);
+        CP_Font_DrawText(buffer, centerX, centerY);
+    }
+
 
     time_beforenext -= CP_System_GetDt();
 

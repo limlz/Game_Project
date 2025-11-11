@@ -362,3 +362,7 @@ void shop_init(void) {
 int IsShopOpen(void) {
     return shop_toggle;
 }
+
+void ForceCloseShop(void) {
+    shop_toggle = 0;
+}

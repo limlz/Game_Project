@@ -129,8 +129,7 @@ void Game_Update(void)
 
 	if (CP_Input_KeyDown(KEY_6) && CP_Input_KeyTriggered(KEY_7) && IsCurrentlyDebugging() == 0) {
 		StartDebugging();
-	}
-	else if (CP_Input_KeyTriggered(KEY_6)) {
+	} else if (CP_Input_KeyTriggered(KEY_6)) {
 		StopDebugging();
 	}
 
