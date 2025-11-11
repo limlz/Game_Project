@@ -10,6 +10,7 @@
 #include "confetti.h"
 #include "bubbles.h"
 #include "roomba.h"
+#include "faucet.h"
 
 #define OFFSET		150
 #define MAX_NAME_LENGTH 8
@@ -26,6 +27,12 @@ static int entry_count = 0;
 static int lowest_score;
 static int high_score;
 static int overlay_y = 0;
+static int overlay_down = 1;
+int try_pop = 0;
+int menu_pop = 0;
+int exit_pop = 0;
+int leaderboard_pop = 0;
+int credits_pop = 0;
 
 FILE* leaderboard_file;
 
@@ -77,16 +84,12 @@ void Game_Over_Update(void)
 	float buttons_y = center_y + 130;
 	mx = CP_Input_GetMouseX();
 	my = CP_Input_GetMouseY();
-	int try_pop = 0;
-	int menu_pop = 0;
-	int leaderboard_pop = 0;
-	int credits_pop = 0;
 
 	// Draw rectangles for button_blue
 	CP_Settings_Fill(button_blue);
 	CP_Settings_NoStroke();
-	CP_Graphics_DrawRectAdvanced(center_x+540, buttons_y, 400.0f + try_pop, 200.0f + try_pop, 0, 50);
-	CP_Graphics_DrawRectAdvanced(center_x-540, buttons_y, 400.0f + menu_pop, 200.0f + menu_pop, 0, 50);
+	CP_Graphics_DrawRectAdvanced(center_x+540, buttons_y, 400.0f + exit_pop, 200.0f + exit_pop, 0, 50);
+	CP_Graphics_DrawRectAdvanced(center_x-540, buttons_y, 400.0f + try_pop, 200.0f + try_pop, 0, 50);
 	CP_Graphics_DrawRectAdvanced(center_x, buttons_y, 400.0f + menu_pop, 200.0f + menu_pop, 0, 50);
 
 
@@ -149,46 +152,13 @@ void Game_Over_Update(void)
 
 		if (!name_entered) {
 			overlay_y = CP_System_GetWindowHeight()/2;
+			overlay_down = 0;
 		}
-		else {
+		else { 
+			overlay_down = 1;
 			overlay_y += 1500 * CP_System_GetDt();
 			overlay_y = CP_Math_ClampInt(overlay_y, CP_System_GetWindowHeight() / 2, CP_System_GetWindowHeight()*1.5);
 			CP_Settings_Stroke(white);
-			//buttons after overlay
-			if (IsAreaClicked(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
-				credits_pop = 10;
-				BubblesManual(mx, my);
-
-				CP_Settings_Fill(button_blue);
-				CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 120.0f, 75.0f, 0.0f, 20.0f);
-
-				CP_Font_Set(montserrat_light);
-				CP_Settings_Fill(white);
-				CP_Settings_TextSize(30.0f);
-				CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
-				CP_Font_DrawText("Credits", CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f);
-
-				if (CP_Input_MouseClicked()) {
-					CP_Engine_SetNextGameState(credits_Init, credits_Update, credits_Exit);
-				}
-			}
-			else if (IsAreaClicked(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
-				leaderboard_pop = 10;
-				BubblesManual(mx, my);
-
-				CP_Settings_Fill(button_blue);
-				CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 170.0f, 75.0f, 0.0f, 20.0f);
-
-				CP_Font_Set(montserrat_light);
-				CP_Settings_Fill(white);
-				CP_Settings_TextSize(30.0f);
-				CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
-				CP_Font_DrawText("Leaderboard", CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f);
-
-				if (CP_Input_MouseClicked()) {
-					CP_Engine_SetNextGameState(Leaderboard_Init, Leaderboard_Update, Leaderboard_Exit);
-				}
-			}
 			CP_Settings_NoStroke();
 		}
 
@@ -237,6 +207,64 @@ void Game_Over_Update(void)
 		//confetti
 		UpdateConfetti(CP_System_GetDt()); //confetti hehe
 	}
+	try_pop = menu_pop = exit_pop = leaderboard_pop = credits_pop = 0;
+	if (overlay_down) {
+		if (IsAreaClicked(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
+			credits_pop = 10;
+			BubblesManual(mx, my);
+
+			CP_Settings_Fill(button_blue);
+			CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 120.0f + credits_pop, 75.0f + credits_pop, 0.0f, 20.0f);
+
+			CP_Font_Set(montserrat_light);
+			CP_Settings_Fill(white);
+			CP_Settings_TextSize(30.0f);
+			CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+			CP_Font_DrawText("Credits", CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f);
+
+			if (CP_Input_MouseClicked()) {
+				CP_Engine_SetNextGameState(credits_Init, credits_Update, credits_Exit);
+			}
+		}
+		else if (IsAreaClicked(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
+			leaderboard_pop = 10;
+			BubblesManual(mx, my);
+
+			CP_Settings_Fill(button_blue);
+			CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 170.0f + leaderboard_pop, 75.0f + leaderboard_pop, 0.0f, 20.0f);
+
+			CP_Font_Set(montserrat_light);
+			CP_Settings_Fill(white);
+			CP_Settings_TextSize(30.0f);
+			CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+			CP_Font_DrawText("Leaderboard", CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f);
+
+			if (CP_Input_MouseClicked()) {
+				CP_Engine_SetNextGameState(Leaderboard_Init, Leaderboard_Update, Leaderboard_Exit);
+			}
+		}
+		else if (IsAreaClicked(center_x - 540, buttons_y, 400.0f + menu_pop, 200.0f + menu_pop, mx, my)) {
+			try_pop = 10;
+			BubblesManual(mx, my);
+			if (CP_Input_MouseClicked()) {
+				CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
+			}
+		}
+		else if (IsAreaClicked(center_x, buttons_y, 400.0f + menu_pop, 200.0f + menu_pop, mx, my)) {
+			menu_pop = 10;
+			BubblesManual(mx, my);
+			if (CP_Input_MouseClicked()) {
+				CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
+			}
+		}
+		else if (IsAreaClicked(center_x + 540, buttons_y, 400.0f + menu_pop, 200.0f + menu_pop,mx, my)) {
+			exit_pop = 10;
+			BubblesManual(mx, my);
+			if (CP_Input_MouseClicked()) {
+				CP_Engine_Terminate();
+			}
+		}
+	}
 
 	Bubbles_Draw();
 
@@ -284,5 +312,6 @@ void Game_Over_Exit(void)
 	fclose(leaderboard_file);
 
 	ResetRoomba();
+	Faucet_ResetCooldown();
 	ResetMoney();
 }

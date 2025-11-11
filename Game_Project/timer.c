@@ -21,7 +21,7 @@ int lowest_leaderboard_score;
 // Function to start the timer countdown, when started timer will decrease
 static void TimeStart(void) {
 	if (timer > 0.0f && !is_timer_stopped) {
-		timer -= (2 * (CP_System_GetDt()));
+		timer -= (10 * (CP_System_GetDt()));
 	}
 }
 
