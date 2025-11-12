@@ -15,7 +15,7 @@
 int tutorial_need_answer = 1; //starts game with tutorial question
 int start_tutorial = 0; //if tutorial is active, show tutorial screen - first step
 int is_tutorial_active = 0; //if sponge tutorial is active, show sponge equip tutorial
-int tutorial_step = 8; //which step of the tutorial the player is on
+int tutorial_step = 0; //which step of the tutorial the player is on
 int text_placement = 1;
 int standard_textbox_values = 1; //if 1, use standard textbox positions; if 0, use custom positions
 
@@ -212,10 +212,10 @@ void TutorialStart(void) {
 			else {
 				CP_Font_DrawText("You can purchase me too!", draw_text_x, draw_text_y1);
 				CP_Font_DrawText("Shiny plates await!", draw_text_x, draw_text_y2);
-			}
+				CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+			}	
 		}
-	}
-	
+	}	
 }
 
 	void TutorialDayZero(void) {
@@ -244,6 +244,7 @@ void TutorialStart(void) {
 			CP_Font_Set(montserrat_light);
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(40.0f);
+			CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 			CP_Font_DrawText("So, you want to be the best dish-washer in town, huh?", mid_x, mid_y - 30.0f);
 			CP_Font_DrawText("Come on over and let me show you around...", mid_x, mid_y + 30.0f);
 
@@ -300,5 +301,9 @@ void TutorialYesorNo(void) {
 
 int TutorialIsActive(void) {
 	return is_tutorial_active;
+}
+
+void ForceTutorialClose(void) {
+	is_tutorial_active = 0;
 }
 

@@ -7,6 +7,7 @@
 #include "soap.h"
 #include "day.h"
 #include "faucet.h"
+#include "img_font_init.h"
 #include <stdio.h>
 
 #define ADD_SUB_BOX_HEIGHT			40
@@ -32,6 +33,8 @@ void StopDebugging(void) {
 }
 
 void DebugPrint(void) {
+	CP_Font_Set(montserrat_light);
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 	debug_box_color = CP_Color_Create(240, 240, 240, 255);
 	addition_color = CP_Color_Create(0, 255, 0, 200);
 	subtraction_color = CP_Color_Create(255, 0, 0, 200);

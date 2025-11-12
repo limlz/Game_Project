@@ -83,21 +83,38 @@ void Day_DrawPopup(void) {
     if (!show_day_complete_popup)
         return;
 
-    float centerX = CP_System_GetWindowWidth() / 2.0f;
-    float centerY = CP_System_GetWindowHeight() / 2.0f;
+    float centerX = (float)CP_System_GetWindowWidth() / 2.0f;
+    float centerY = (float)CP_System_GetWindowHeight() / 2.0f;
 
     CP_Graphics_ClearBackground(blue_chalk);
     CP_Font_Set(sub_font);
     CP_Settings_Fill(dark_grey);
     CP_Settings_TextSize(60.0f);
-
+  
     if (day == 1 && TutorialIsActive() == 1) {
         if (TutorialFinishing) {
-			time_beforenext = 3.0f;
+			time_beforenext = 3.5f;
 			TutorialFinishing = 0;
         }
-        snprintf(buffer, sizeof(buffer), "TUTORIAL COMPLETE!");
-        CP_Font_DrawText(buffer, centerX, centerY);
+        CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 155));
+        CP_Settings_Fill(CP_Color_Create(230, 230, 230, 255));
+        CP_Graphics_DrawCircle(centerX, centerY, 600);
+        CP_Settings_Fill(CP_Color_Create(210, 210, 210, 255));
+        CP_Graphics_DrawCircle(centerX, centerY, 400);
+
+        CP_Image_Draw(hamstamugshot, centerX, centerY- 120.0f, 300.0f, 245.0f, 255);
+        CP_Settings_NoStroke();
+        CP_Settings_Fill(button_blue);
+        CP_Graphics_DrawRectAdvanced(centerX, centerY, 650.0f, 125.0f, 0, 20.0f);
+        CP_Font_Set(montserrat_light);
+        CP_Settings_Fill(white);
+        CP_Settings_TextSize(40.0f);
+        CP_Font_DrawText("You're a natural! Keep on scrubbing!", centerX, centerY - 20.0f);
+        CP_Font_DrawText("Can you be the best in town?", centerX, centerY + 35.0f);
+        CP_Font_Set(sub_font);
+        CP_Settings_Fill(dark_grey);
+        CP_Settings_TextSize(60.0f);
+        CP_Font_DrawText("DAY ONE LOADING...", centerX, 870.0f);
     }
     else if (day == 1) {
         snprintf(buffer, sizeof(buffer), "DAY %d", day);
@@ -112,6 +129,7 @@ void Day_DrawPopup(void) {
     time_beforenext -= CP_System_GetDt();
 
     if (time_beforenext <= 0.0f) {
+        ForceTutorialClose();
         TimeReset();
         Day_StartCurrentDay();
         InitDirt();

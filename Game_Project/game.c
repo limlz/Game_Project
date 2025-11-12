@@ -25,6 +25,7 @@ CP_Font sub_font;
 
 void Game_Init(void)
 {
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 	InitImagesFontsColors();
 	// Initialise random variable required for bubble production
 	BubblesInit();
