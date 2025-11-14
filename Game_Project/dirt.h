@@ -7,6 +7,7 @@ int GetNumberOfDirt(void);
 void ReduceAllDirtOpacity(int);
 int GetTotalOpacity(void);
 int GetSpongeRadius(void);
+void DirtPointer(void);
 
 typedef struct dirt {
     float position_x;

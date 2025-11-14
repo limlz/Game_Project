@@ -14,6 +14,7 @@ dirt dirt_list[MAX_DIRT];
 int num_of_dirt = 5;
 int total_opacity = 0;
 int currently_scrubbbing = 0;
+float time_after_generation = 0.0f;
 
 int GetSpongeRadius(void) {
 	return SPONGE_RADIUS;
@@ -47,6 +48,7 @@ void InitDirt(void) {
 		dirt_list[i].opacity = 220;
 		dirt_list[i].size = DIRT_RADIUS;
 	}
+	time_after_generation = 0.0f;
 	plate_awarded = 0;  // <-- reset award latch when new dirt/plate is created
 }
 
@@ -66,6 +68,7 @@ void DrawDirt(void)
 		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
 		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	}
+	DirtPointer();
 }
 
 // function to check if required conditions are met to start reducing opacity of dirt
@@ -92,11 +95,25 @@ int DirtRemoved(void) {
 		if (!plate_awarded) {                  // <-- only pay once
 			IncrementMoney(GetPlateValue());
 			plate_awarded = 1;
+			time_after_generation = 0.0f;
 			return 1;
 		}
 		return 0;                              // already paid; don't trigger again
 	}
 	else {
 		return 0;
+	}
+}
+
+void DirtPointer(void) {
+	time_after_generation += CP_System_GetDt();
+	if (time_after_generation > 10.0f) {
+		for (int i = 0; i < num_of_dirt; i++) {
+			if (dirt_list[i].opacity < 50 && dirt_list[i].opacity != 0) {
+				CP_Settings_NoFill();
+				CP_Settings_Stroke(CP_Color_Create(255, 0, 0, 255));
+				CP_Graphics_DrawCircle(dirt_list[i].position_x, dirt_list[i].position_y, DIRT_RADIUS * 2 + 10);
+			}
+		}
 	}
 }
