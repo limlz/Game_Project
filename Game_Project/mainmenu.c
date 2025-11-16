@@ -39,6 +39,7 @@ void Main_Menu_Update(void)
 	my = CP_Input_GetMouseY();
 
 	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
+	CP_Image_Draw(background_image, (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
 
 	float center_x = CP_System_GetWindowWidth() * 0.5f;
 	float button_y = CP_System_GetWindowHeight() * 0.5f;
@@ -125,10 +126,8 @@ void Main_Menu_Update(void)
 	CP_Graphics_DrawRectAdvanced(center_x + OFFSET, button_y + MOVE_DOWN, 300.0f + exit_pop, 150.0f + exit_pop, 0.0f, 50.0f);
 
 	// Draw settings button
-	CP_Settings_Fill(button_blue);
-	CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120.0f, 100.0f + settings_pop, 100.0f + settings_pop, 0.0f, 20.0f);
-	CP_Settings_Fill(white);
-	CP_Graphics_DrawCircle(120, CP_System_GetWindowHeight() - 120.0f, 50.0f);
+	CP_Image_Draw(settings_icon, 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + settings_pop, 100.0f + settings_pop, 255);
+
 
 	// Draw Credits button
 	CP_Settings_Fill(button_blue);
@@ -141,13 +140,9 @@ void Main_Menu_Update(void)
 	CP_Graphics_DrawLine(CP_System_GetWindowWidth() - 120.0f - 17.0f, CP_System_GetWindowHeight() - 120.0f - 15.0f, CP_System_GetWindowWidth() - 120.0f + 17.0f, CP_System_GetWindowHeight() - 120.0f - 15.0f);
 
 	// Draw leaderboard button
-	CP_Settings_Fill(button_blue);
-	CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + leaderboard_pop, 100.0f + leaderboard_pop, 0.0f, 20.0f);
-	CP_Settings_Fill(white);
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 20.0f, 60.0f);
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() - 240.0f + 20.0f, CP_System_GetWindowHeight() - 120.0f + 15.0f, 20.0f, 30.0f);
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() - 240.0f - 20.0f, CP_System_GetWindowHeight() - 120.0f + 10.0f, 20.0f, 40.0f);
-	
+	CP_Image_Draw(leaderboard_icon, CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + leaderboard_pop, 100.0f + leaderboard_pop, 255);
+
+
 	// Draw text for button_blue
 	CP_Font_Set(montserrat_light);
 	CP_Settings_Fill(white);
@@ -156,7 +151,17 @@ void Main_Menu_Update(void)
 	CP_Font_DrawText("Play", center_x - OFFSET, button_y + MOVE_DOWN);
 	CP_Font_DrawText("Exit", center_x + OFFSET, button_y + MOVE_DOWN);
 
-	// UI decor - text shadow
+	// Hamster
+	CP_Settings_NoStroke();
+	CP_Settings_Fill(CP_Color_Create(141, 144, 147, 200));
+	CP_Image_Draw(hamsta, 400.0f, 240.0f, 220.0f, 220.0f, 255);
+
+
+	// UI Title
+	CP_Image_Draw(title_image, (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
+
+	/*
+	// Draw game shadow
 	CP_Font_Set(title_font);
 	CP_Settings_Fill(white);
 	CP_Settings_TextSize(250.0f);
@@ -167,6 +172,7 @@ void Main_Menu_Update(void)
 	CP_Settings_Fill(button_blue);
 	CP_Settings_TextSize(250.0f);
 	CP_Font_DrawText("WEWASHPL8", center_x, button_y - 200);
+	*/
 
 	// Draw Subtext below Game Title
 	char subtext[10][64] = {"The Ultimate Dish-Washing Simulator",
@@ -184,8 +190,8 @@ void Main_Menu_Update(void)
 	}
 	CP_Font_Set(sub_font);
 	CP_Settings_Fill(button_blue);
-	CP_Settings_TextSize(70.0f);
-	CP_Font_DrawText(subtext[rand_sub_text], center_x, button_y - 70);
+	CP_Settings_TextSize(40.0f);
+	CP_Font_DrawText(subtext[rand_sub_text], center_x, CP_System_GetWindowHeight() - 120.0f);
 
 	// UI decor - wobble sponge :D
 	if (dir == 1) {
@@ -202,28 +208,24 @@ void Main_Menu_Update(void)
 	Bubbles_Draw();
 
 	// Hamster
-	CP_Settings_NoStroke();
-	CP_Settings_Fill(CP_Color_Create(141, 144, 147, 200));
-	CP_Graphics_DrawEllipse(CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() - 80.0f, 200.0f, 30.0f);
-	CP_Image_Draw(hamsta, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() - 130.0f, 170.0f, 170.0f, 255);
 	BulletsUpdateAndDraw();
 
 
 	// Hamster Pointer
-	CP_Vector hand_origin = CP_Vector_Set(CP_System_GetWindowWidth() / 2.0f + 60.0f, CP_System_GetWindowHeight() - 130.0f);
+	CP_Vector hand_origin = CP_Vector_Set(470.0f, 240.0f);
 	CP_Vector hand_vector = CP_Vector_Subtract(CP_Vector_Set(mx, my), hand_origin);
 	CP_Vector up = CP_Vector_Set(0, 1);
 	float hand_angle = CP_Vector_AngleCW(up, CP_Vector_Negate(hand_vector));
 
 	// Fire once per click
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1)) {
-		BulletsSpawn(hand_origin, CP_Vector_Set(mx, my), 400.0f, 10.0f);
+		BulletsSpawn(hand_origin, CP_Vector_Set(mx, my), 400.0f, 15.0f);
 	}
 	if (hand_angle > 0 && hand_angle < 180) {
-		CP_Image_DrawAdvanced(arm, (float)(CP_System_GetWindowWidth() / 2.0f + 55.0f), (float)(CP_System_GetWindowHeight() - 130.0f), 80.0f, 80.0f, 255, hand_angle);
+		CP_Image_DrawAdvanced(arm, 470.0f, 240.0f, 120.0f, 120.0f, 255, hand_angle);
 	}
 	else {
-		CP_Image_DrawAdvanced(arm_flipped, (float)(CP_System_GetWindowWidth() / 2.0f + 55.0f), (float)(CP_System_GetWindowHeight() - 130.0f), 80.0f, 80.0f, 255, hand_angle);
+		CP_Image_DrawAdvanced(arm_flipped, 470.0f, 240.0f, 120.0f, 120.0f, 255, hand_angle);
 	}
 
 

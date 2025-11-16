@@ -13,8 +13,14 @@ void InitImagesFontsColors(void) {
 	arm_flipped = CP_Image_Load("Assets/hamgunflip.gif");
 	arm_arrow_left = CP_Image_Load("Assets/hamarrorlef.gif");
 	arm_arrow_right = CP_Image_Load("Assets/hamarrorit.gif");
-	cart = CP_Image_Load("Assets/cart.gif");
+	cart = CP_Image_Load("Assets/cart.png");
 	front = CP_Image_Load("Assets/hamface.gif");
+	background_image = CP_Image_Load("Assets/background.png");
+	title_image = CP_Image_Load("Assets/title_soap.png");
+	settings_icon = CP_Image_Load("Assets/settings.png");
+	leaderboard_icon = CP_Image_Load("Assets/leader.png");
+	settings_background = CP_Image_Load("Assets/settings_title_background.png");
+	tutorial_towel = CP_Image_Load("Assets/tutorial_towel.png");
 	jiggle1 = CP_Image_Load("Assets/jiggle1.gif");
 	jiggle2 = CP_Image_Load("Assets/jiggle2.gif");
 	jiggle3 = CP_Image_Load("Assets/jiggle3.gif");

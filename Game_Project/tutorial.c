@@ -277,6 +277,7 @@ void TutorialYesorNo(void) {
 		CP_Font_Set(montserrat_light);
 		CP_Settings_Fill(black);
 		CP_Settings_TextSize(40.0f);
+		CP_Image_Draw(tutorial_towel, (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
 		CP_Font_DrawText("Hey there! Would you like a tutorial?", mid_x, mid_y - 85.0f);
 
 		// two buttons yes and n0

@@ -24,6 +24,8 @@ void Settings_Update(void)
 	mousex = CP_Input_GetMouseX();
 	mousey = CP_Input_GetMouseY();
 	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
+	CP_Image_Draw(background_image, (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
+	CP_Image_Draw(settings_background, (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
 
 	// Draw settings logo
 	CP_Font_Set(sub_font);
@@ -46,6 +48,15 @@ void Settings_Update(void)
 	if (IsAreaClicked(120, CP_System_GetWindowHeight() - 120, 100, 100, mousex, mousey)) {
 		settings_pop = 10;
 		BubblesManual(mousex, mousey);
+
+		CP_Settings_Fill(button_blue);
+		CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 120.0f, 75.0f, 0.0f, 20.0f);
+		CP_Font_Set(montserrat_light);
+		CP_Settings_Fill(white);
+		CP_Settings_TextSize(30.0f);
+		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+		CP_Font_DrawText("Back", 120, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f);
+
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 		}
@@ -58,11 +69,7 @@ void Settings_Update(void)
 	CP_Image_Draw(hamsta, CP_System_GetWindowWidth()/2,CP_System_GetWindowHeight() - 130, 170.0f, 170.0f, 255);
 
 	// Draw settings button
-	CP_Settings_Fill(button_blue);
-	CP_Settings_NoStroke();
-	CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120, 100 + settings_pop, 100 + settings_pop, 0, 20);
-	CP_Settings_Fill(white);
-	CP_Graphics_DrawCircle(120, CP_System_GetWindowHeight() - 120, 50);
+	CP_Image_Draw(settings_icon, 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + settings_pop, 100.0f + settings_pop, 255);
 	UpdateVolume();
 	Bubbles_Draw();
 	BulletsUpdateAndDraw();

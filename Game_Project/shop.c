@@ -343,7 +343,7 @@ void shop_init(void) {
     if (CheckGameRunning()) {
         CP_Settings_TextSize(24.0f);
         CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
-        CP_Image_Draw(cart, x_pos, y_pos - 200.0f, 80.0f, 80.0f, 255);
+        CP_Image_Draw(cart, x_pos, y_pos - 200.0f, 110.0f, 80.0f, 255);
         CP_Font_DrawText("Shop [F]", x_pos, y_pos - 150.0f);
     }
 

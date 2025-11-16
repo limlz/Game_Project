@@ -78,6 +78,7 @@ void Game_Over_Init(void)
 void Game_Over_Update(void)
 {
 	CP_Graphics_ClearBackground(blue_chalk);
+	CP_Image_Draw(background_image, (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
 
 	float center_x = CP_System_GetWindowWidth() * 0.5f;
 	float center_y = CP_System_GetWindowHeight() * 0.5f;

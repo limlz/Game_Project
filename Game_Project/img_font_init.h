@@ -11,6 +11,12 @@ CP_Image hamsta;
 CP_Image arm;
 CP_Image arm_flipped;
 CP_Image hamstamugshot;
+CP_Image background_image;
+CP_Image title_image;
+CP_Image settings_icon;
+CP_Image leaderboard_icon;
+CP_Image tutorial_towel;
+CP_Image settings_background;
 CP_Image jiggle1, jiggle2, jiggle3, front;
 CP_Image arm_arrow_left, arm_arrow_right;
 

@@ -96,6 +96,9 @@
     <ClCompile Include="img_font_init.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tutorial.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameover.h">
@@ -174,6 +177,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="img_font_init.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tutorial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
