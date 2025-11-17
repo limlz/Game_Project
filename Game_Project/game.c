@@ -115,7 +115,8 @@ void Game_Update(void)
 
 	SpongeInit();
 	Soap_Update();
-	
+
+	shop_init();
 
 	if (Day_IsInGameplay() && (Day_GetDay() == 0)) {
 		TimerInit();
@@ -126,7 +127,6 @@ void Game_Update(void)
 		TimerInit();
 	}
 
-	shop_init();
 
 	Day_DrawPopup();
 

@@ -112,7 +112,6 @@ void Main_Menu_Update(void)
 		}
 	}
 
-	BubblesManual(1520.0f, 300.0f);
 	
 	// UI decor - randomised plates, utilising ChangePlate() function in plate.c
 	CP_Settings_Fill(plate_outer);
@@ -209,6 +208,7 @@ void Main_Menu_Update(void)
 
 	// Hamster
 	BulletsUpdateAndDraw();
+	Bubbles_Draw();
 
 
 	// Hamster Pointer
@@ -242,6 +242,7 @@ void Main_Menu_Update(void)
 	if (show_controls) {
 		ControlsOverlay();
 	}
+
 
 }
 
