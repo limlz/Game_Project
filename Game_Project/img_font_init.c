@@ -16,7 +16,8 @@ void InitImagesFontsColors(void) {
 	cart = CP_Image_Load("Assets/cart.png");
 	front = CP_Image_Load("Assets/hamface.gif");
 	background_image = CP_Image_Load("Assets/background.png");
-	title_image = CP_Image_Load("Assets/title_soap.png");
+	titlepos_image = CP_Image_Load("Assets/title_soap.png");
+	title_image = CP_Image_Load("Assets/title.png");
 	settings_icon = CP_Image_Load("Assets/settings.png");
 	controls_icon = CP_Image_Load("Assets/controls.png");
 	back_arrow = CP_Image_Load("Assets/back_arrow.png");

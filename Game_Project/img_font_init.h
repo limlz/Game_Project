@@ -12,6 +12,7 @@ CP_Image arm;
 CP_Image arm_flipped;
 CP_Image hamstamugshot;
 CP_Image background_image;
+CP_Image titlepos_image;
 CP_Image title_image;
 CP_Image settings_icon;
 CP_Image leaderboard_icon;

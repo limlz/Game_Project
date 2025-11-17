@@ -151,7 +151,9 @@ void Main_Menu_Update(void)
 
 
 	// UI Title
-	CP_Image_Draw(title_image, (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
+	CP_Image_Draw(title_image, center_x - 15.0f, 275.0f, 1315.0f, 740.0f, 255);
+	CP_Image_DrawAdvanced(soap_bottle, 1500.0f, 120.0f,200.0f, 200.0f, 255, 340.0f);;
+	
 
 	/*
 	// Draw game shadow
