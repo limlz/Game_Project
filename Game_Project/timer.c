@@ -12,12 +12,17 @@ static float max_timer = 100.0f;
 
 // Bool to check if the game is paused
 int is_game_running = 1;
-
+int blink_toggle = 0;
+struct blinking_timer {
+	int speed;
+};
 // NEW: freezes countdown when set (e.g., end-of-day)
 static int is_timer_stopped = 0;
 
 int current_score;
 int lowest_leaderboard_score;
+
+int timer_opacity = 0;
 
 // Function to start the timer countdown, when started timer will decrease
 static void TimeStart(void) {
@@ -53,7 +58,6 @@ static void TimeUpdate(void) {
 	if (CP_Input_KeyTriggered(KEY_ESCAPE)) {
 		is_game_running = (is_game_running == 1) ? 0 : 1;
 	}
-
 
 	if (!CheckGameRunning()) {
 		UnequipSponge();
@@ -115,11 +119,28 @@ static void TimeUpdate(void) {
 	}
 }
 
+void TimerBlink(struct blinking_timer *blink) {
+	if (timer <= 30.0f) {
+		if (timer_opacity <= 0)
+			blink_toggle = 1;
+		else if (timer_opacity >= 200)
+			blink_toggle = 0;
+		timer_opacity = (blink_toggle) ? timer_opacity + blink -> speed * CP_System_GetDt() : timer_opacity + blink -> speed * -CP_System_GetDt();
+	}
+	else {
+		timer_opacity = 200;
+	}
+}
+
 void TimerInit() {
+	struct blinking_timer blink;
+	blink.speed = 200;
+	
 	TimeUpdate();
+	TimerBlink(&blink);
 
 	CP_Settings_Stroke(black);
-	CP_Settings_Fill(CP_Color_Create((int)timer, (int)(timer * 2), (int)(255 - timer), 200));
+	CP_Settings_Fill(CP_Color_Create((int)timer, (int)(timer * 2), (int)(255 - timer), timer_opacity));
 	// Draw the timer bar 
 	CP_Graphics_DrawQuadAdvanced(
 		50, 820,								50 + (1500 * (timer/100.0f)), 820, 
