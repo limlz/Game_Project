@@ -4,6 +4,7 @@
 #include "dirt.h"
 #include "money.h"
 #include "plate.h"
+#include "timer.h"
 
 #define MAX_DIRT			50
 #define DIRT_RADIUS			50
@@ -96,6 +97,7 @@ int DirtRemoved(void) {
 			IncrementMoney(GetPlateValue());
 			plate_awarded = 1;
 			time_after_generation = 0.0f;
+			TimeAdd(GetPlateValue());
 			return 1;
 		}
 		return 0;                              // already paid; don't trigger again

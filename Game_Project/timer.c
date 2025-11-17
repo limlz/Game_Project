@@ -8,6 +8,7 @@
 
 // Timer variable as 100%
 static float timer = 100.0f;
+static float max_timer = 100.0f;
 
 // Bool to check if the game is paused
 int is_game_running = 1;
@@ -25,6 +26,7 @@ static void TimeStart(void) {
 	}
 }
 
+
 // Function to stop the timer countdown, when stopped timer will not decrease
 void TimeStop(void) {
 	is_timer_stopped = 1;
@@ -32,10 +34,14 @@ void TimeStop(void) {
 
 // Function to reset the timer back to 100%
 void TimeReset(void) {
-	timer = 100.0f;
+	timer = max_timer;
 	is_timer_stopped = 0;
 }
 
+// Function to add time to the timer, can be used after clearing plates
+void TimeAdd(float add_time) {
+	timer = (timer > max_timer) ? timer : timer + add_time;
+}
 // Function to check if the game is paused, can be used in other files so that
 // players cannot move while the game is paused
 int CheckGameRunning(void) {
