@@ -140,6 +140,7 @@ void Game_Update(void)
 }
 
 void Game_Exit(void) {
+	ResetTutorial();
 	UnequipSponge();
 	FreeImagesFonts();
 	ClearSounds();

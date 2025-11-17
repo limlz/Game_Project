@@ -193,6 +193,7 @@ void Main_Menu_Update(void)
 	CP_Settings_TextSize(40.0f);
 	CP_Font_DrawText(subtext[rand_sub_text], center_x, CP_System_GetWindowHeight() - 120.0f);
 
+	/*
 	// UI decor - wobble sponge :D
 	if (dir == 1) {
 		sponge_arc += 30.0f * CP_System_GetDt();
@@ -206,6 +207,7 @@ void Main_Menu_Update(void)
 		dir = 1;
 	}
 	Bubbles_Draw();
+	*/
 
 	// Hamster
 	BulletsUpdateAndDraw();
@@ -231,7 +233,8 @@ void Main_Menu_Update(void)
 
 	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
-	CP_Graphics_DrawRectAdvanced(1520.0f, 300.0f, 70.0f, 50.0f, sponge_arc, 0.0f);
+
+	//CP_Graphics_DrawRectAdvanced(1520.0f, 300.0f, 70.0f, 50.0f, sponge_arc, 0.0f);
 	
 
 }

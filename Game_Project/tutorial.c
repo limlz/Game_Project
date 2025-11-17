@@ -308,3 +308,10 @@ void ForceTutorialClose(void) {
 	is_tutorial_active = 0;
 }
 
+void ResetTutorial(void) {
+	tutorial_need_answer = 1;
+	start_tutorial = 0;
+	is_tutorial_active = 0;
+	tutorial_step = 0;
+}
+
