@@ -40,6 +40,7 @@ static Text title;
 
 CP_Font title_font, montserrat_light;
 CP_Color black, button_blue, background_colour, white;
+CP_Image back_arrow;
 static char score_string[9];
 static float center_x, center_y;
 static int lowest_score;
@@ -50,6 +51,7 @@ FILE* leaderboard_file;
 
 void Leaderboard_Init(void) {
 	title_font = CP_Font_Load("Assets/SuperWater.ttf");
+	back_arrow = CP_Image_Load("Assets/back_arrow.png");
 	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
 	black = CP_Color_Create(0, 0, 0, 255);
 	button_blue = CP_Color_Create(123, 183, 220, 255);
@@ -86,7 +88,7 @@ void Leaderboard_Update(void) {
 	my = CP_Input_GetMouseY();
 	int leaderboard_pop = 0;
 
-	if (IsAreaClicked(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
+	if (IsAreaClicked(120, CP_System_GetWindowHeight() - 120, 100, 100, mx, my)) {
 		leaderboard_pop = 10;
 		BubblesManual(mx, my);
 
@@ -168,15 +170,8 @@ void Leaderboard_Update(void) {
 	}
 
 	// Draw leaderboard button
-	CP_Settings_NoStroke();
-	CP_Settings_Fill(button_blue);
-	CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + leaderboard_pop, 100.0f + leaderboard_pop, 0.0f, 20.0f);
-	CP_Settings_Fill(white);
-	CP_Settings_Stroke(button_blue);
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 20.0f, 60.0f);
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() - 240.0f + 20.0f, CP_System_GetWindowHeight() - 120.0f + 15.0f, 20.0f, 30.0f);
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() - 240.0f - 20.0f, CP_System_GetWindowHeight() - 120.0f + 10.0f, 20.0f, 40.0f);
 
+	CP_Image_Draw(back_arrow, 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + leaderboard_pop, 100.0f + leaderboard_pop, 255);
 	Bubbles_Draw();
 }
 void Leaderboard_Exit(void) {

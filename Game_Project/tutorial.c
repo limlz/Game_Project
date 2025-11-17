@@ -18,6 +18,7 @@ int is_tutorial_active = 0; //if sponge tutorial is active, show sponge equip tu
 int tutorial_step = 0; //which step of the tutorial the player is on
 int text_placement = 1;
 int standard_textbox_values = 1; //if 1, use standard textbox positions; if 0, use custom positions
+int back_pop = 0;
 
 float hamsta_x = 180.0f;
 float hamsta_y = 570.0f;
@@ -299,6 +300,46 @@ void TutorialYesorNo(void) {
 		Day_ForceEndDay();
 	}
 
+}
+
+void ControlsOverlay(void) {
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 175));
+	CP_Graphics_DrawRect((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight());
+	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 155));
+	CP_Image_Draw(hamstamugshot, (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2 - 300.0f, 300.0f, 245.0f, 255);
+	CP_Settings_NoStroke();
+	CP_Settings_Fill(button_blue);
+	CP_Graphics_DrawRectAdvanced((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, 1200.0f, 500.0f, 0, 20.0f);
+	CP_Settings_Fill(blue_chalk);
+	CP_Graphics_DrawRectAdvanced((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, 1150.0f, 450.0f, 0, 20.0f);
+
+	if (IsAreaClicked((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2 + 240, 250.0f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+		back_pop = 10;
+	}
+
+	CP_Settings_Fill(button_blue);
+	CP_Graphics_DrawRectAdvanced((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2 + 240, 250.0f + back_pop, 100.0f + back_pop, 0, 20.0f);
+	CP_Settings_Fill(blue_chalk);
+	CP_Graphics_DrawRectAdvanced((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2 + 240, 230.0f + back_pop, 80.0f + back_pop, 0, 20.0f);
+
+	back_pop = 0;
+	CP_Font_Set(sub_font);
+	CP_Settings_Fill(white);
+	CP_Settings_TextSize(40.0f);
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+	CP_Settings_Fill(button_blue);
+	CP_Settings_TextSize(90.0f);
+	CP_Font_DrawText("Controls", (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2 - 180.0f);
+	CP_Settings_TextSize(60.0f);
+	CP_Font_DrawText("Back", (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2 + 240);
+
+	CP_Font_Set(montserrat_light);
+	CP_Settings_TextSize(40.0f);
+	CP_Font_DrawText("Hover over sponge and click E to equip!", (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2 - 90.0f);
+	CP_Font_DrawText("Click W to activate faucet/stream function!", (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2 - 30.0f);
+	CP_Font_DrawText("Click F to open shop!", (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2 + 30.0f);
+	CP_Font_DrawText("Ensure soap level does not reach 0 to continue cleaning!", (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2 + 90.0f);
+	CP_Font_DrawText("Good Luck Scrubbing!", (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2 + 150.0f);
 }
 
 int TutorialIsActive(void) {

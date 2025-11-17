@@ -5,3 +5,4 @@ void TutorialDayZero(void);
 void TutorialYesorNo(void);
 void ForceTutorialClose(void);
 void ResetTutorial(void);
+void ControlsOverlay(void);

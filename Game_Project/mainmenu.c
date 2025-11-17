@@ -5,12 +5,12 @@
 #include "sounds.h"
 #include "plate.h"
 #include "bubbles.h"
-#include "credits.h"
 #include "bubblegun.h"
 #include "gameover.h"
 #include "leaderboard.h"	
 #include "img_font_init.h"
 #include "mainmenu.h"
+#include "tutorial.h"
 
 #define OFFSET		275
 #define MOVE_DOWN   125
@@ -20,6 +20,7 @@ float mx, my;
 float sponge_arc = 20.0f;
 int dir = 1;
 int rand_sub_text = 0;
+int show_controls = 0;
 
 void Main_Menu_Init(void)
 {
@@ -87,10 +88,10 @@ void Main_Menu_Update(void)
 		CP_Settings_Fill(white);
 		CP_Settings_TextSize(30.0f);
 		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
-		CP_Font_DrawText("Credits", CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f);
+		CP_Font_DrawText("Controls", CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f);
 
-		if (CP_Input_MouseClicked()) {
-			CP_Engine_SetNextGameState(credits_Init, credits_Update, credits_Exit);
+		if (CP_Input_MouseClicked() && !show_controls) {
+			show_controls = 1;
 		}
 	}
 	else if (IsAreaClicked(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
@@ -130,14 +131,7 @@ void Main_Menu_Update(void)
 
 
 	// Draw Credits button
-	CP_Settings_Fill(button_blue);
-	CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + credits_pop, 100.0f + credits_pop, 0.0f, 20.0f);
-	CP_Settings_Fill(white);
-	CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f, 45.0f , 60.0f , 0.0f, 5.0f);
-	CP_Settings_Stroke(button_blue);
-	CP_Graphics_DrawLine(CP_System_GetWindowWidth() - 120.0f - 17.0f, CP_System_GetWindowHeight() - 120.0f, CP_System_GetWindowWidth() - 120.0f + 17.0f, CP_System_GetWindowHeight() - 120.0f);
-	CP_Graphics_DrawLine(CP_System_GetWindowWidth() - 120.0f - 17.0f, CP_System_GetWindowHeight() - 120.0f + 15.0f, CP_System_GetWindowWidth() - 120.0f + 17.0f, CP_System_GetWindowHeight() - 120.0f + 15.0f);
-	CP_Graphics_DrawLine(CP_System_GetWindowWidth() - 120.0f - 17.0f, CP_System_GetWindowHeight() - 120.0f - 15.0f, CP_System_GetWindowWidth() - 120.0f + 17.0f, CP_System_GetWindowHeight() - 120.0f - 15.0f);
+	CP_Image_Draw(controls_icon, CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + credits_pop, 100.0f + credits_pop, 255);
 
 	// Draw leaderboard button
 	CP_Image_Draw(leaderboard_icon, CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + leaderboard_pop, 100.0f + leaderboard_pop, 255);
@@ -188,10 +182,14 @@ void Main_Menu_Update(void)
 	if (CP_Input_MouseClicked()) {
 		rand_sub_text = CP_Random_RangeInt(0, 9);
 	}
-	CP_Font_Set(sub_font);
-	CP_Settings_Fill(button_blue);
+	CP_Font_Set(title_font);
+	CP_Settings_Fill(grey);
 	CP_Settings_TextSize(40.0f);
 	CP_Font_DrawText(subtext[rand_sub_text], center_x, CP_System_GetWindowHeight() - 120.0f);
+
+	CP_Settings_Fill(white);
+	CP_Settings_TextSize(40.0f);
+	CP_Font_DrawText(subtext[rand_sub_text], center_x+5, CP_System_GetWindowHeight() - 120.0f-5);
 
 	/*
 	// UI decor - wobble sponge :D
@@ -235,7 +233,15 @@ void Main_Menu_Update(void)
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 
 	//CP_Graphics_DrawRectAdvanced(1520.0f, 300.0f, 70.0f, 50.0f, sponge_arc, 0.0f);
-	
+
+	if (IsAreaClicked((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2 + 240, 250.0f, 100.0f, mx, my)) {
+		if (CP_Input_MouseClicked() && show_controls) {
+			show_controls = 0;
+		}
+	}
+	if (show_controls) {
+		ControlsOverlay();
+	}
 
 }
 

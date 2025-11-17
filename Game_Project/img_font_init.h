@@ -15,6 +15,8 @@ CP_Image background_image;
 CP_Image title_image;
 CP_Image settings_icon;
 CP_Image leaderboard_icon;
+CP_Image controls_icon;
+CP_Image back_arrow;
 CP_Image tutorial_towel;
 CP_Image settings_background;
 CP_Image jiggle1, jiggle2, jiggle3, front;
@@ -28,6 +30,7 @@ CP_Font sub_font;
 
 CP_Color button_blue;
 CP_Color roomba_color;
+CP_Color dirt_brown;
 CP_Color white;
 CP_Color black;
 CP_Color red;

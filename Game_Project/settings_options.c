@@ -42,7 +42,7 @@ static int DrawVolumeBar(int y_value, int level) {
     int index = 10;
     while (index > 0) {
         index -= 1;
-        CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+        CP_Settings_Fill(CP_Color_Create(200, 200, 200, 255));
         CP_Graphics_DrawRect(Settings_Boxes.position_x + Settings_Boxes.width * (index * 2), y_value, Settings_Boxes.width, Settings_Boxes.height);
 
         if (index < level) {

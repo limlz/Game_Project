@@ -18,6 +18,8 @@ void InitImagesFontsColors(void) {
 	background_image = CP_Image_Load("Assets/background.png");
 	title_image = CP_Image_Load("Assets/title_soap.png");
 	settings_icon = CP_Image_Load("Assets/settings.png");
+	controls_icon = CP_Image_Load("Assets/controls.png");
+	back_arrow = CP_Image_Load("Assets/back_arrow.png");
 	leaderboard_icon = CP_Image_Load("Assets/leader.png");
 	settings_background = CP_Image_Load("Assets/settings_title_background.png");
 	tutorial_towel = CP_Image_Load("Assets/tutorial_towel.png");
@@ -32,6 +34,7 @@ void InitImagesFontsColors(void) {
 
 	// Create colors
 	white = CP_Color_Create(255, 255, 255, 255);
+	dirt_brown = CP_Color_Create(157, 92, 61, 255);
 	black = CP_Color_Create(0, 0, 0, 255);
 	yellow = CP_Color_Create(255, 214, 10, 255);
 	dark_grey = CP_Color_Create(40, 40, 40, 180);

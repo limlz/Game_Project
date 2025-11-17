@@ -2,6 +2,7 @@
 #include "cprocessing.h"
 #include <stdio.h>
 #include "mainmenu.h"
+#include "settings.h"
 
 #define MAX_LINES 200
 
@@ -77,7 +78,7 @@ void credits_Update(void) {
 
 	// go back main menu (temporary)
 	if (CP_Input_KeyTriggered(KEY_C)) {
-		CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
+		CP_Engine_SetNextGameState(Settings_Init, Settings_Update, Settings_Exit);
 	}
 }
 void credits_Exit(void) {
