@@ -271,13 +271,14 @@ void TutorialYesorNo(void) {
 	if (tutorial_need_answer) {
 		TimeStop();
 		CP_Graphics_ClearBackground(blue_chalk);
+		CP_Image_Draw(background_image, mid_x, mid_y, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
 		CP_Settings_NoStroke();
 		CP_Settings_Fill(white);
 		CP_Graphics_DrawRectAdvanced(mid_x, mid_y - 85.0f, 700.0f, 75.0f, 0.0f, 20.0f);
 		CP_Font_Set(montserrat_light);
 		CP_Settings_Fill(black);
 		CP_Settings_TextSize(40.0f);
-		CP_Image_Draw(tutorial_towel, (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
+		CP_Image_Draw(tutorial_towel, mid_x, mid_y - 30.0f, 900.0f, 600.0f, 255);
 		CP_Font_DrawText("Hey there! Would you like a tutorial?", mid_x, mid_y - 85.0f);
 
 		// two buttons yes and n0

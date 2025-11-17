@@ -6,6 +6,7 @@
 #include "mainmenu.h"
 #include "bubbles.h"	
 #include "utils.h"	
+#include "img_font_init.h"
 
 #define MAX_NAME_LENGTH 8
 #define MAX_LEADERBOARD_ENTRIES 5
@@ -79,6 +80,7 @@ void Leaderboard_Init(void) {
 
 void Leaderboard_Update(void) {
 	CP_Graphics_ClearBackground(background_colour);
+	CP_Image_Draw(background_image, (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
 
 	mx = CP_Input_GetMouseX();
 	my = CP_Input_GetMouseY();
