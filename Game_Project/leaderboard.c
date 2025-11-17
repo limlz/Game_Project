@@ -92,6 +92,15 @@ void Leaderboard_Update(void) {
 		leaderboard_pop = 10;
 		BubblesManual(mx, my);
 
+		CP_Settings_NoStroke;
+		CP_Settings_Fill(button_blue);
+		CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 120.0f, 75.0f, 0.0f, 20.0f);
+		CP_Font_Set(montserrat_light);
+		CP_Settings_Fill(white);
+		CP_Settings_TextSize(30.0f);
+		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+		CP_Font_DrawText("Back", 120, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f);
+
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 		}
@@ -169,10 +178,12 @@ void Leaderboard_Update(void) {
 		CP_Font_DrawText(score_string, 1225, draw_leaderboard[i].y);
 	}
 
-	// Draw leaderboard button
+	// Draw back button
 
 	CP_Image_Draw(back_arrow, 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + leaderboard_pop, 100.0f + leaderboard_pop, 255);
 	Bubbles_Draw();
+
+
 }
 void Leaderboard_Exit(void) {
 	CP_Font_Free(montserrat_light);
