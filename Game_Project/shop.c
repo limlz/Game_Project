@@ -13,6 +13,7 @@
 #include "roomba.h"
 #include "faucet.h"
 #include "upgrades.h"
+#include "tutorial.h"
 
 #define CENTER_X_POS (CP_System_GetWindowWidth() / 2.0f)
 #define CENTER_Y_POS (CP_System_GetWindowHeight() / 2.0f)
@@ -343,11 +344,12 @@ void shop_init(void) {
     if (CheckGameRunning()) {
         CP_Settings_TextSize(24.0f);
         CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
+		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
         CP_Image_Draw(cart, x_pos, y_pos - 200.0f, 110.0f, 80.0f, 255);
         CP_Font_DrawText("Shop [F]", x_pos, y_pos - 150.0f);
     }
 
-    if (CP_Input_KeyTriggered(KEY_F) && !IsTimerStopped()) {
+    if (CP_Input_KeyTriggered(KEY_F) && (!IsTimerStopped() || TutorialIsActive()) ) {
         shop_toggle = (shop_toggle == 0) ? 1 : 0;
         if (shop_toggle) {
 			UnequipSponge();
