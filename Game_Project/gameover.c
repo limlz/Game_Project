@@ -103,6 +103,11 @@ void Game_Over_Update(void)
 	CP_Font_DrawText("Main Menu", center_x, buttons_y);
 	CP_Font_DrawText("Exit", center_x+540, buttons_y);
 
+
+
+	// Draw leaderboard button
+	CP_Image_Draw(leaderboard_icon, CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + leaderboard_pop, 100.0f + leaderboard_pop, 255);
+
 	// Draw Credits button
 	CP_Settings_Fill(button_blue);
 	CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + credits_pop, 100.0f + credits_pop, 0.0f, 20.0f);
@@ -112,13 +117,6 @@ void Game_Over_Update(void)
 	CP_Graphics_DrawLine(CP_System_GetWindowWidth() - 120.0f - 17.0f, CP_System_GetWindowHeight() - 120.0f, CP_System_GetWindowWidth() - 120.0f + 17.0f, CP_System_GetWindowHeight() - 120.0f);
 	CP_Graphics_DrawLine(CP_System_GetWindowWidth() - 120.0f - 17.0f, CP_System_GetWindowHeight() - 120.0f + 15.0f, CP_System_GetWindowWidth() - 120.0f + 17.0f, CP_System_GetWindowHeight() - 120.0f + 15.0f);
 	CP_Graphics_DrawLine(CP_System_GetWindowWidth() - 120.0f - 17.0f, CP_System_GetWindowHeight() - 120.0f - 15.0f, CP_System_GetWindowWidth() - 120.0f + 17.0f, CP_System_GetWindowHeight() - 120.0f - 15.0f);
-	// Draw leaderboard button
-	CP_Settings_Fill(button_blue);
-	CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + leaderboard_pop, 100.0f + leaderboard_pop, 0.0f, 20.0f);
-	CP_Settings_Fill(white);
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 20.0f, 60.0f);
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() - 240.0f + 20.0f, CP_System_GetWindowHeight() - 120.0f + 15.0f, 20.0f, 30.0f);
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() - 240.0f - 20.0f, CP_System_GetWindowHeight() - 120.0f + 10.0f, 20.0f, 40.0f);
 
 	// Draw Highest Score
 	CP_Font_Set(sub_font);

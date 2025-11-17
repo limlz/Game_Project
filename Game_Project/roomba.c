@@ -61,6 +61,7 @@ void PurchaseRoomba(void) {
 		CP_Image_Draw(front, CP_System_GetWindowWidth()- 130, CP_System_GetWindowHeight() - 210, 200, 140, 255);
 		char roomba_price[50];
 		CP_Font_Set(montserrat_light);
+		CP_Settings_TextSize(24.0f);
 		sprintf_s(roomba_price, sizeof(roomba_price), "Cost: $%d", ROOMBA_PRICE);
 		CP_Font_DrawText(roomba_price, CP_System_GetWindowWidth() - 135, CP_System_GetWindowHeight() - 120);
 		if (IsAreaClicked(CP_System_GetWindowWidth() - 130, CP_System_GetWindowHeight() - 250, 190, 150, CP_Input_GetMouseX(), CP_Input_GetMouseY()) && CP_Input_MouseClicked()) {
@@ -107,7 +108,7 @@ void RoombaFunction(void) {
 	roomba_angle = CP_Vector_AngleCW(up, CP_Vector_Negate(dir));
 
 	// move directly toward dirt if not close enough
-	if (CheckGameRunning() && Day_IsInGameplay()) {
+	if (CheckGameRunning() && Day_IsInGameplay() && !IsTimerStopped()) {
 		if (CP_Vector_Distance(dirt_v, roomba_v) > 3) {
 			dir = CP_Vector_Normalize(dir);
 			float speed = roomba_speed * CP_System_GetDt();

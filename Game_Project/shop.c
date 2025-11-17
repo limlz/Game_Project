@@ -347,7 +347,7 @@ void shop_init(void) {
         CP_Font_DrawText("Shop [F]", x_pos, y_pos - 150.0f);
     }
 
-    if (CP_Input_KeyTriggered(KEY_F)) {
+    if (CP_Input_KeyTriggered(KEY_F) && !IsTimerStopped()) {
         shop_toggle = (shop_toggle == 0) ? 1 : 0;
         if (shop_toggle) {
 			UnequipSponge();

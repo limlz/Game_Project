@@ -150,3 +150,7 @@ void TimerInit() {
 	//get lowest score from the text file
 	lowest_leaderboard_score = GetLowestScore();
 }
+
+int IsTimerStopped(void) {
+	return is_timer_stopped;
+}

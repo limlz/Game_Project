@@ -49,7 +49,7 @@ int SpongeUpgradeable(void) {
 
 void UpgradeSponge(void) {
 	if (SpongeUpgradeable()) {
-		sponge_power += 5;
+		sponge_power += 2;
 		if (sponge_power > init_sponge_max_power) {
 			sponge_power = init_sponge_max_power;
 		}

@@ -115,15 +115,16 @@ void Game_Update(void)
 
 	SpongeInit();
 	Soap_Update();
-	TimerInit();
 	shop_init();
 	
 
 	if (Day_IsInGameplay() && (Day_GetDay() == 0)) {
+		TimerInit();
 		TutorialYesorNo();
 		TutorialDayZero();
 	} else {
 		PurchaseRoomba();
+		TimerInit();
 	}
 
 	Day_DrawPopup();
