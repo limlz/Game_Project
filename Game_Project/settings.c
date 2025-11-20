@@ -6,7 +6,6 @@
 #include "sounds.h"
 #include "bubbles.h"
 #include "bubblegun.h"
-#include "credits.h"
 #include "img_font_init.h"
 
 int volume_level = 0;
@@ -62,33 +61,8 @@ void Settings_Update(void)
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 		}
-	} else if (IsAreaClicked(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mousex, mousey)) {
-		credits_pop = 10;
-		BubblesManual(mousex, mousey);
+	} 
 
-		CP_Settings_Fill(button_blue);
-		CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 120.0f, 75.0f, 0.0f, 20.0f);
-
-		CP_Font_Set(montserrat_light);
-		CP_Settings_Fill(white);
-		CP_Settings_TextSize(30.0f);
-		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
-		CP_Font_DrawText("Credits", CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f);
-
-		if (CP_Input_MouseClicked()) {
-			CP_Engine_SetNextGameState(credits_Init, credits_Update, credits_Exit);
-		}
-	}
-
-	// Draw Credits button
-	CP_Settings_Fill(button_blue);
-	CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + credits_pop, 100.0f + credits_pop, 0.0f, 20.0f);
-	CP_Settings_Fill(white);
-	CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f, 45.0f, 60.0f, 0.0f, 5.0f);
-	CP_Settings_Stroke(button_blue);
-	CP_Graphics_DrawLine(CP_System_GetWindowWidth() - 120.0f - 17.0f, CP_System_GetWindowHeight() - 120.0f, CP_System_GetWindowWidth() - 120.0f + 17.0f, CP_System_GetWindowHeight() - 120.0f);
-	CP_Graphics_DrawLine(CP_System_GetWindowWidth() - 120.0f - 17.0f, CP_System_GetWindowHeight() - 120.0f + 15.0f, CP_System_GetWindowWidth() - 120.0f + 17.0f, CP_System_GetWindowHeight() - 120.0f + 15.0f);
-	CP_Graphics_DrawLine(CP_System_GetWindowWidth() - 120.0f - 17.0f, CP_System_GetWindowHeight() - 120.0f - 15.0f, CP_System_GetWindowWidth() - 120.0f + 17.0f, CP_System_GetWindowHeight() - 120.0f - 15.0f);
 
 
 	// Hamster
