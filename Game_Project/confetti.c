@@ -7,11 +7,10 @@
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
-
 #include "confetti.h"
 #include "cprocessing.h"
 
-#define MAX_CONFETTI 1000
+#define MAX_CONFETTI 1000 // maximum number of confetti particles
 
 // variable to store confetti properties
 typedef struct {
