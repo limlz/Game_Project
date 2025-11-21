@@ -9,5 +9,8 @@ Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
 
 #pragma once
+// function to initialize confetti properties with random values
 void InitConfetti(void);
+
+// function to update and draw confetti each frame
 void UpdateConfetti(float dt);

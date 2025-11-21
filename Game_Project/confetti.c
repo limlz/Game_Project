@@ -13,6 +13,7 @@ Copyright © 2025 DigiPen, All rights reserved.
 
 #define MAX_CONFETTI 1000
 
+// variable to store confetti properties
 typedef struct {
 	float x, y;
 	float vx, vy;
@@ -24,27 +25,28 @@ typedef struct {
 
 static Confetti confetti[MAX_CONFETTI];
 
+// Initialize confetti properties with random values
 void InitConfetti(void) {
     for (int i = 0; i < MAX_CONFETTI; i++) {
         confetti[i].x = CP_Random_RangeFloat(0, CP_System_GetWindowWidth());    //horizontal spawn location range
         confetti[i].y = CP_Random_RangeFloat(-1000, 0);                         //vertical spawn location range
         confetti[i].vx = CP_Random_RangeFloat(-50, 50);                         //horizontal velocity
         confetti[i].vy = CP_Random_RangeFloat(100, 300);                        //vertical velocity
-        confetti[i].rotation = CP_Random_RangeFloat(0, 360); 
-        confetti[i].size = CP_Random_RangeFloat(4, 10); 
-        confetti[i].color = CP_Color_Create(
+		confetti[i].rotation = CP_Random_RangeFloat(0, 360);                    //initial rotation angle
+		confetti[i].size = CP_Random_RangeFloat(4, 10);                         //confetti size
+		confetti[i].color = CP_Color_Create(                                    //confetti color range
             CP_Random_RangeInt(180, 255),
             CP_Random_RangeInt(140, 255),
             CP_Random_RangeInt(140, 255),
             255
         );
-        confetti[i].active = 1;
+		confetti[i].active = 1;                                                 //mark confetti as active
     }
 }
 
 void UpdateConfetti(float dt) {
     for (int i = 0; i < MAX_CONFETTI; i++) {
-        if (!confetti[i].active) continue;
+		if (!confetti[i].active) continue;                                      //skip inactive confetti
 
         confetti[i].y += confetti[i].vy * dt;                                   //confetti vertical movement
         confetti[i].x += confetti[i].vx * dt;                                   //confetti horizontal movement
@@ -52,12 +54,12 @@ void UpdateConfetti(float dt) {
         confetti[i].vy += 110 * dt;                                             //gravity      
         confetti[i].vx *= 1.0f;                                                 //slow or speed up horizontal movement
 
-        if (confetti[i].y > CP_System_GetWindowHeight() + 20)                   //delete confetti after falling to the bottom
+		if (confetti[i].y > CP_System_GetWindowHeight() + 20)                   //set confetti as inactive when it goes off screen
             confetti[i].active = 0;
 
-        CP_Settings_Stroke(confetti[i].color);
-        CP_Settings_Fill(confetti[i].color);
-        CP_Graphics_DrawRectAdvanced(confetti[i].x, confetti[i].y,
+		CP_Settings_Stroke(confetti[i].color);                                  //set confetti outline color
+		CP_Settings_Fill(confetti[i].color);                                    //set confetti color
+        CP_Graphics_DrawRectAdvanced(confetti[i].x, confetti[i].y,              //draw confetti
             confetti[i].size, confetti[i].size, confetti[i].rotation, 0.0f);
     }
 }
