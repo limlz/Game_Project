@@ -1,3 +1,11 @@
+/*************************************************************************
+@file
+@Author
+@Co-authors
+@brief
+
+Copyright © 2025 DigiPen, All rights reserved.
+*************************************************************************/
 void MoneyDisplay(void);
 int GetCurrentMoney(void);
 int GetTotalEarned(void);

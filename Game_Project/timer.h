@@ -1,3 +1,11 @@
+/*************************************************************************
+@file
+@Author
+@Co-authors
+@brief
+
+Copyright © 2025 DigiPen, All rights reserved.
+*************************************************************************/
 void TimerInit(void);
 void TimeReset(void);
 void TimeAdd(float add_time);

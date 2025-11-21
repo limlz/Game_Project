@@ -1,3 +1,12 @@
+/*************************************************************************
+@file       credits.h
+@Author     Chiu Jun Wen (j.chiu@digipen.edu)
+@Co-authors
+@brief      This file contains the function declarations for the credits
+			screen
+
+Copyright © 2025 DigiPen, All rights reserved.
+*************************************************************************/
 #pragma once
 void credits_Init(void);
 void credits_Update(void);

@@ -1,3 +1,11 @@
+/*************************************************************************
+@file
+@Author
+@Co-authors
+@brief
+
+Copyright © 2025 DigiPen, All rights reserved.
+*************************************************************************/
 #pragma once
 #ifndef UPGRADES_H
 #define UPGRADES_H

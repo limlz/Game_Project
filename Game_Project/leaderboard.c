@@ -1,3 +1,13 @@
+/*************************************************************************
+@file       leaderboard.c
+@Author     Chiu Jun Wen (j.chiu@digipen.edu)
+@Co-authors
+@brief      This file contains the function definitions for the 
+			leaderboard screen	
+
+Copyright © 2025 DigiPen, All rights reserved.
+*************************************************************************/
+
 #include <stdio.h>
 #include "leaderboard.h"
 #include <limits.h>

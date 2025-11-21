@@ -1,3 +1,11 @@
+/*************************************************************************
+@file
+@Author
+@Co-authors
+@brief
+
+Copyright © 2025 DigiPen, All rights reserved.
+*************************************************************************/
 /* This file contains the definition for the Sponge Mechanics
 To create the sponge, #include "sponge.h" and use sponge_init() to spawn the sponge in
 

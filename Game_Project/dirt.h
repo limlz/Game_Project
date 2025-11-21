@@ -1,3 +1,11 @@
+/*************************************************************************
+@file
+@Author
+@Co-authors
+@brief
+
+Copyright © 2025 DigiPen, All rights reserved.
+*************************************************************************/
 void InitDirt(void);
 void DrawDirt(void);
 void DirtScrubbed (int equipped, int sponge_power);

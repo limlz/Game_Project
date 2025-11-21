@@ -1,3 +1,11 @@
+/*************************************************************************
+@file
+@Author
+@Co-authors Chiu Jun Wen (j.chiu@digipen.edu)
+@brief
+
+Copyright © 2025 DigiPen, All rights reserved.
+*************************************************************************/
 #include "cprocessing.h"
 #include "utils.h"
 #include "game.h"

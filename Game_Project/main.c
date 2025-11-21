@@ -1,14 +1,11 @@
-//---------------------------------------------------------
-// file:	main.c
-// author:	[NAME]
-// email:	[DIGIPEN EMAIL ADDRESS]
-//
-// brief:	Main entry point for the sample project
-//			of the CProcessing library
-//
-// Copyright © 2020 DigiPen, All rights reserved.
-//---------------------------------------------------------
+/*************************************************************************
+@file       main.c
+@Author     
+@Co-authors
+@brief      main entry point for the entire program
 
+Copyright © 2025 DigiPen, All rights reserved.
+*************************************************************************/
 #include "cprocessing.h"
 #include "splashscreen.h"
 

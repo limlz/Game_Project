@@ -1,3 +1,13 @@
+/*************************************************************************
+@file       credits.c
+@Author     Chiu Jun Wen (j.chiu@digipen.edu)
+@Co-authors
+@brief      This file contains the function definitions for the credits
+			screen
+
+Copyright © 2025 DigiPen, All rights reserved.
+*************************************************************************/
+
 #include "credits.h"
 #include "cprocessing.h"
 #include <stdio.h>

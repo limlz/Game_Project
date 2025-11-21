@@ -1,3 +1,12 @@
+/*************************************************************************
+@file       
+@Author     
+@Co-authors
+@brief      
+
+Copyright © 2025 DigiPen, All rights reserved.
+*************************************************************************/
+
 // bullets.c
 #include "bubblegun.h"
 #include "cprocessing.h" 
