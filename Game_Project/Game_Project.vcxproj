@@ -129,14 +129,17 @@
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q
+      <Command>rmdir /s /q "$(OutDir)Assets"
+mkdir "$(OutDir)Assets"
+xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q /i
 xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\CProcessingd.dll" "$(OutDir)" /s /r /y /q
 xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmodL.dll" "$(OutDir)" /s /r /y /q
-xcopy "$(SolutionDir)Assets\image\*.*" "$(OutDir)Assets\" /r /y /q
-xcopy "$(SolutionDir)Assets\sound\*.*" "$(OutDir)Assets\" /r /y /q
-xcopy "$(SolutionDir)Assets\font\*.*" "$(OutDir)Assets\" /r /y /q
-xcopy "$(SolutionDir)Assets\data\*.*" "$(OutDir)Assets\" /r /y /q
-xcopy "$(SolutionDir)Assets\animation\*.*" "$(OutDir)Assets\" /r /y /q</Command>
+xcopy "$(SolutionDir)Assets\image\*.*" "$(OutDir)Assets\" /r /y /q /i
+xcopy "$(SolutionDir)Assets\sound\*.*" "$(OutDir)Assets\" /r /y /q /i
+xcopy "$(SolutionDir)Assets\font\*.*" "$(OutDir)Assets\" /r /y /q /i
+xcopy "$(SolutionDir)Assets\data\*.*" "$(OutDir)Assets\" /r /y /q /i
+xcopy "$(SolutionDir)Assets\animation\*.*" "$(OutDir)Assets\" /r /y /q /i
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -156,14 +159,17 @@ xcopy "$(SolutionDir)Assets\animation\*.*" "$(OutDir)Assets\" /r /y /q</Command>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q
+      <Command>rmdir /s /q "$(OutDir)Assets"
+mkdir "$(OutDir)Assets"
+xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q /i
 xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\CProcessing.dll" "$(OutDir)" /s /r /y /q
 xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /q
-xcopy "$(SolutionDir)Assets\image\*.*" "$(OutDir)Assets\" /r /y /q
-xcopy "$(SolutionDir)Assets\sound\*.*" "$(OutDir)Assets\" /r /y /q
-xcopy "$(SolutionDir)Assets\font\*.*" "$(OutDir)Assets\" /r /y /q
-xcopy "$(SolutionDir)Assets\data\*.*" "$(OutDir)Assets\" /r /y /q
-xcopy "$(SolutionDir)Assets\animation\*.*" "$(OutDir)Assets\" /r /y /q</Command>
+xcopy "$(SolutionDir)Assets\image\*.*" "$(OutDir)Assets\" /r /y /q /i
+xcopy "$(SolutionDir)Assets\sound\*.*" "$(OutDir)Assets\" /r /y /q /i
+xcopy "$(SolutionDir)Assets\font\*.*" "$(OutDir)Assets\" /r /y /q /i
+xcopy "$(SolutionDir)Assets\data\*.*" "$(OutDir)Assets\" /r /y /q /i
+xcopy "$(SolutionDir)Assets\animation\*.*" "$(OutDir)Assets\" /r /y /q /i
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
