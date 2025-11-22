@@ -97,12 +97,11 @@ void Leaderboard_Update(void) {
 	mx = CP_Input_GetMouseX();
 	my = CP_Input_GetMouseY();
 	int leaderboard_pop = 0;
-
+	CP_Settings_NoStroke();
 	if (IsAreaClicked(120, CP_System_GetWindowHeight() - 120, 100, 100, mx, my)) {
 		leaderboard_pop = 10;
 		BubblesManual(mx, my);
 
-		CP_Settings_NoStroke;
 		CP_Settings_Fill(button_blue);
 		CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 120.0f, 75.0f, 0.0f, 20.0f);
 		CP_Font_Set(montserrat_light);
