@@ -247,7 +247,6 @@ void Main_Menu_Update(void)
 	BulletsUpdateAndDraw();
 	Bubbles_Draw();
 
-
 	// Hamster Pointer
 	CP_Vector hand_origin = CP_Vector_Set(470.0f, 240.0f);
 	CP_Vector hand_vector = CP_Vector_Subtract(CP_Vector_Set(mx, my), hand_origin);
@@ -265,7 +264,6 @@ void Main_Menu_Update(void)
 		CP_Image_DrawAdvanced(arm_flipped, 470.0f, 240.0f, 120.0f, 120.0f, 255, hand_angle);
 	}
 
-
 	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 
@@ -279,8 +277,6 @@ void Main_Menu_Update(void)
 	if (show_controls) {
 		ControlsOverlay();
 	}
-
-
 }
 
 void Main_Menu_Exit(void)

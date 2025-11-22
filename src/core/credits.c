@@ -32,7 +32,7 @@ typedef struct {
 
 static Mouse mouse;
 static Image back_arrow;
-static Image prassana;
+static Image digipen;
 
 CP_Font montserrat_light;
 CP_Font superwater;
@@ -58,9 +58,9 @@ void credits_Init(void) {
 
 	// load image
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
-	prassana.image = CP_Image_Load("Assets/DigiPen_Singapore_WEB_RED.png");
-	prassana.height = CP_Image_GetHeight(prassana.image) / 2.0f;
-	prassana.width = CP_Image_GetWidth(prassana.image) / 2.0f;
+	digipen.image = CP_Image_Load("Assets/DigiPen_Singapore_WEB_RED.png");
+	digipen.height = CP_Image_GetHeight(digipen.image) / 2.0f;
+	digipen.width = CP_Image_GetWidth(digipen.image) / 2.0f;
 
 	// load font
 	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
@@ -79,13 +79,16 @@ void credits_Init(void) {
 		creditsLines[totalLines] = _strdup(buffer);
 		totalLines++;
 	}
-
+	
 	// unload credits file
 	fclose(creditsFile);
 
 	//set credit scroll speed
 	scrollY = CP_System_GetWindowHeight();
 	speed = 90.0f;
+
+	//initialise bubble
+	BubblesInit();
 }
 void credits_Update(void) {
 	float deltaTime = CP_System_GetDt();
@@ -95,12 +98,13 @@ void credits_Update(void) {
 
 	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
 
-	CP_Image_Draw(prassana.image, CP_System_GetWindowWidth() / 2.0f, scrollY, prassana.width, prassana.height, 255);
+	CP_Image_Draw(digipen.image, CP_System_GetWindowWidth() / 2.0f, scrollY, digipen.width, digipen.height, 255);
 
 	CP_Settings_Fill(digipen_red);
 	CP_Font_Set(montserrat_light);
-	CP_Font_DrawText("All Content (C) 2025 Digipen Institute of Technology Singpoare. All Rights Reserved.", CP_System_GetWindowWidth() / 2.0f + 3.0f, scrollY + prassana.height / 2.0f + 30.0f);
+	CP_Font_DrawText("All Content (C) 2025 Digipen Institute of Technology Singpoare. All Rights Reserved.", CP_System_GetWindowWidth() / 2.0f + 3.0f, scrollY + digipen.height / 2.0f + 30.0f);
 
+	CP_Settings_NoStroke();
 	if (IsAreaClicked(120, CP_System_GetWindowHeight() - 120, 100, 100, mouse.x, mouse.y)) {
 		settings_pop = 10.0f;
 		BubblesManual(mouse.x, mouse.y);
@@ -124,9 +128,9 @@ void credits_Update(void) {
 	CP_Settings_TextSize(30.0f);
 	for (int i = 0; i < totalLines; i++) {
 		CP_Settings_Fill(white);
-		CP_Font_DrawText(creditsLines[i], CP_System_GetWindowWidth() / 2.0f + 3.0f, scrollY + prassana.height / 2.0f + 18.0f + i * 15.0f + 100.0f);
+		CP_Font_DrawText(creditsLines[i], CP_System_GetWindowWidth() / 2.0f + 3.0f, scrollY + digipen.height / 2.0f + 18.0f + i * 15.0f + 100.0f);
 		CP_Settings_Fill(button_blue);
-		CP_Font_DrawText(creditsLines[i], CP_System_GetWindowWidth() / 2.0f, scrollY + prassana.height/2.0f + 15.0f + i * 15.0f + 100.0f);
+		CP_Font_DrawText(creditsLines[i], CP_System_GetWindowWidth() / 2.0f, scrollY + digipen.height/2.0f + 15.0f + i * 15.0f + 100.0f);
 	}
 
 	// scroll upwards
@@ -136,10 +140,13 @@ void credits_Update(void) {
 	if (CP_Input_KeyTriggered(KEY_C)) {
 		CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 	}
+
+	//draw bubbles
+	Bubbles_Draw();
 }
 void credits_Exit(void) {
 	CP_Font_Free(montserrat_light);
-	CP_Image_Free(prassana.image);
+	CP_Image_Free(digipen.image);
 	CP_Font_Free(superwater);
 	CP_Image_Free(back_arrow.image);
 }  
