@@ -1,6 +1,8 @@
-PRATANA
 
 Game Title: WEWASHP8
+
+
+
 
 Developed by:
 
@@ -8,29 +10,35 @@ Choon Ming Tan
 
 Nur Nadia Natasya Binte Mohd Taha
 
-Jun Wen Chiu
+Chiu Jun Wen
 
-Choon Ming Tan
+Tan Choon Ming
 
 Ng Cher Kai Dan
 
 Lim Liang Zhou
 
 
-Supervising Professors:
 
-Prof. Gerald Wong
 
-Prof. Soroor
+Instructors:
+
+Gerald
+
+Dr. Soroor
+
+Tommy
+
+
 
 
 Special Thanks:
 
 Whoever made CProcessing
 
-Prasnana for teaching us c
+Prasnana for teaching us C
 
-Gerald for teaching us cprocessing
+Gerald and Dr. Soroor for teaching us cprocessing
 
 Everyone who helped test, splash, and scrub during development
 
