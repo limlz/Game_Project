@@ -63,5 +63,6 @@ void SplashScreenUpdate(void)
 void SplashScreenExit(void)
 {
 	CP_Image_Free(logo);
+	CP_Font_Free(montserrat_light);
 	CP_Settings_NoTint();
 }

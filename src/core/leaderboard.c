@@ -197,6 +197,7 @@ void Leaderboard_Update(void) {
 void Leaderboard_Exit(void) {
 	CP_Font_Free(montserrat_light);
 	CP_Font_Free(title_font);
+	CP_Image_Free(back_arrow);
 }
 
 int GetLowestScore(void) {
