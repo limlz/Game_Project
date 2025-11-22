@@ -10,6 +10,65 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\core\credits.c" />
+    <ClCompile Include="..\src\core\game.c" />
+    <ClCompile Include="..\src\core\gameover.c" />
+    <ClCompile Include="..\src\core\leaderboard.c" />
+    <ClCompile Include="..\src\core\main.c" />
+    <ClCompile Include="..\src\core\mainmenu.c" />
+    <ClCompile Include="..\src\core\settings.c" />
+    <ClCompile Include="..\src\core\splashscreen.c" />
+    <ClCompile Include="..\src\entities\bubblegun.c" />
+    <ClCompile Include="..\src\entities\dirt.c" />
+    <ClCompile Include="..\src\entities\faucet.c" />
+    <ClCompile Include="..\src\entities\plate.c" />
+    <ClCompile Include="..\src\entities\roomba.c" />
+    <ClCompile Include="..\src\entities\sponge.c" />
+    <ClCompile Include="..\src\systems\day.c" />
+    <ClCompile Include="..\src\systems\money.c" />
+    <ClCompile Include="..\src\systems\settings_options.c" />
+    <ClCompile Include="..\src\systems\shop.c" />
+    <ClCompile Include="..\src\systems\soap.c" />
+    <ClCompile Include="..\src\systems\sounds.c" />
+    <ClCompile Include="..\src\systems\timer.c" />
+    <ClCompile Include="..\src\systems\tutorial.c" />
+    <ClCompile Include="..\src\systems\upgrades.c" />
+    <ClCompile Include="..\src\utils\debug.c" />
+    <ClCompile Include="..\src\utils\img_font_init.c" />
+    <ClCompile Include="..\src\utils\utils.c" />
+    <ClCompile Include="..\src\vfx\bubbles.c" />
+    <ClCompile Include="..\src\vfx\confetti.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\core\credits.h" />
+    <ClInclude Include="..\src\core\game.h" />
+    <ClInclude Include="..\src\core\gameover.h" />
+    <ClInclude Include="..\src\core\leaderboard.h" />
+    <ClInclude Include="..\src\core\mainmenu.h" />
+    <ClInclude Include="..\src\core\settings.h" />
+    <ClInclude Include="..\src\core\splashscreen.h" />
+    <ClInclude Include="..\src\entities\bubblegun.h" />
+    <ClInclude Include="..\src\entities\dirt.h" />
+    <ClInclude Include="..\src\entities\faucet.h" />
+    <ClInclude Include="..\src\entities\plate.h" />
+    <ClInclude Include="..\src\entities\roomba.h" />
+    <ClInclude Include="..\src\entities\sponge.h" />
+    <ClInclude Include="..\src\systems\day.h" />
+    <ClInclude Include="..\src\systems\money.h" />
+    <ClInclude Include="..\src\systems\settings_options.h" />
+    <ClInclude Include="..\src\systems\shop.h" />
+    <ClInclude Include="..\src\systems\soap.h" />
+    <ClInclude Include="..\src\systems\sounds.h" />
+    <ClInclude Include="..\src\systems\timer.h" />
+    <ClInclude Include="..\src\systems\tutorial.h" />
+    <ClInclude Include="..\src\systems\upgrades.h" />
+    <ClInclude Include="..\src\utils\debug.h" />
+    <ClInclude Include="..\src\utils\img_font_init.h" />
+    <ClInclude Include="..\src\utils\utils.h" />
+    <ClInclude Include="..\src\vfx\bubbles.h" />
+    <ClInclude Include="..\src\vfx\confetti.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -61,6 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)src\core;$(SolutionDir)src\systems;$(SolutionDir)src\entities;$(SolutionDir)src\utils;$(SolutionDir)src\vfx</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -82,6 +142,7 @@ xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmodL.dll" "$(OutDir)" /s /r /y 
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)src\core;$(SolutionDir)src\systems;$(SolutionDir)src\entities;$(SolutionDir)src\utils;$(SolutionDir)src\vfx</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -95,65 +156,6 @@ xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\CProcessing.dll" "$(OutDir)" /s 
 xcopy "$(SolutionDir)Extern\CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="bubblegun.c" />
-    <ClCompile Include="bubbles.c" />
-    <ClCompile Include="confetti.c" />
-    <ClCompile Include="credits.c" />
-    <ClCompile Include="debug.c" />
-    <ClCompile Include="dirt.c" />
-    <ClCompile Include="faucet.c" />
-    <ClCompile Include="game.c" />
-    <ClCompile Include="gameover.c" />
-    <ClCompile Include="img_font_init.c" />
-    <ClCompile Include="leaderboard.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="mainmenu.c" />
-    <ClCompile Include="plate.c" />
-    <ClCompile Include="roomba.c" />
-    <ClCompile Include="settings.c" />
-    <ClCompile Include="settings_options.c" />
-    <ClCompile Include="shop.c" />
-    <ClCompile Include="soap.c" />
-    <ClCompile Include="sounds.c" />
-    <ClCompile Include="day.c" />
-    <ClCompile Include="splashscreen.c" />
-    <ClCompile Include="sponge.c" />
-    <ClCompile Include="timer.c" />
-    <ClCompile Include="tutorial.c" />
-    <ClCompile Include="upgrades.c" />
-    <ClCompile Include="utils.c" />
-    <ClCompile Include="money.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="bubblegun.h" />
-    <ClInclude Include="bubbles.h" />
-    <ClInclude Include="confetti.h" />
-    <ClInclude Include="credits.h" />
-    <ClInclude Include="debug.h" />
-    <ClInclude Include="dirt.h" />
-    <ClInclude Include="faucet.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="gameover.h" />
-    <ClInclude Include="day.h" />
-    <ClInclude Include="img_font_init.h" />
-    <ClInclude Include="leaderboard.h" />
-    <ClInclude Include="mainmenu.h" />
-    <ClInclude Include="plate.h" />
-    <ClInclude Include="roomba.h" />
-    <ClInclude Include="settings.h" />
-    <ClInclude Include="settings_options.h" />
-    <ClInclude Include="shop.h" />
-    <ClInclude Include="soap.h" />
-    <ClInclude Include="sounds.h" />
-    <ClInclude Include="splashscreen.h" />
-    <ClInclude Include="sponge.h" />
-    <ClInclude Include="timer.h" />
-    <ClInclude Include="tutorial.h" />
-    <ClInclude Include="upgrades.h" />
-    <ClInclude Include="utils.h" />
-    <ClInclude Include="money.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
