@@ -39,6 +39,7 @@
     <ClCompile Include="..\src\utils\utils.c" />
     <ClCompile Include="..\src\vfx\bubbles.c" />
     <ClCompile Include="..\src\vfx\confetti.c" />
+    <ClCompile Include="..\src\vfx\discoball.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\core\credits.h" />
@@ -68,6 +69,7 @@
     <ClInclude Include="..\src\utils\utils.h" />
     <ClInclude Include="..\src\vfx\bubbles.h" />
     <ClInclude Include="..\src\vfx\confetti.h" />
+    <ClInclude Include="..\src\vfx\discoball.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
