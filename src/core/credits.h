@@ -11,3 +11,5 @@ Copyright © 2025 DigiPen, All rights reserved.
 void credits_Init(void);
 void credits_Update(void);
 void credits_Exit(void);
+float GetTotalCreditsDuration(void);
+float GetCreditsEndPosition(void);
