@@ -113,7 +113,7 @@ void Leaderboard_Update(void) {
 	//draw back button
 	int leaderboard_pop = 0;
 	CP_Settings_NoStroke();
-	if (IsAreaClicked(120, CP_System_GetWindowHeight() - 120, 100, 100, mx, my)) {
+	if (IsAreaClicked(120, (float)CP_System_GetWindowHeight() - 120, 100, 100, mx, my)) {
 		leaderboard_pop = 10;
 		BubblesManual(mx, my);
 
