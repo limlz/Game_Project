@@ -22,7 +22,8 @@ int music_level = 10;
 float mx = 0, my = 0;
 
 
-static int DrawVolumeBar(int y_value, int level) {
+
+static int DrawVolumeBar(float y_value, int level) {
     Settings_Boxes.width = (float)(CP_System_GetWindowWidth() * 0.75) / 19;
     Settings_Boxes.height = 30;
     Settings_Boxes.position_x = (float)(CP_System_GetWindowWidth() / 7.0);
@@ -39,10 +40,10 @@ static int DrawVolumeBar(int y_value, int level) {
     if (CP_Input_MouseClicked()) {
         mx = CP_Input_GetMouseX();
         my = CP_Input_GetMouseY();
-        if (IsAreaClicked(right_base_x + 62.5, arrow_y, 20, 20, mx, my)) {
+        if (IsAreaClicked(right_base_x + 62.5f, arrow_y, 20.0f, 20.0f, mx, my)) {
             BubblesManual(Settings_Boxes.position_x + Settings_Boxes.width * (level++ * 2), y_value);
         }
-        else if (IsAreaClicked(left_base_x - 62.5, arrow_y, 20, 20, mx, my)) {
+        else if (IsAreaClicked(left_base_x - 62.5f, arrow_y, 20.0f, 20.0f, mx, my)) {
             BubblesManual(Settings_Boxes.position_x + Settings_Boxes.width * (--level * 2), y_value);
         }
     }
@@ -63,18 +64,18 @@ static int DrawVolumeBar(int y_value, int level) {
     return level;
 }
 
-void SfxVolumeSettingBar(int y_value) {
+void SfxVolumeSettingBar(float y_value) {
     sfx_level = DrawVolumeBar(y_value, sfx_level);
 }
 
-void MusicVolumeSettingBar(int y_value) {
+void MusicVolumeSettingBar(float y_value) {
     music_level = DrawVolumeBar(y_value, music_level);
 }
 
 float GetSfxVolume(void) {
-	return (float)sfx_level / 10.0;
+	return (float)sfx_level / 10.0f;
 }
 
 float GetMusicVolume(void) {
-	return (float)music_level / 10.0;
+	return (float)music_level / 10.0f;
 }
