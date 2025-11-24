@@ -15,9 +15,10 @@ Copyright © 2025 DigiPen, All rights reserved.
 #include "settings.h"
 #include "utils.h"
 #include "bubbles.h"
-#include "discoball.h"
+//#include "discoball.h"
 
 #define MAX_LINES 200
+#define DEFAULT_SPEED 90
 
 typedef struct 
 {
@@ -37,17 +38,20 @@ static Image digipen;
 
 CP_Font montserrat_light;
 CP_Font superwater;
-FILE *creditsFile;
+FILE *credits_file;
+
 CP_Color black;
 CP_Color button_blue;
 CP_Color white;
 CP_Color digipen_red;
 
-char *creditsLines[MAX_LINES];
-int totalLines;
-float scrollY;
-float speed;
+char *credits_lines[MAX_LINES];
+int total_lines;
 char buffer[256];
+
+float scroll_y;
+float speed;
+
 float timer = 0.0f;
 
 void credits_Init(void) {
@@ -69,25 +73,25 @@ void credits_Init(void) {
 	superwater = CP_Font_Load("Assets/SuperWater.ttf");
 
 	// load credits file
-	errno_t err = fopen_s(&creditsFile, "Assets/credits.txt", "r");
-	if (err != 0 || creditsFile == NULL) {
+	errno_t err = fopen_s(&credits_file, "Assets/credits.txt", "r");
+	if (err != 0 || credits_file == NULL) {
 		return;
 	}
-	totalLines = 0;
-	while (fgets(buffer, sizeof(buffer), creditsFile) && totalLines < MAX_LINES) {
+	total_lines = 0;
+	while (fgets(buffer, sizeof(buffer), credits_file) && total_lines < MAX_LINES) {
 
 		buffer[strcspn(buffer, "\r\n")] = 0; //removes newline
 
-		creditsLines[totalLines] = _strdup(buffer);
-		totalLines++;
+		credits_lines[total_lines] = _strdup(buffer); //allocate memory and copy line to credits_lines array
+		total_lines++;
 	}
 	
 	// unload credits file
-	fclose(creditsFile);
+	fclose(credits_file);
 
 	//set credit scroll speed
-	scrollY = CP_System_GetWindowHeight();
-	speed = 90.0f;
+	scroll_y = CP_System_GetWindowHeight();
+	speed = DEFAULT_SPEED;
 
 	//initialise bubble
 	BubblesInit();
@@ -102,28 +106,32 @@ void credits_Update(void) {
 	mouse.y = CP_Input_GetMouseY();
 
 	//initialise popping effect for settings button
-	float settings_pop = 0.0f;
+	float back_pop = 0.0f;
 
 	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
 
-	CP_Image_Draw(digipen.image, CP_System_GetWindowWidth() / 2.0f, scrollY, digipen.width, digipen.height, 255);
+	CP_Image_Draw(digipen.image, CP_System_GetWindowWidth() / 2.0f, scroll_y, digipen.width, digipen.height, 255);
 
 	CP_Settings_Fill(digipen_red);
 	CP_Font_Set(montserrat_light);
-	CP_Font_DrawText("All Content (C) 2025 Digipen Institute of Technology Singpoare. All Rights Reserved.", CP_System_GetWindowWidth() / 2.0f + 3.0f, scrollY + digipen.height / 2.0f + 30.0f);
+	CP_Font_DrawText("All Content (C) 2025 Digipen Institute of Technology Singpoare. All Rights Reserved.", CP_System_GetWindowWidth() / 2.0f + 3.0f, scroll_y + digipen.height / 2.0f + 30.0f);
 
-	if (CP_Input_MouseDown(MOUSE_BUTTON_1)) {
+	if (CP_Input_MouseDown(MOUSE_BUTTON_1) || CP_Input_KeyDown(KEY_SPACE) || CP_Input_KeyDown(KEY_ENTER)) {
 		speed = 400.0f;
 	}
 	else {
-		speed = 90.0f;
+		speed = DEFAULT_SPEED;
 	}
 
 	CP_Settings_NoStroke();
 	if (IsAreaClicked(120, CP_System_GetWindowHeight() - 120, 100, 100, mouse.x, mouse.y)) {
-		settings_pop = 10.0f;
+		//set popping effect of button active with value of 10.0f
+		back_pop = 10.0f;
+
+		//draw bubble at mouse cursor
 		BubblesManual(mouse.x, mouse.y);
 
+		//draw back button tool tip
 		CP_Settings_Fill(button_blue);
 		CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 120.0f, 75.0f, 0.0f, 20.0f);
 		CP_Font_Set(montserrat_light);
@@ -136,20 +144,21 @@ void credits_Update(void) {
 			CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 		}
 	}
-	CP_Image_Draw(back_arrow.image, 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + settings_pop, 100.0f + settings_pop, 255);
+	//draw back arrow button with popping effect
+	CP_Image_Draw(back_arrow.image, 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + back_pop, 100.0f + back_pop, 255);
 
 	// Draw credits
 	CP_Font_Set(superwater);
 	CP_Settings_TextSize(30.0f);
-	for (int i = 0; i < totalLines; i++) {
+	for (int i = 0; i < total_lines; i++) {
 		CP_Settings_Fill(white);
-		CP_Font_DrawText(creditsLines[i], CP_System_GetWindowWidth() / 2.0f + 3.0f, scrollY + digipen.height / 2.0f + 18.0f + i * 15.0f + 100.0f);
+		CP_Font_DrawText(credits_lines[i], CP_System_GetWindowWidth() / 2.0f + 3.0f, scroll_y + digipen.height / 2.0f + 18.0f + i * 15.0f + 100.0f);
 		CP_Settings_Fill(button_blue);
-		CP_Font_DrawText(creditsLines[i], CP_System_GetWindowWidth() / 2.0f, scrollY + digipen.height/2.0f + 15.0f + i * 15.0f + 100.0f);
+		CP_Font_DrawText(credits_lines[i], CP_System_GetWindowWidth() / 2.0f, scroll_y + digipen.height/2.0f + 15.0f + i * 15.0f + 100.0f);
 	}
 
 	// scroll upwards
-	scrollY -= speed * dt;
+	scroll_y -= speed * dt;
 
 	// go back main menu (temporary)
 	if (CP_Input_KeyTriggered(KEY_C)) {
@@ -168,6 +177,7 @@ void credits_Update(void) {
 	}
 }
 void credits_Exit(void) {
+	//free assets
 	CP_Font_Free(montserrat_light);
 	CP_Image_Free(digipen.image);
 	CP_Font_Free(superwater);
@@ -175,20 +185,23 @@ void credits_Exit(void) {
 }  
 
 float GetTotalCreditsDuration(void)
-{
-	float H = (float)CP_System_GetWindowHeight();
-	float IPH = digipen.height / 2.0f;
-	float totalHeight = H + IPH + 15.0f * totalLines + 100.0f;
+{	
+	//to calculate total credits run time
+	float window_height = (float)CP_System_GetWindowHeight();
+	float image_position_height = digipen.height / 2.0f;
+	float total_height = window_height + image_position_height + 15.0f * total_lines + 100.0f; //15.0f for the buffer between lines
+																							   //100.0f for the buffer betwee image and first line
 
-	return totalHeight / speed;  
+	return total_height / speed;  
 }
 
 float GetCreditsEndPosition(void)
 {
-	float last_line_y =
-		scrollY
+	//to calculate the tail(end) position of the credits
+	float last_line_y = 
+		scroll_y
 		+ digipen.height / 2.0f
-		+ 15.0f * totalLines
+		+ 15.0f * total_lines
 		+ 100.0f;
 
 	return last_line_y;
