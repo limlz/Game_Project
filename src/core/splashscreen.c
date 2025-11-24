@@ -59,7 +59,7 @@ void SplashScreenUpdate(void)
 	CP_Settings_Tint(CP_Color_Create(0, 0, 0, (int)alpha));
 
 	// draw logo at center of screen
-	CP_Image_DrawAdvanced(logo, (CP_System_GetWindowWidth() / 2), (CP_System_GetWindowHeight() / 2), CP_Image_GetWidth(logo), CP_Image_GetHeight(logo), 255, 0);
+	CP_Image_DrawAdvanced(logo, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.0f, (float)CP_Image_GetWidth(logo), (float)CP_Image_GetHeight(logo), 255, 0);
 	
 	// draw copyright text at bottom of screen
 	CP_Settings_Fill(white);
