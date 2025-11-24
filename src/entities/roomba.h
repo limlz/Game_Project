@@ -1,8 +1,10 @@
 /*************************************************************************
-@file
-@Author
-@Co-authors
-@brief
+@file		roomba.c
+@Author		lim liang zhou (l.liangzhou@digipen.edu)
+@Co-authors	Nur Nadia Natasya Binte Mohd Taha (nurnadianatasya.b@digipen.edu)
+@brief		This file contains the function declarations for the Roomba entity,
+			including its initialization, purchasing, movement toward dirt,
+			and scrubbing functionality.
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/

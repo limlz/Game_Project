@@ -1,8 +1,9 @@
 /*************************************************************************
-@file
-@Author
+@file		gameover.c
+@Author		Lim Liang Zhou (l.liangzhou@digipen.edu)
 @Co-authors Chiu Jun Wen (j.chiu@digipen.edu)
-@brief
+@brief		This file contains the function definitions for the game over
+			screen, including leaderboard management and player name input.
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/

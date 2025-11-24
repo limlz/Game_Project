@@ -1,8 +1,10 @@
 /*************************************************************************
-@file
-@Author
-@Co-authors
-@brief
+@file		dirt.c
+@Author		Lim Liang Zhou l.liangzhou@digipen.edu
+@Co-authors	nil
+@brief		This file contains the function definitions for managing dirt
+			entities, including their initialization, rendering, opacity
+			reduction when scrubbed, and checking for removal conditions.
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/

@@ -1,8 +1,9 @@
 /*************************************************************************
-@file
-@Author
-@Co-authors
-@brief
+@file		img_font_init.h
+@Author		Lim Liang Zhou (l.liangzhou@digipen.edu)
+@Co-authors	nil
+@brief		This file contains the function declarations for initializing
+			and freeing images, fonts, and colors used throughout the game.
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/

@@ -1,8 +1,10 @@
 /*************************************************************************
-@file
-@Author
-@Co-authors
-@brief
+@file		settings.c
+@Author		Lim Liang Zhou (l.liangzhou@digipen.edu)
+@Co-authors	Nur Nadia Natasya Binte Mohd Taha (nurnadianatasya.b@digipen.edu)
+@brief		This file contains the function definitions for the settings
+			screen, including SFX and music volume adjustments, as well as
+			navigation back to the main menu.
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/

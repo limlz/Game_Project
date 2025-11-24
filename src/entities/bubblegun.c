@@ -1,8 +1,9 @@
 /*************************************************************************
-@file       
-@Author     
-@Co-authors
-@brief      
+@file       bubblegun.c
+@Author     Lim Liang Zhou l.liangzhou@digipen.edu
+@Co-authors nil
+@brief      This file contains the functions to handle bullet spawning, updating, 
+            and rendering for the bubble gun entity in the main menu.
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/

@@ -1,8 +1,9 @@
 /*************************************************************************
-@file
-@Author
-@Co-authors
-@brief
+@file		faucet.c
+@Author		Nur Nadia Natasya Binte Mohd Taha nurnadianatasya.b@digipen.edu
+@Co-authors 
+@brief		This file contains the function definitions for the faucet entity,
+			including stream drawing and updating, as well as faucet drawing.
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/

@@ -1,8 +1,9 @@
 /*************************************************************************
-@file
-@Author
-@Co-authors
-@brief
+@file		sounds.c
+@Author		Lim Liang Zhou (l.liangzhou@digipen.edu)
+@Co-authors	nil
+@brief		This file contains the function definitions for sound management,
+			including background music and scrubbing sound effects.
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
