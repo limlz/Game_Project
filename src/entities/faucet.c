@@ -4,6 +4,10 @@
 @Co-authors 
 @brief		This file contains the function definitions for the faucet entity,
 			including stream drawing and updating, as well as faucet drawing.
+			The faucet releases a stream of water droplets that can clean dirt
+			on the plate when activated. The stream's behavior, including its 
+			position, velocity, and interaction with dirt, is managed within 
+			this file.
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
