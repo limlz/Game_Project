@@ -439,3 +439,5 @@ void ResetTutorial(void)
 
 int SpongeCanScrub(void)	{	return sponge_can_scrub;	}
 
+int TutorialYesNo(void) { return tutorial_need_answer;  }
+

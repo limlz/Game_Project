@@ -17,3 +17,4 @@ void ForceTutorialClose(void);
 void ResetTutorial(void);
 void ControlsOverlay(void);
 int TutorialIsActive(void);
+int TutorialYesNo(void);
