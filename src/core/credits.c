@@ -35,6 +35,7 @@ typedef struct {
 static Mouse mouse;
 static Image back_arrow;
 static Image digipen;
+static Image background;
 
 CP_Font montserrat_light;
 CP_Font superwater;
@@ -67,6 +68,7 @@ void credits_Init(void) {
 	digipen.height = CP_Image_GetHeight(digipen.image) / 2.0f;
 	digipen.width = CP_Image_GetWidth(digipen.image) / 2.0f;
 	back_arrow.image = CP_Image_Load("Assets/back_arrow.png");
+	background.image = CP_Image_Load("Assets/background.png");
 
 	// load font
 	montserrat_light = CP_Font_Load("Assets/MontserratLight.ttf");
@@ -109,6 +111,7 @@ void credits_Update(void) {
 	float back_pop = 0.0f;
 
 	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
+	CP_Image_Draw(background.image, (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
 
 	CP_Image_Draw(digipen.image, CP_System_GetWindowWidth() / 2.0f, scroll_y, digipen.width, digipen.height, 255);
 
