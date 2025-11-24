@@ -8,6 +8,8 @@
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
+#pragma once
+
 void Settings_Init(void);
 void Settings_Update(void);
 void Settings_Exit(void);

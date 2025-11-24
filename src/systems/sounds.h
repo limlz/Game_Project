@@ -7,6 +7,8 @@
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
+#pragma once
+
 void InitScrubbingSounds(void);
 void InitBackgrounMusic(void);
 void StartScrubbingSounds(void);

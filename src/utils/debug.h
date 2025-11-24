@@ -8,6 +8,8 @@
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
+#pragma once
+
 int IsCurrentlyDebugging(void);
 void StartDebugging(void);
 void StopDebugging(void);

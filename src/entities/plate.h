@@ -8,6 +8,8 @@
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
+#pragma once
+
 void DrawPlate(void);
 void ChangePlate(void);
 void EasyModeChangePlate(void);

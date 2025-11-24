@@ -8,6 +8,8 @@
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
+#pragma once
+
 void SpawnBubble(float mx, float my);
 void BubblesInit(void);
 void Bubbles_Draw(void);

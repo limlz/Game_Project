@@ -17,4 +17,5 @@ void ForceTutorialClose(void);
 void ResetTutorial(void);
 void ControlsOverlay(void);
 int TutorialIsActive(void);
+int SpongeCanScrub(void);
 int TutorialYesNo(void);

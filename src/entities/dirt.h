@@ -8,6 +8,8 @@
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
+#pragma once
+
 void InitDirt(void);
 void DrawDirt(void);
 void DirtScrubbed (int equipped, int sponge_power);

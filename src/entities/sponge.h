@@ -6,6 +6,8 @@
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
+#pragma once
+
 void SpongeInit(void);
 
 // Check if sponge is scrubbing
