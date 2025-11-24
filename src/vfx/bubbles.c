@@ -8,6 +8,8 @@
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
+#pragma once
+
 #include "cprocessing.h"
 #include "sponge.h"
 #include "debug.h"

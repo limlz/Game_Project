@@ -349,7 +349,7 @@ static void shop_menu(void) {
 }
 
 void shop_init(void) {
-    if (CheckGameRunning()) {
+    if (CheckGameRunning() && !TutorialYesNo()) {
         CP_Settings_TextSize(24.0f);
         CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
 		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);

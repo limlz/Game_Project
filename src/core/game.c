@@ -95,14 +95,14 @@ void Game_Update(void)
 		- Check sponge power level
 	*/
 	if (IsScrubbing() && CheckGameRunning()) {
-		if (Soap_CanScrub()) {
+		if (Soap_CanScrub() && SpongeCanScrub()) {
 			DirtScrubbed(IsSpongeEquipped(), GetSpongePower());
 			Soap_ConsumeOnScrub();
 			StartScrubbingSounds();
 		}
 		else {
 			StopScrubbingSounds();
-		}
+		}	
 	}
 	else {
 		StopScrubbingSounds();
@@ -124,8 +124,6 @@ void Game_Update(void)
 	SpongeInit();
 	Soap_Update();
 
-	shop_init();
-
 	if (Day_IsInGameplay() && (Day_GetDay() == 0)) {
 		TimerInit();
 		TutorialYesorNo();
@@ -134,7 +132,7 @@ void Game_Update(void)
 		PurchaseRoomba();
 		TimerInit();
 	}
-
+	shop_init();
 
 	Day_DrawPopup();
 

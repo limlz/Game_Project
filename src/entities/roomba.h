@@ -8,6 +8,7 @@
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
+#pragma once
 #ifndef ROOMBA_H
 #define ROOMBA_H
 

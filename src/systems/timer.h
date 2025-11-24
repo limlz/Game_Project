@@ -6,6 +6,8 @@
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
+#pragma once
+
 void TimerInit(void);
 void TimeReset(void);
 void TimeAdd(float add_time);

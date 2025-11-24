@@ -7,6 +7,8 @@
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
+#pragma once
+
 #include "cprocessing.h"
 
 void InitImagesFontsColors(void);
