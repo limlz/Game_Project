@@ -114,7 +114,7 @@ void credits_Update(void) {
 
 	CP_Settings_Fill(digipen_red);
 	CP_Font_Set(montserrat_light);
-	CP_Font_DrawText("All Content (C) 2025 Digipen Institute of Technology Singpoare. All Rights Reserved.", CP_System_GetWindowWidth() / 2.0f + 3.0f, scroll_y + digipen.height / 2.0f + 30.0f);
+	CP_Font_DrawText("All Content Copyright (C) 2025 Digipen Institute of Technology Singpoare. All Rights Reserved.", CP_System_GetWindowWidth() / 2.0f + 3.0f, scroll_y + digipen.height / 2.0f + 30.0f);
 
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1) || CP_Input_KeyDown(KEY_SPACE) || CP_Input_KeyDown(KEY_ENTER)) {
 		speed = 400.0f;

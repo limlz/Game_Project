@@ -53,7 +53,7 @@ void SplashScreenUpdate(void)
 	CP_Settings_Fill(white);
 	CP_Settings_TextSize(30.0f);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
-	CP_Font_DrawText("All Content (C) 2025 Digipen Institute of Technology Singpoare. All Rights Reserved.", CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() - 100.0f);
+	CP_Font_DrawText("All Content Copyright (C) 2025 Digipen Institute of Technology Singpoare. All Rights Reserved.", CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() - 100.0f);
 	
 	if (global_timer > 4.0f) {
 		CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
