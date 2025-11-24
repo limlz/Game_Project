@@ -123,8 +123,8 @@ void SpongeInit(void) {
 			sponge_x += sponge_vx;
 			sponge_y += sponge_vy;
 			// Optional damping so it slows down naturally
-			sponge_vx *= 0.90f;
-			sponge_vy *= 0.90f;
+			sponge_vx *= 0.9f;
+			sponge_vy *= 0.9f;
 			// Left wall
 			if (sponge_x - sponge_width / 2 < 0) {
 				sponge_x = sponge_width / 2;

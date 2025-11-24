@@ -29,7 +29,8 @@ Copyright © 2025 DigiPen, All rights reserved.
 #define MAX_DIRT 64
 #endif
 
-#define ROOMBA_PRICE 20
+#define ROOMBA_PRICE         20
+#define ROOMBA_SCRUB_RADIUS  5.0f   // Radius within which Roomba starts scrubbing
 
 // -----------------------------------------------------------------------------
 // Internal Roomba representation
@@ -49,8 +50,8 @@ typedef struct RoombaData
 static RoombaData roombas[MAX_ROOMBA];
 
 int   roomba_width = 50;
-int   roomba_currently_scrubbing = 0;   // 1 if any Roomba is scrubbing this frame
-int   ham_purchased = 0;   // number of active Roombas
+int   roomba_currently_scrubbing = 0;    // 1 if any Roomba is scrubbing this frame
+int   ham_purchased = 0;    // number of active Roombas
 int   roomba_strength = 3;
 float roomba_speed = 100.0f;
 float elapsed = 2.0f;
@@ -339,7 +340,7 @@ void RoombaFunction(void)
 		if (!is_idle)
 		{
 			// -----------------------------------------------------------------
-			// WORK MODE: Move toward assigned dirt and scrub
+			// WORK MODE: Move toward assigned dirt and scrub (no overshoot)
 			// -----------------------------------------------------------------
 			CP_Vector roomba_v = CP_Vector_Set(roombas[r].position_x, roombas[r].position_y);
 			CP_Vector dirt_v = CP_Vector_Set(
@@ -349,13 +350,26 @@ void RoombaFunction(void)
 			CP_Vector dir = CP_Vector_Subtract(dirt_v, roomba_v);
 			CP_Vector up = CP_Vector_Set(0, 1);
 
+			// Distance to dirt center
+			float dist_to_dirt = CP_Vector_Distance(dirt_v, roomba_v);
+
+			// Update angle (used for debug)
 			roombas[r].angle = CP_Vector_AngleCW(up, CP_Vector_Negate(dir));
 
-			if (CP_Vector_Distance(dirt_v, roomba_v) > 3.0f)
+			const float scrub_radius = ROOMBA_SCRUB_RADIUS;
+
+			if (dist_to_dirt > scrub_radius)
 			{
 				dir = CP_Vector_Normalize(dir);
-				float speed = roomba_speed * dt;
-				CP_Vector move = CP_Vector_Scale(dir, speed);
+
+				// Desired step this frame
+				float max_step = roomba_speed * dt;
+
+				// Clamp step so we never overshoot the dirt
+				if (max_step > dist_to_dirt)
+					max_step = dist_to_dirt;
+
+				CP_Vector move = CP_Vector_Scale(dir, max_step);
 				roomba_v = CP_Vector_Add(roomba_v, move);
 
 				roombas[r].position_x = roomba_v.x;
@@ -412,9 +426,11 @@ void RoombaFunction(void)
 			roombas[r].anim_timer = 0.0f;
 			roombas[r].current_frame = (roombas[r].current_frame + 1) % 3;
 		}
+
 		int is_idle_now = (!CheckGameRunning() || !Day_IsInGameplay() || IsTimerStopped() || target_index == -1);
 		float draw_x = roombas[r].position_x;
 		float draw_y = roombas[r].position_y;
+
 		// Draw
 		if (!IsCurrentlyDebugging())
 		{
