@@ -35,7 +35,7 @@ static Entry leaderboard[MAX_LEADERBOARD_ENTRIES];
 static int entry_count = 0;
 static int lowest_score;
 static int high_score;
-static int overlay_y = 0;
+static float overlay_y = 0;
 static int overlay_down = 1;
 int try_pop = 0;
 int menu_pop = 0;
@@ -159,13 +159,13 @@ void Game_Over_Update(void)
 		UpdateConfetti(CP_System_GetDt()); //confetti hehe
 
 		if (!name_entered) {
-			overlay_y = CP_System_GetWindowHeight()/2;
+			overlay_y = CP_System_GetWindowHeight()/2.0f;
 			overlay_down = 0;
 		}
 		else { 
 			overlay_down = 1;
-			overlay_y += 1500 * CP_System_GetDt();
-			overlay_y = CP_Math_ClampInt(overlay_y, CP_System_GetWindowHeight() / 2, CP_System_GetWindowHeight()*1.5);
+			overlay_y += 1500 * (int)CP_System_GetDt();
+			overlay_y = (float)CP_Math_ClampInt((int)overlay_y, CP_System_GetWindowHeight() / 2, (int)(CP_System_GetWindowHeight()*1.5));
 			CP_Settings_Stroke(white);
 			CP_Settings_NoStroke();
 		}
@@ -174,7 +174,7 @@ void Game_Over_Update(void)
 
 		CP_Settings_Stroke(button_blue);
 		CP_Settings_Fill(blue_chalk);
-		CP_Graphics_DrawRect(center_x, overlay_y, CP_System_GetWindowWidth(), CP_System_GetWindowHeight()); //dim background
+		CP_Graphics_DrawRect(center_x, (float)overlay_y, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight()); //dim background
 		//User Input for Name
 		for (int c = 65; c <= 90; c++) {
 			if (CP_Input_KeyTriggered(c) && (strlen(player_name) < MAX_NAME_LENGTH)) {

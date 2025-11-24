@@ -90,7 +90,7 @@ void credits_Init(void) {
 	fclose(credits_file);
 
 	//set credit scroll speed
-	scroll_y = CP_System_GetWindowHeight();
+	scroll_y = (float)CP_System_GetWindowHeight();
 	speed = DEFAULT_SPEED;
 
 	//initialise bubble
@@ -124,7 +124,7 @@ void credits_Update(void) {
 	}
 
 	CP_Settings_NoStroke();
-	if (IsAreaClicked(120, CP_System_GetWindowHeight() - 120, 100, 100, mouse.x, mouse.y)) {
+	if (IsAreaClicked(120, (float)CP_System_GetWindowHeight() - 120, 100, 100, mouse.x, mouse.y)) {
 		//set popping effect of button active with value of 10.0f
 		back_pop = 10.0f;
 

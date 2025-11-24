@@ -48,7 +48,7 @@ void SplashScreenUpdate(void)
 
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
-	CP_Settings_Tint(CP_Color_Create(0, 0, 0, alpha));
+	CP_Settings_Tint(CP_Color_Create(0, 0, 0, (int)alpha));
 	CP_Image_DrawAdvanced(logo, (CP_System_GetWindowWidth() / 2), (CP_System_GetWindowHeight() / 2), CP_Image_GetWidth(logo), CP_Image_GetHeight(logo), 255, 0);
 	CP_Settings_Fill(white);
 	CP_Settings_TextSize(30.0f);
