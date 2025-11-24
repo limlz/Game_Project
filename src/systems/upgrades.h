@@ -12,6 +12,7 @@ Copyright © 2025 DigiPen, All rights reserved.
 
 int Upgrades_GetSpongeCost(void);
 void Upgrades_AttemptSpongeUpgrade(void);
+void Reset_SpongeUpgradeCost(void);
 
 int Upgrades_GetSoapCost(void);
 void Upgrades_AttemptSoapPurchase(void);

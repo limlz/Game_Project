@@ -140,7 +140,7 @@ static void draw_shop_item(int itemNum, const char* name, const char* descriptio
     CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
     CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
     CP_Settings_TextSize(24.0f);
-    CP_Font_DrawTextBox(costText, costX - 45.0f, itemY - 12.0f, 100.0f);
+    CP_Font_DrawTextBox(costText, costX - CostButtonWidth/2, itemY - 12.0f, 100.0f);
 
     // Handle click only if upgradeable and inside visible list region
     if (upgradeable && CP_Input_MouseClicked() &&

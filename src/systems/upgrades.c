@@ -40,6 +40,10 @@ static const float FaucetBaseCooldownValue = 20.0f;
 int Upgrades_GetSpongeCost(void) {
     return spongeUpgradeCost;
 }
+void Reset_SpongeUpgradeCost(void) {
+    spongeUpgradeCost = 3;
+    spongeIncrement = 1;
+}
 
 void Upgrades_AttemptSpongeUpgrade(void) {
     if (GetCurrentMoney() < spongeUpgradeCost) {

@@ -76,6 +76,13 @@ void SpongeReset(void) {
 	sponge_power = init_sponge_base_power;
 	sponge_x = 335.0f;
 	sponge_y = 630.0f;
+
+	sponge_x = 100.0f;
+	sponge_y = 220.0f;
+
+	Reset_SpongeUpgradeCost();
+	sponge_x = 335.0f;
+	sponge_y = 630.0f;
 }
 
 static void SpongeInput(void) {
