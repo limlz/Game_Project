@@ -185,6 +185,7 @@ void credits_Exit(void) {
 	CP_Image_Free(digipen.image);
 	CP_Font_Free(superwater);
 	CP_Image_Free(back_arrow.image);
+	CP_Image_Free(background.image);
 }  
 
 float GetTotalCreditsDuration(void)
