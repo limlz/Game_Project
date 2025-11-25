@@ -70,6 +70,15 @@
     <ClInclude Include="..\src\vfx\bubbles.h" />
     <ClInclude Include="..\src\vfx\confetti.h" />
     <ClInclude Include="..\src\vfx\discoball.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Game_Project.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Assets\image\favicon.ico" />
+    <Image Include="favicon.ico" />
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -115,6 +124,7 @@
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)Extern\CProcessing\lib\x64;</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\</IntDir>
+    <TargetName>WeWashPl8</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

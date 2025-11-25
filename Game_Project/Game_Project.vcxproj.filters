@@ -15,172 +15,197 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.c">
+    <ClCompile Include="..\src\core\credits.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="game.c">
+    <ClCompile Include="..\src\core\game.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mainmenu.c">
+    <ClCompile Include="..\src\core\gameover.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sponge.c">
+    <ClCompile Include="..\src\core\leaderboard.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="timer.c">
+    <ClCompile Include="..\src\core\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utils.c">
+    <ClCompile Include="..\src\core\mainmenu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dirt.c">
+    <ClCompile Include="..\src\core\settings.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="shop.c">
+    <ClCompile Include="..\src\core\splashscreen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="bubbles.c">
+    <ClCompile Include="..\src\entities\bubblegun.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="money.c">
+    <ClCompile Include="..\src\entities\dirt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gameover.c">
+    <ClCompile Include="..\src\entities\faucet.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="plate.c">
+    <ClCompile Include="..\src\entities\plate.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="settings.c">
+    <ClCompile Include="..\src\entities\roomba.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="splashscreen.c">
+    <ClCompile Include="..\src\entities\sponge.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="settings_options.c">
+    <ClCompile Include="..\src\systems\day.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sounds.c">
+    <ClCompile Include="..\src\systems\money.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="roomba.c">
+    <ClCompile Include="..\src\systems\settings_options.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="day.c">
+    <ClCompile Include="..\src\systems\shop.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="credits.c">
+    <ClCompile Include="..\src\systems\soap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="faucet.c">
+    <ClCompile Include="..\src\systems\sounds.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="soap.c">
+    <ClCompile Include="..\src\systems\timer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="debug.c">
+    <ClCompile Include="..\src\systems\tutorial.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="bubblegun.c">
+    <ClCompile Include="..\src\systems\upgrades.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="upgrades.c">
+    <ClCompile Include="..\src\utils\debug.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="leaderboard.c">
+    <ClCompile Include="..\src\utils\img_font_init.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="confetti.c">
+    <ClCompile Include="..\src\utils\utils.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="img_font_init.c">
+    <ClCompile Include="..\src\vfx\bubbles.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tutorial.c">
+    <ClCompile Include="..\src\vfx\confetti.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vfx\discoball.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="gameover.h">
+    <ClInclude Include="..\src\core\credits.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="plate.h">
+    <ClInclude Include="..\src\core\game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="settings.h">
+    <ClInclude Include="..\src\core\gameover.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="splashscreen.h">
+    <ClInclude Include="..\src\core\leaderboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="faucet.h">
+    <ClInclude Include="..\src\core\mainmenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="bubbles.h">
+    <ClInclude Include="..\src\core\settings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="day.h">
+    <ClInclude Include="..\src\core\splashscreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="dirt.h">
+    <ClInclude Include="..\src\entities\bubblegun.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="game.h">
+    <ClInclude Include="..\src\entities\dirt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mainmenu.h">
+    <ClInclude Include="..\src\entities\faucet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="money.h">
+    <ClInclude Include="..\src\entities\plate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="roomba.h">
+    <ClInclude Include="..\src\entities\roomba.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="settings_options.h">
+    <ClInclude Include="..\src\entities\sponge.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="shop.h">
+    <ClInclude Include="..\src\systems\day.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sounds.h">
+    <ClInclude Include="..\src\systems\money.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sponge.h">
+    <ClInclude Include="..\src\systems\settings_options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="timer.h">
+    <ClInclude Include="..\src\systems\shop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="utils.h">
+    <ClInclude Include="..\src\systems\soap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="credits.h">
+    <ClInclude Include="..\src\systems\sounds.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="soap.h">
+    <ClInclude Include="..\src\systems\timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="debug.h">
+    <ClInclude Include="..\src\systems\tutorial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="bubblegun.h">
+    <ClInclude Include="..\src\systems\upgrades.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="upgrades.h">
+    <ClInclude Include="..\src\utils\debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="leaderboard.h">
+    <ClInclude Include="..\src\utils\img_font_init.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="confetti.h">
+    <ClInclude Include="..\src\utils\utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="img_font_init.h">
+    <ClInclude Include="..\src\vfx\bubbles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tutorial.h">
+    <ClInclude Include="..\src\vfx\confetti.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\vfx\discoball.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Game_Project.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Assets\image\favicon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="favicon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
