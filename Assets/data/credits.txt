@@ -1,10 +1,11 @@
 
-Game Title: WEWASHP8
+Game Title: WEWASHPL8
 
 
 
 
-Developed by:
+
+DEVELOPED BY
 
 Choon Ming Tan
 
@@ -21,7 +22,9 @@ Lim Liang Zhou
 
 
 
-Instructors:
+
+INSTRUCTORS
+
 
 Gerald
 
@@ -32,15 +35,52 @@ Tommy
 
 
 
+
+EXECUTIVES
+
+
+President
+
+Claude COMAIR
+
+
+Chief Operating Officer
+
+CHU Jason Yeu Tat
+
+
+Chief Financial Officer
+
+Michael GATS
+
+
+Managing Director, Singapore Campus
+
+TAN Chek Ming
+
+
+Provost and Acting Department Chair of Computer Science, Singapore Campus
+
+Prasanna Kumar GHALI
+
+
+VP of Compliance & Regulatory Affairs
+
+Mandy WONG
+
+
+Vice President of Information Technology and Computer Systems
+
+Johnny DEEK
+
+
+
+
+
 Special Thanks:
 
-Whoever made CProcessing
-
-Prasnana for teaching us C
-
-Gerald and Dr. Soroor for teaching us cprocessing
-
 Everyone who helped test, splash, and scrub during development
+
 
 
 
