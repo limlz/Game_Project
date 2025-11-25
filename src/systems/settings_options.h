@@ -10,7 +10,7 @@ Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
 #pragma once
 
-void SfxVolumeSettingBar(int y_value);
-void MusicVolumeSettingBar(int y_value);
+void SfxVolumeSettingBar(float y_value);
+void MusicVolumeSettingBar(float y_value);
 float GetSfxVolume(void);
 float GetMusicVolume(void);
