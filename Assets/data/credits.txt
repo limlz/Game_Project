@@ -5,7 +5,10 @@ Game Title: WEWASHPL8
 
 
 
+
+
 DEVELOPED BY
+
 
 Choon Ming Tan
 
@@ -23,6 +26,8 @@ Lim Liang Zhou
 
 
 
+
+
 INSTRUCTORS
 
 
@@ -31,6 +36,8 @@ Gerald
 Dr. Soroor
 
 Tommy
+
+
 
 
 
@@ -77,9 +84,13 @@ Johnny DEEK
 
 
 
+
+
 Special Thanks:
 
 Everyone who helped test, splash, and scrub during development
+
+
 
 
 
