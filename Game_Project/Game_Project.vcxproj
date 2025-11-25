@@ -78,7 +78,6 @@
   <ItemGroup>
     <Image Include="..\Assets\image\favicon.ico" />
     <Image Include="favicon.ico" />
-    <Image Include="icon1.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
