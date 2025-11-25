@@ -9,6 +9,7 @@
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
 #include "cprocessing.h"
+#include "settings_options.h"
 #include "utils.h"
 #include "bubbles.h"
 
