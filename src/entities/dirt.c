@@ -15,6 +15,7 @@ Copyright © 2025 DigiPen, All rights reserved.
 #include "money.h"
 #include "plate.h"
 #include "timer.h"
+#include "day.h"
 
 #define MAX_DIRT			50
 #define DIRT_RADIUS			50
