@@ -1,8 +1,10 @@
 /*************************************************************************
-@file
-@Author
-@Co-authors
-@brief
+@file       sponge.h
+@Author		Ng Cher Kai Dan cherkaidan.ng@digipen.edu
+@Co-authors 
+@brief      This file contains the function declaration for the Sponge Mechanics
+			in the game, including equipping, scrubbing, and upgrading
+			the sponge used to clean dirt off plates.
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/

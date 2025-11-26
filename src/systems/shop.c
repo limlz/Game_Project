@@ -1,8 +1,14 @@
 /*************************************************************************
-@file
-@Author
-@Co-authors
-@brief
+@file       shop.c
+@Author		Ng Cher Kai Dan cherkaidan.ng@digipen.edu
+@Co-authors Lim Liang Zhou l.liangzhou@digipen.edu
+            Nur Nadia Natasya Binte Mohd Taha nurnadianatasya.b@digipen.edu
+            Tan Choon Ming choonming.tan@digipen.edu
+@brief      This file contains the function definitions for initialising
+            and updating the in-game shop system, including drawing shop items,
+			handling user interactions, and managing upgrades. Includes
+			scrolling functionality for navigating through shop items, and 
+            sliding of shop panel.
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
@@ -65,6 +71,7 @@ static void shop_menu(void);
 static void draw_next_day_button(float headerCenterY);
 
 
+// Draws a single shop item row based on item number, name, description, cost, row index, and whether it's upgradeable
 static void draw_shop_item(int itemNum, const char* name, const char* description, int cost, int rowIndex, int upgradeable, float listTop, float listHeight, float panelLeft, float panelRight) {
 
     float itemY = listTop + (RowHeight * 0.5f) + (float)rowIndex * RowSpacing - listScroll;
@@ -348,7 +355,9 @@ static void shop_menu(void) {
     draw_shop();
 }
 
+// Initializes and handles the shop menu logic
 void shop_init(void) {
+	// Draw shop prompt if game is running and tutorial not active
     if (CheckGameRunning() && !TutorialYesNo()) {
         CP_Settings_TextSize(24.0f);
         CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
@@ -357,6 +366,7 @@ void shop_init(void) {
         CP_Font_DrawText("Shop [F]", x_pos, y_pos - 150.0f);
     }
 
+	// Toggle shop on/off
     if (CP_Input_KeyTriggered(KEY_F) && (!IsTimerStopped() || TutorialIsActive()) ) {
         shop_toggle = (shop_toggle == 0) ? 1 : 0;
         if (shop_toggle) {
@@ -364,6 +374,7 @@ void shop_init(void) {
         }
     }
 
+	// Draw shop if open or in transition
     if (shop_toggle || offset < MAX_OFFSET) {
         shop_menu();
     }
