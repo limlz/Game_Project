@@ -36,7 +36,7 @@ int GetTotalOpacity(void) {
 }
 
 void SetNumberOfDirt(int num) {
-	int current_day = Day_GetDay();
+	int current_day = DayGetDay();
 
 	// Increase dirt count by 1% each day to progressively raise difficulty.
 	float difficulty_multiplier = 1.0f + 0.01f * current_day;

@@ -41,9 +41,9 @@ void Game_Init(void)
 	UpdateVolume();
 	InitRoomba();
 	InitDirt();
-	Day_Init();
+	DayInit();
 	InitStream();
-	Day_StartCurrentDay();   // begin Day 0 (goal = 5 plates)
+	DayStartCurrentDay();   // begin Day 0 (goal = 5 plates)
 	SoapInit();
 	SpongeReset();
 	EasyModeChangePlate();
@@ -67,13 +67,13 @@ void Game_Update(void)
 	DrawDirt();
 
 	//Check if N key is clicked, DirtRemoved function to check if all dirt is removed. If any true, start new game
-	if (Day_IsInGameplay() && (CP_Input_KeyTriggered(KEY_N) || DirtRemoved())) {
-		Day_OnPlateCleaned();
+	if (DayIsInGameplay() && (CP_Input_KeyTriggered(KEY_N) || DirtRemoved())) {
+		DayOnPlateCleaned();
 
 		// Only spawn a new plate if still in gameplay (not in shop phase)
-		if (Day_IsInGameplay()) {
+		if (DayIsInGameplay()) {
 			InitDirt();
-			if (Day_GetDay() < 3) {
+			if (DayGetDay() < 3) {
 				EasyModeChangePlate();
 			}
 			else {
@@ -84,7 +84,7 @@ void Game_Update(void)
 
 	// displays current money
 	MoneyDisplay();
-	Day_DrawHUD(80.0f, 80.0f);
+	DayDrawHUD(80.0f, 80.0f);
 
 	/*
 	If the player is scrubbing, call the DirtScrubbed function to reduce opacity of dirt
@@ -124,7 +124,7 @@ void Game_Update(void)
 	SpongeInit();
 	SoapUpdate();
 
-	if (Day_IsInGameplay() && (Day_GetDay() == 0)) {
+	if (DayIsInGameplay() && (DayGetDay() == 0)) {
 		TimerInit();
 		TutorialYesorNo();
 		TutorialDayZero();
@@ -134,7 +134,7 @@ void Game_Update(void)
 	}
 	shop_init();
 
-	Day_DrawPopup();
+	DayDrawPopup();
 
 	if (CP_Input_KeyDown(KEY_6) && CP_Input_KeyTriggered(KEY_7) && IsCurrentlyDebugging() == 0) {
 		StartDebugging();

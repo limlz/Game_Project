@@ -379,7 +379,7 @@ void TutorialYesorNo(void)
 	}
 	else if (!start_tutorial && !is_tutorial_active && CP_Input_MouseClicked() && IsAreaClicked(mid_x + 120.0f, mid_y, 150.0f, 70.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) 
 	{
-		Day_ForceEndDay();
+		DayForceEndDay();
 	}
 }
 

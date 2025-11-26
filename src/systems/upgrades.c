@@ -1,7 +1,7 @@
 /*************************************************************************
 @file upgrades.c
 @Author Tan Choon Ming (choonming.tan@digipen.edu)
-@Co-authors
+@Co-authors NIL
 @brief This file contains the implementations of the various upgrades:
        sponge upgrade, soap purchase, soap drain upgrade, roomba upgrade,
        and faucet (stream) power/cooldown upgrades.
@@ -25,6 +25,10 @@ static int soap_cost = 2;
 /* Soap drain (Soap Saver) upgrade state */
 static int soap_drain_upgrade_cost = 6;
 static int soap_drain_increment = 2;
+/* Soap drain upgrade level (moved here from soap.c) */
+static int soap_drain_upgrade_level = 0;
+/* Maximum level for the soap drain upgrade (moved here from soap.c) */
+static const int soap_drain_upgrade_max_level = 10;
 
 /* Roomba (cleaning robot) upgrade state */
 static int roomba_upgrade_cost = 20;
@@ -160,6 +164,31 @@ void UpgradesAttemptFaucetCooldownUpgrade(void) {
     DecrementMoney(faucet_cooldown_upgrade_cost);
     FaucetUpgradeCooldown();
 }
+
+/* ----------------------- SOAP UPGRADE IMPLEMENTATION ------------------- */
+/* Increases the soap saver upgrade level, if not at max. */
+void SoapUpgradeDrain(void) {
+    if (SoapCanUpgradeDrain()) {
+        soap_drain_upgrade_level += 1;
+    }
+}
+
+/* Returns non-zero if another soap saver upgrade can still be purchased. */
+int SoapCanUpgradeDrain(void) {
+    return soap_drain_upgrade_level < soap_drain_upgrade_max_level;
+}
+
+/* Returns the current soap saver upgrade level. */
+int SoapGetDrainUpgradeLevel(void) {
+    return soap_drain_upgrade_level;
+}
+
+/* Resets the soap saver upgrade level back to 0 (used when restarting runs). */
+void SoapResetDrainUpgradeLevel(void) {
+    soap_drain_upgrade_level = 0;
+}
+
+/* ----------------------- FAUCET UPGRADE IMPLEMENTATION ------------------ */
 
 /* Increases internal faucet power level, clamped to the maximum level. */
 void FaucetUpgradePower(void) {

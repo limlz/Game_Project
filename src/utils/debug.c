@@ -62,7 +62,7 @@ void DebugPrint(void) {
 	CP_Settings_Fill(addition_color);
 	CP_Graphics_DrawRect(box_x, box_y + 20, BOX_WIDTH, ADD_SUB_BOX_HEIGHT);
 	if (IsAreaClicked(box_x + BOX_WIDTH / 2, box_y + 20 + ADD_SUB_BOX_HEIGHT / 2, BOX_WIDTH, ADD_SUB_BOX_HEIGHT, CP_Input_GetMouseX(), CP_Input_GetMouseY()) && CP_Input_MouseClicked()) {
-		Day_ForceEndDay();
+		DayForceEndDay();
 	}
 
 

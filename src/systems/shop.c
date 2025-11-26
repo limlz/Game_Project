@@ -174,10 +174,10 @@ static void draw_next_day_button(float headerCenterY) {
 
     if (CP_Input_MouseClicked() && IsAreaClicked(buttonX, buttonY, btnW, btnH, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
         TimeReset();
-        Day_StartCurrentDay();
+        DayStartCurrentDay();
         InitDirt();
         ChangePlate();
-        Day_ClearReadyForNextDay();
+        DayClearReadyForNextDay();
         shop_toggle = 0;
     }
 }
@@ -197,7 +197,7 @@ static void draw_shop(void) {
     float panelRight = CENTER_X_POS + SHOP_WIDTH / 2.0f;
 
     // Panel background'
-    if (Day_IsReadyForNextDay()) {
+    if (DayIsReadyForNextDay()) {
         CP_Graphics_ClearBackground(blue_chalk);
     }
 
@@ -214,7 +214,7 @@ static void draw_shop(void) {
     CP_Settings_Fill(dark_grey);
     CP_Font_DrawText("Shop Menu", CENTER_X_POS, headerCenterY);
 
-    if (Day_IsReadyForNextDay()) {
+    if (DayIsReadyForNextDay()) {
         MoneyDisplay();
         draw_next_day_button(headerCenterY);
     }

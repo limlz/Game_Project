@@ -1,7 +1,7 @@
 /*************************************************************************
 @file		faucet.c
 @Author		Nur Nadia Natasya Binte Mohd Taha nurnadianatasya.b@digipen.edu
-@Co-authors Tan Choon Ming choonming.tan@digipen.edu
+@Co-authors 
 @brief		This file contains the function definitions for the faucet entity,
 			including stream drawing and updating, as well as faucet drawing.
 			The faucet releases a stream of water droplets that can clean dirt
@@ -77,7 +77,7 @@ void DrawFaucet(void)
 	if (CP_Input_KeyTriggered(KEY_W))
 		faucet_on = 1;
 
-	if (CheckGameRunning() && Day_IsInGameplay())
+	if (CheckGameRunning() && DayIsInGameplay())
 	{
 		if (faucet_on == 1)
 		{
@@ -191,7 +191,7 @@ void DrawStreamTimer(void)
 		opacity = 0;
 	}
 
-	if (CheckGameRunning() && Day_IsInGameplay())
+	if (CheckGameRunning() && DayIsInGameplay())
 	{
 		if (attack_ready == 0) {
 			/* Use the base cooldown value from the upgrades system. */
@@ -237,7 +237,7 @@ static float	aoe_time_left = 0.0f;
 
 void CleanDirtWithStream(void)
 {
-	if (CheckGameRunning() && Day_IsInGameplay())
+	if (CheckGameRunning() && DayIsInGameplay())
 	{
 		for (int i = 0; i < MAX_DROPLETS; i++) {
 
@@ -277,7 +277,6 @@ void CleanDirtWithStream(void)
 	}
 }
 
-
 void AOEStream(void)
 {
 	DrawStreamTimer();
@@ -291,7 +290,7 @@ void AOEStream(void)
 	}
 
 	//set to 3 seconds for AOE attack
-	if (CheckGameRunning() && Day_IsInGameplay())
+	if (CheckGameRunning() && DayIsInGameplay())
 	{
 		if (stream_on == 1)
 		{
@@ -310,7 +309,7 @@ void AOEStream(void)
 			StopStream();
 		}
 	}
-	else if (!Day_IsInGameplay())
+	else if (!DayIsInGameplay())
 	{
 		InitStream();
 		stream_on = 0;

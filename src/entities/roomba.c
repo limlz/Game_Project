@@ -334,7 +334,7 @@ void RoombaFunction(void)
 		roombas[r].current_dirt_index = target_index;
 		roombas[r].currently_scrubbing = 0;
 
-		int is_game_running = CheckGameRunning() && Day_IsInGameplay() && !IsTimerStopped();
+		int is_game_running = CheckGameRunning() && DayIsInGameplay() && !IsTimerStopped();
 		int is_idle = (!is_game_running || target_index == -1);
 
 		if (!is_idle)
@@ -427,7 +427,7 @@ void RoombaFunction(void)
 			roombas[r].current_frame = (roombas[r].current_frame + 1) % 3;
 		}
 
-		int is_idle_now = (!CheckGameRunning() || !Day_IsInGameplay() || IsTimerStopped() || target_index == -1);
+		int is_idle_now = (!CheckGameRunning() || !DayIsInGameplay() || IsTimerStopped() || target_index == -1);
 		float draw_x = roombas[r].position_x;
 		float draw_y = roombas[r].position_y;
 
