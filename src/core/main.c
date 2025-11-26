@@ -1,7 +1,7 @@
 /*************************************************************************
 @file       main.c
-@Author     
-@Co-authors
+@Author     NIL
+@Co-authors NIL
 @brief      main entry point for the entire program
 
 Copyright © 2025 DigiPen, All rights reserved.

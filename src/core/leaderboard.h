@@ -1,7 +1,7 @@
 /*************************************************************************
 @file       leaderboard.h
 @Author     Chiu Jun Wen (j.chiu@digipen.edu)
-@Co-authors
+@Co-authors NIL
 @brief      This file contains the function declaration for the
 			leaderboard screen
 

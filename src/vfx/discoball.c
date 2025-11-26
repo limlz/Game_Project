@@ -1,7 +1,7 @@
 /*************************************************************************
 @file       discoball.c
 @Author     Chiu Jun Wen (j.chiu@digipen.edu)
-@Co-authors
+@Co-authors NIL
 @brief      This file contains the function definitions for the disco ball
 			effect
 

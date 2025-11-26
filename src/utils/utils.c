@@ -1,8 +1,9 @@
 /*************************************************************************
-@file
-@Author
-@Co-authors
-@brief
+@file		utils.c
+@Author		EVERYONE
+@Co-authors	EVERYONE
+@brief		utils functions for various checks like area click, circle click,
+			and circle intersection from our solo projects
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/

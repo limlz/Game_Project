@@ -1,8 +1,9 @@
 /*************************************************************************
-@file		
+@file		game.c
 @Author		
-@Co-authors
-@brief
+@Co-authors 
+@brief		the amalgamation of all game systems, handling the main 
+			gameplay loop
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/

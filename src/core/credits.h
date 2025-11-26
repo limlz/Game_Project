@@ -1,7 +1,7 @@
 /*************************************************************************
 @file       credits.h
 @Author     Chiu Jun Wen (j.chiu@digipen.edu)
-@Co-authors
+@Co-authors NIL
 @brief      This file contains the function declarations for the credits
 			screen
 

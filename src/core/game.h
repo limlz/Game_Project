@@ -1,8 +1,8 @@
 /*************************************************************************
-@file
+@file		game.h
 @Author
 @Co-authors
-@brief
+@brief		the header file for the main gameplay loop functions
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
