@@ -1,8 +1,9 @@
 /*************************************************************************
-@file
-@Author
-@Co-authors
-@brief
+@file       timer.h
+@Author		Ng Cher Kai Dan cherkaidan.ng@digipen.edu
+@Co-authors Tan Choon Ming choonming.tan@digipen.edu
+@brief      This file contains the function declarations for the entire timer system,
+			including starting, stopping, resetting, updating the timer.
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/

@@ -1,11 +1,14 @@
 /*************************************************************************
-@file
-@Author
-@Co-authors
-@brief
+@file       sponge.c
+@Author		Ng Cher Kai Dan cherkaidan.ng@digipen.edu
+@Co-authors Lim Liang Zhou (l.liangzhou@digipen.edu)
+@brief      This file contains the function definitions for the Sponge Mechanics
+			in the game, including equipping, scrubbing, and upgrading
+			the sponge used to clean dirt off plates.
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
+
 /* This file contains the definition for the Sponge Mechanics
 To create the sponge, #include "sponge.h" and use sponge_init() to spawn the sponge in
 
