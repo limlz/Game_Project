@@ -44,7 +44,7 @@ void Game_Init(void)
 	Day_Init();
 	InitStream();
 	Day_StartCurrentDay();   // begin Day 0 (goal = 5 plates)
-	Soap_Init();
+	SoapInit();
 	SpongeReset();
 	EasyModeChangePlate();
 
@@ -95,9 +95,9 @@ void Game_Update(void)
 		- Check sponge power level
 	*/
 	if (IsScrubbing() && CheckGameRunning()) {
-		if (Soap_CanScrub() && SpongeCanScrub()) {
+		if (SoapCanScrub() && SpongeCanScrub()) {
 			DirtScrubbed(IsSpongeEquipped(), GetSpongePower());
-			Soap_ConsumeOnScrub();
+			SoapConsumeOnScrub();
 			StartScrubbingSounds();
 		}
 		else {
@@ -122,7 +122,7 @@ void Game_Update(void)
 	CP_Graphics_DrawRect((float)CP_System_GetWindowWidth() * 0.5f, 850.0f, (float)CP_System_GetWindowWidth(), 100.0f);
 
 	SpongeInit();
-	Soap_Update();
+	SoapUpdate();
 
 	if (Day_IsInGameplay() && (Day_GetDay() == 0)) {
 		TimerInit();

@@ -25,8 +25,8 @@ static const int GOAL_STEP = 1;
 static int day = 0;
 static int goal = 5;
 static int cleaned = 0;
-static int inGameplay = 1; // 1 = washing, 0 = popup/shop
-static int readyForNextDay = 0;   // 1 means: show Next Day button in Shop
+static int in_gameplay = 1; // 1 = washing, 0 = popup/shop
+static int ready_for_next_day = 0;   // 1 means: show Next Day button in Shop
 static float time_beforenext;
 
 int TutorialFinishing = 1;
@@ -35,33 +35,33 @@ void Day_Init(void) {
     day = 0;
     goal = DAY_BASE_GOAL;
     cleaned = 0;
-    inGameplay = 1;
+    in_gameplay = 1;
     show_day_complete_popup = 0;
     time_beforenext = 1.5f;
 }
 
 void Day_StartCurrentDay(void) {
     cleaned = 0;
-    inGameplay = 1;
+    in_gameplay = 1;
     show_day_complete_popup = 0;
 }
 
 void Day_OnPlateCleaned(void) {
-    if (!inGameplay) return;
+    if (!in_gameplay) return;
 
     cleaned += 1;
     if (cleaned >= goal) {
         day += 1;
         goal = DAY_BASE_GOAL + day * GOAL_STEP;
         cleaned = 0;
-        inGameplay = 0;
+        in_gameplay = 0;
         show_day_complete_popup = 1;   // show popup overlay
         TimeStop();                    // stop timer when target reached
     }
 }
 
 int Day_IsInGameplay(void) {
-    return inGameplay;
+    return in_gameplay;
 }
 
 int Day_GetDay(void) { return day; }
@@ -147,7 +147,7 @@ void Day_DrawPopup(void) {
         show_day_complete_popup = 0;
 
         if (Day_GetDay() > 1) {
-            readyForNextDay = 1;
+            ready_for_next_day = 1;
             extern int shop_toggle;
             shop_toggle = 1;
             TimeStop();
@@ -156,15 +156,15 @@ void Day_DrawPopup(void) {
     }
 }
 
-int Day_IsReadyForNextDay(void) { return readyForNextDay; }
-void Day_ClearReadyForNextDay(void) { readyForNextDay = 0; }
+int Day_IsReadyForNextDay(void) { return ready_for_next_day; }
+void Day_ClearReadyForNextDay(void) { ready_for_next_day = 0; }
 
 void Day_ForceEndDay(void) {
-    if (inGameplay) {
+    if (in_gameplay) {
         day += 1;
         goal = DAY_BASE_GOAL + day * GOAL_STEP;
         cleaned = 0;
-        inGameplay = 0;
+        in_gameplay = 0;
         show_day_complete_popup = 1;   // show popup overlay
         TimeStop();                    // stop timer when target reached
     }

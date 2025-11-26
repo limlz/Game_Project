@@ -158,13 +158,13 @@ void DebugPrint(void) {
 	CP_Graphics_DrawRect(text_x - 10, text_y - 20, 250, 80);
 
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-	sprintf_s(display, sizeof(display), "Sponge can scrub: %s", Soap_CanScrub() ? "Yes" : "No");
+	sprintf_s(display, sizeof(display), "Sponge can scrub: %s", SoapCanScrub() ? "Yes" : "No");
 	CP_Font_DrawText(display, text_x, text_y);
 
-	sprintf_s(display, sizeof(display), "Soap is full: %s", Soap_IsFull() ? "Yes" : "No");
+	sprintf_s(display, sizeof(display), "Soap is full: %s", SoapIsFull() ? "Yes" : "No");
 	CP_Font_DrawText(display, text_x, text_y + 20);
 
-	sprintf_s(display, sizeof(display), "Soap drain level: %i", Soap_GetDrainUpgradeLevel() ? Soap_GetDrainUpgradeLevel() : 0);
+	sprintf_s(display, sizeof(display), "Soap drain level: %i", SoapGetDrainUpgradeLevel() ? SoapGetDrainUpgradeLevel() : 0);
 	CP_Font_DrawText(display, text_x, text_y + 40);
 
 	text_y = text_y + 110;

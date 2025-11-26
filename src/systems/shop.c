@@ -146,12 +146,12 @@ static void draw_shop_item(int itemNum, const char* name, const char* descriptio
     if (upgradeable && CP_Input_MouseClicked() &&
         IsAreaClicked(costX, itemY, CostButtonWidth, CostButtonHeight, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
         switch (itemNum) {
-        case 0: Upgrades_AttemptSpongeUpgrade(); break;
-        case 1: Upgrades_AttemptSoapPurchase(); break;
-        case 2: Upgrades_AttemptRoombaUpgrade(); break;
-        case 3: Upgrades_AttemptSoapDrainUpgrade(); break;
-        case 4: Upgrades_AttemptFaucetPowerUpgrade(); break;
-        case 5: Upgrades_AttemptFaucetCooldownUpgrade(); break;
+        case 0: UpgradesAttemptSpongeUpgrade(); break;
+        case 1: UpgradesAttemptSoapPurchase(); break;
+        case 2: UpgradesAttemptRoombaUpgrade(); break;
+        case 3: UpgradesAttemptSoapDrainUpgrade(); break;
+        case 4: UpgradesAttemptFaucetPowerUpgrade(); break;
+        case 5: UpgradesAttemptFaucetCooldownUpgrade(); break;
         default: break;
         }
     }
@@ -239,9 +239,9 @@ static void draw_shop(void) {
 
     sprintf_s(currentLvlText, sizeof(currentLvlText), "Upgrades Power of Sponge\nCurrent Level: %d", GetSpongePower());
 
-    float totalReduction = (float)Soap_GetDrainUpgradeLevel() * 0.1f;
+    float totalReduction = (float)SoapGetDrainUpgradeLevel() * 0.1f;
     sprintf_s(soapUpgradeDescription, sizeof(soapUpgradeDescription),
-        "Reduces soap drain speed\nLevel: %d (-%.1f%%)", Soap_GetDrainUpgradeLevel(), totalReduction);
+        "Reduces soap drain speed\nLevel: %d (-%.1f%%)", SoapGetDrainUpgradeLevel(), totalReduction);
 
     int faucetCooldownLevel = Faucet_GetCooldownLevel();
     float baseCooldown = Faucet_GetCooldownBase();
@@ -318,28 +318,28 @@ static void draw_shop(void) {
     int row = 0;
 
     // Sponge Power
-    draw_shop_item(0, "Sponge Power", currentLvlText, Upgrades_GetSpongeCost(),
+    draw_shop_item(0, "Sponge Power", currentLvlText, UpgradesGetSpongeCost(),
         row++, SpongeUpgradeable(), listTop, listHeight, panelLeft, panelRight);
 
     // Stream Power
-    draw_shop_item(4, "Stream Power", faucetPowerDescription, Upgrades_GetFaucetPowerCost(),
+    draw_shop_item(4, "Stream Power", faucetPowerDescription, UpgradesGetFaucetPowerCost(),
         row++, Faucet_CanUpgradePower(), listTop, listHeight, panelLeft, panelRight);
 
     // Soap Refill
-    draw_shop_item(1, "Soap Refill", "Refills soap to MAX", Upgrades_GetSoapCost(),
-        row++, !Soap_IsFull(), listTop, listHeight, panelLeft, panelRight);
+    draw_shop_item(1, "Soap Refill", "Refills soap to MAX", UpgradesGetSoapCost(),
+        row++, !SoapIsFull(), listTop, listHeight, panelLeft, panelRight);
 
     // Soap Saver
-    draw_shop_item(3, "Soap Saver", soapUpgradeDescription, Upgrades_GetSoapDrainCost(),
-        row++, Soap_CanUpgradeDrain(), listTop, listHeight, panelLeft, panelRight);
+    draw_shop_item(3, "Soap Saver", soapUpgradeDescription, UpgradesGetSoapDrainCost(),
+        row++, SoapCanUpgradeDrain(), listTop, listHeight, panelLeft, panelRight);
 
     // Stream Cooldown
-    draw_shop_item(5, "Stream Cooldown", faucetCooldownDescription, Upgrades_GetFaucetCooldownCost(),
+    draw_shop_item(5, "Stream Cooldown", faucetCooldownDescription, UpgradesGetFaucetCooldownCost(),
         row++, Faucet_CanUpgradeCooldown(), listTop, listHeight, panelLeft, panelRight);
 
     // Roomba (conditional)
     if (RoombaPurchase()) {
-        draw_shop_item(2, "Cleaning Robot", "Upgrades robot that auto cleans", Upgrades_GetRoombaCost(),
+        draw_shop_item(2, "Cleaning Robot", "Upgrades robot that auto cleans", UpgradesGetRoombaCost(),
             row++, 1, listTop, listHeight, panelLeft, panelRight);
     }
 }

@@ -80,7 +80,7 @@ void SpongeReset(void) {
 	sponge_x = 100.0f;
 	sponge_y = 220.0f;
 
-	Reset_SpongeUpgradeCost();
+	ResetSpongeUpgradeCost();
 	sponge_x = 335.0f;
 	sponge_y = 630.0f;
 }
