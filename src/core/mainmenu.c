@@ -25,24 +25,31 @@ Copyright © 2025 DigiPen, All rights reserved.
 #include "tutorial.h"
 #include "credits.h"
 
-#define OFFSET		275
-#define MOVE_DOWN   125
+#define OFFSET		275   // horizontal spacing from center for Play/Exit buttons
+#define MOVE_DOWN   125   // vertical offset for button placement
 
-
-float mx, my;
-float sponge_arc = 20.0f;
-int dir = 1;
-int rand_sub_text = 0;
-int show_controls = 0;
-
+float mx, my;                 // current mouse x/y each frame
+float sponge_arc = 20.0f;     // unused right now (was for sponge wobble animation)
+int dir = 1;                  // unused right now (wobble direction)
+int rand_sub_text = 0;        // index for random subtext line
+int show_controls = 0;        // 1 if controls overlay is visible
 
 void Main_Menu_Init(void)
 {
+	// pick a random subtext line to show at start
 	rand_sub_text = CP_Random_RangeInt(0, 9);
+
+	// init bubblegun bullet pool
 	BulletsInit();
+
+	// load menu visuals + fonts + colors
 	InitImagesFontsColors();
+
+	// start background music + apply saved volume
 	InitBackgrounMusic();
 	UpdateVolume();
+
+	// init bubble particle system
 	BubblesInit();
 }
 
@@ -52,47 +59,47 @@ Handles menu interactions, UI rendering,
 button hover effects, animations, and transitions
 ------------------------------------------*/
 void Main_Menu_Update(void)
-{	
-	// Pop animation offsets for buttons (grow size on hover)
+{
+	// pop values used to “grow” buttons/icons when hovered
 	int play_pop = 0, exit_pop = 0, settings_pop = 0, controls_pop = 0, leaderboard_pop = 0, credits_pop = 0;
-	
-	// Get mouse position each frame
+
+	// cache mouse coordinates for hover checks + effects
 	mx = CP_Input_GetMouseX();
 	my = CP_Input_GetMouseY();
 
-	// Draw background colour
+	// clear screen and draw menu background image
 	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
+	CP_Image_Draw(background_image,
+		(float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2,
+		(float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
 
-	// Draw background image
-	CP_Image_Draw(background_image, (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
+	float center_x = CP_System_GetWindowWidth() * 0.5f;   // screen center x
+	float button_y = CP_System_GetWindowHeight() * 0.5f;  // base y for main buttons
 
-	// Calculate center positions for buttons
-	float center_x = CP_System_GetWindowWidth() * 0.5f;
-	float button_y = CP_System_GetWindowHeight() * 0.5f;
+	/* ------------------ Hover + click logic for buttons/icons ------------------ */
 
-	// PLAY BUTTON (LEFT SIDE)
+	// Play button hover/click
 	if (IsAreaClicked(center_x - OFFSET, button_y + MOVE_DOWN, 300, 150, mx, my)) {
-		play_pop = 10;
-		BubblesManual(mx, my);
-
-		// On click: start game
-		if (CP_Input_MouseClicked()) {
+		play_pop = 10;                 // hover pop effect
+		BubblesManual(mx, my);         // spawn bubbles at cursor
+		if (CP_Input_MouseClicked()) { // start game
 			CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
 		}
 	}
-	// EXIT BUTTON (RIGHT SIDE)
+	// Exit button hover/click
 	else if (IsAreaClicked(center_x + OFFSET, button_y + MOVE_DOWN, 300, 150, mx, my)) {
 		exit_pop = 10;
 		BubblesManual(mx, my);
 		if (CP_Input_MouseClicked()) {
-			CP_Engine_Terminate();
+			CP_Engine_Terminate();     // quit application
 		}
 	}
-	// SETTINGS BUTTON (BOTTOM LEFT)
+	// Settings icon hover/click (bottom-left)
 	else if (IsAreaClicked(120.0, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
 		settings_pop = 10;
 		BubblesManual(mx, my);
 
+		// tooltip
 		CP_Settings_Fill(button_blue);
 		CP_Graphics_DrawRectAdvanced(120, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 120.0f, 75.0f, 0.0f, 20.0f);
 
@@ -106,11 +113,12 @@ void Main_Menu_Update(void)
 			CP_Engine_SetNextGameState(Settings_Init, Settings_Update, Settings_Exit);
 		}
 	}
-	// CONTROLS BUTTON (BOTTOM RIGHT)
+	// Controls icon hover/click (bottom-right)
 	else if (IsAreaClicked(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
 		controls_pop = 10;
 		BubblesManual(mx, my);
 
+		// tooltip
 		CP_Settings_Fill(button_blue);
 		CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 120.0f, 75.0f, 0.0f, 20.0f);
 
@@ -120,15 +128,17 @@ void Main_Menu_Update(void)
 		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 		CP_Font_DrawText("Controls", CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f);
 
+		// click shows controls overlay (if not already showing)
 		if (CP_Input_MouseClicked() && !show_controls) {
 			show_controls = 1;
 		}
 	}
-	// LEADERBOARD BUTTON (BOTTOM RIGHT)
+	// Leaderboard icon hover/click (bottom-right, left of controls)
 	else if (IsAreaClicked(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
 		leaderboard_pop = 10;
 		BubblesManual(mx, my);
 
+		// tooltip
 		CP_Settings_Fill(button_blue);
 		CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 170.0f, 75.0f, 0.0f, 20.0f);
 
@@ -142,11 +152,12 @@ void Main_Menu_Update(void)
 			CP_Engine_SetNextGameState(Leaderboard_Init, Leaderboard_Update, Leaderboard_Exit);
 		}
 	}
-	// CREDITS BUTTON (BOTTOM LEFT)
+	// Credits icon hover/click (bottom-left, right of settings)
 	else if (IsAreaClicked(240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
 		credits_pop = 10;
 		BubblesManual(mx, my);
 
+		// tooltip
 		CP_Settings_Fill(button_blue);
 		CP_Graphics_DrawRectAdvanced(240, CP_System_GetWindowHeight() - 120.0f - 100.0f - 10.0f, 120.0f, 75.0f, 0.0f, 20.0f);
 
@@ -161,30 +172,32 @@ void Main_Menu_Update(void)
 		}
 	}
 
-	
-	// UI decor - randomised plates, utilising ChangePlate() function in plate.c
+	/* ------------------ Background UI decoration (plates) ------------------ */
+
+	// draw big plate circles behind UI
 	CP_Settings_Fill(plate_outer);
 	CP_Graphics_DrawCircle((float)CP_System_GetWindowWidth() / 2, 1050.0f, 1200.0f);
 	CP_Settings_Fill(plate_inner);
 	CP_Graphics_DrawCircle((float)CP_System_GetWindowWidth() / 2, 1050.f, 900.0f);
 
-	// Draw rectangles for ButtonBlue
+	/* ------------------ Draw main buttons and icons ------------------ */
+
+	// main buttons
 	CP_Settings_Fill(button_blue);
 	CP_Settings_NoStroke();
 	CP_Graphics_DrawRectAdvanced(center_x - OFFSET, button_y + MOVE_DOWN, 300.0f + play_pop, 150.0f + play_pop, 0.0f, 50.0f);
 	CP_Graphics_DrawRectAdvanced(center_x + OFFSET, button_y + MOVE_DOWN, 300.0f + exit_pop, 150.0f + exit_pop, 0.0f, 50.0f);
 
-	// Draw settings button
+	// settings icon
 	CP_Image_Draw(settings_icon, 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + settings_pop, 100.0f + settings_pop, 255);
 
-
-	// Draw controls button
+	// controls icon
 	CP_Image_Draw(controls_icon, CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + controls_pop, 100.0f + controls_pop, 255);
 
-	// Draw leaderboard button
+	// leaderboard icon
 	CP_Image_Draw(leaderboard_icon, CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + leaderboard_pop, 100.0f + leaderboard_pop, 255);
 
-	//draw credits button
+	// credits icon (drawn manually)
 	CP_Settings_Fill(button_blue);
 	CP_Graphics_DrawRectAdvanced(240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f + credits_pop, 100.0f + credits_pop, 0.0f, 20.0f);
 	CP_Settings_Fill(white);
@@ -194,7 +207,7 @@ void Main_Menu_Update(void)
 	CP_Graphics_DrawLine(240.0f - 17.0f, CP_System_GetWindowHeight() - 120.0f + 15.0f, 240.0f + 17.0f, CP_System_GetWindowHeight() - 120.0f + 15.0f);
 	CP_Graphics_DrawLine(240.0f - 17.0f, CP_System_GetWindowHeight() - 120.0f - 15.0f, 240.0f + 17.0f, CP_System_GetWindowHeight() - 120.0f - 15.0f);
 
-	// Draw text for button_blue
+	// button text
 	CP_Font_Set(montserrat_light);
 	CP_Settings_Fill(white);
 	CP_Settings_TextSize(70.0f);
@@ -202,33 +215,18 @@ void Main_Menu_Update(void)
 	CP_Font_DrawText("Play", center_x - OFFSET, button_y + MOVE_DOWN);
 	CP_Font_DrawText("Exit", center_x + OFFSET, button_y + MOVE_DOWN);
 
-	// Hamster
+	/* ------------------ Menu art (hamster, title, soap bottle) ------------------ */
+
 	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(141, 144, 147, 200));
 	CP_Image_Draw(hamsta, 400.0f, 240.0f, 220.0f, 220.0f, 255);
 
-
-	// UI Title
 	CP_Image_Draw(title_image, center_x - 15.0f, 275.0f, 1315.0f, 740.0f, 255);
-	CP_Image_DrawAdvanced(soap_bottle, 1500.0f, 120.0f,200.0f, 200.0f, 255, 340.0f);;
-	
+	CP_Image_DrawAdvanced(soap_bottle, 1500.0f, 120.0f, 200.0f, 200.0f, 255, 340.0f);
 
-	/*
-	// Draw game shadow
-	CP_Font_Set(title_font);
-	CP_Settings_Fill(white);
-	CP_Settings_TextSize(250.0f);
-	CP_Font_DrawText("WEWASHPL8", center_x + 15, button_y - 215);
+	/* ------------------ Random subtext under title ------------------ */
 
-	// Draw game logo
-	CP_Font_Set(title_font);
-	CP_Settings_Fill(button_blue);
-	CP_Settings_TextSize(250.0f);
-	CP_Font_DrawText("WEWASHPL8", center_x, button_y - 200);
-	*/
-
-	// Draw Subtext below Game Title
-	char subtext[10][64] = {"The Ultimate Dish-Washing Simulator",
+	char subtext[10][64] = { "The Ultimate Dish-Washing Simulator",
 							"Become a Pro at Cleaning Plates!",
 							"Scrub Away Your Worries!",
 							"Where Every Plate Tells a Story",
@@ -239,9 +237,12 @@ void Main_Menu_Update(void)
 							"Wash, Rinse, Repeat - The Fun Never Ends!",
 							"Turn Dirty Dishes into Shiny Smiles!" };
 
+	// clicking anywhere changes the subtext line
 	if (CP_Input_MouseClicked()) {
 		rand_sub_text = CP_Random_RangeInt(0, 9);
 	}
+
+	// draw subtext shadow + main text
 	CP_Font_Set(title_font);
 	CP_Settings_Fill(grey);
 	CP_Settings_TextSize(40.0f);
@@ -249,38 +250,28 @@ void Main_Menu_Update(void)
 
 	CP_Settings_Fill(white);
 	CP_Settings_TextSize(40.0f);
-	CP_Font_DrawText(subtext[rand_sub_text], center_x+5, CP_System_GetWindowHeight() - 120.0f-5);
+	CP_Font_DrawText(subtext[rand_sub_text], center_x + 5, CP_System_GetWindowHeight() - 120.0f - 5);
 
-	/*
-	// UI decor - wobble sponge :D
-	if (dir == 1) {
-		sponge_arc += 30.0f * CP_System_GetDt();
-	} else if (dir == 0) {
-		sponge_arc -= 30.0f * CP_System_GetDt();
-	}
+	/* ------------------ Bubblegun effects (bullets + bubbles) ------------------ */
 
-	if (sponge_arc >= 90.0f) {
-		dir = 0;
-	} else if (sponge_arc <= 20.0f) {
-		dir = 1;
-	}
-	Bubbles_Draw();
-	*/
-
-	// Hamster
+	// update/draw bullets and bubble particles
 	BulletsUpdateAndDraw();
 	Bubbles_Draw();
 
-	// Hamster Pointer
+	/* ------------------ Hamster arm aiming + shooting ------------------ */
+
+	// compute angle from hamster hand origin to mouse position
 	CP_Vector hand_origin = CP_Vector_Set(470.0f, 240.0f);
 	CP_Vector hand_vector = CP_Vector_Subtract(CP_Vector_Set(mx, my), hand_origin);
 	CP_Vector up = CP_Vector_Set(0, 1);
 	float hand_angle = CP_Vector_AngleCW(up, CP_Vector_Negate(hand_vector));
 
-	// Fire once per click
+	// fire bullets while mouse button is held down
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1)) {
 		BulletsSpawn(hand_origin, CP_Vector_Set(mx, my), 400.0f, 15.0f);
 	}
+
+	// draw correct arm sprite depending on angle (flipped when aiming to the left)
 	if (hand_angle > 0 && hand_angle < 180) {
 		CP_Image_DrawAdvanced(arm, 470.0f, 240.0f, 120.0f, 120.0f, 255, hand_angle);
 	}
@@ -291,13 +282,17 @@ void Main_Menu_Update(void)
 	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 
-	//CP_Graphics_DrawRectAdvanced(1520.0f, 300.0f, 70.0f, 50.0f, sponge_arc, 0.0f);
+	/* ------------------ Controls overlay toggle ------------------ */
 
-	if (IsAreaClicked((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2 + 240, 250.0f, 100.0f, mx, my)) {
+	// clicking near center bottom hides controls overlay
+	if (IsAreaClicked((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2 + 240,
+		250.0f, 100.0f, mx, my)) {
 		if (CP_Input_MouseClicked() && show_controls) {
 			show_controls = 0;
 		}
 	}
+
+	// draw overlay if enabled
 	if (show_controls) {
 		ControlsOverlay();
 	}
@@ -305,6 +300,6 @@ void Main_Menu_Update(void)
 
 void Main_Menu_Exit(void)
 {
+	// free menu image/font resources
 	FreeImagesFonts();
 }
-
