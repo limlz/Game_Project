@@ -2,9 +2,7 @@
 @file       settings_options.c
 @Author     Lim Liang Zhou (l.liangzhou@digipen.edu)
 @Co-authors nil
-@brief      This file contains the function definitions for the settings
-            options screen, specifically for drawing and managing volume
-			bars for sound effects and music.
+@brief      Settings options screen: draws/updates volume bars for SFX & music.
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
@@ -14,30 +12,33 @@ Copyright © 2025 DigiPen, All rights reserved.
 #include "bubbles.h"
 
 typedef struct {
-	float position_x, height, width;
-	CP_Color color;
+    float position_x, height, width;
+    CP_Color color;
 } Bar;
-static Bar Settings_Boxes;
-int sfx_level = 10;
-int music_level = 10;
-float mx = 0, my = 0;
 
-
+static Bar Settings_Boxes;   // shared bar style + base position
+int sfx_level = 10;          // 0..10
+int music_level = 10;        // 0..10
+float mx = 0, my = 0;        // cached mouse position on click
 
 static int DrawVolumeBar(float y_value, int level) {
+    // compute bar sizing based on window
     Settings_Boxes.width = (float)(CP_System_GetWindowWidth() * 0.75) / 19;
     Settings_Boxes.height = 30;
     Settings_Boxes.position_x = (float)(CP_System_GetWindowWidth() / 7.0);
     Settings_Boxes.color = CP_Color_Create(123, 183, 220, 255);
 
+    // arrow positions
     float left_base_x = (float)(CP_System_GetWindowWidth() / 7.0);
     float right_base_x = left_base_x + (float)((CP_System_GetWindowWidth() * 0.75) / 19) * 18;
     float arrow_y = (float)y_value;
 
+    // draw left/right arrows
     CP_Settings_Fill(Settings_Boxes.color);
     CP_Graphics_DrawTriangle(left_base_x - 75.0f, arrow_y, left_base_x - 50.0f, arrow_y - 20.0f, left_base_x - 50.0f, arrow_y + 20.0f);
     CP_Graphics_DrawTriangle(right_base_x + 75.0f, arrow_y, right_base_x + 50.0f, arrow_y - 20.0f, right_base_x + 50.0f, arrow_y + 20.0f);
 
+    // handle click to increase/decrease level
     if (CP_Input_MouseClicked()) {
         mx = CP_Input_GetMouseX();
         my = CP_Input_GetMouseY();
@@ -49,8 +50,10 @@ static int DrawVolumeBar(float y_value, int level) {
         }
     }
 
+    // clamp to valid range
     level = CP_Math_ClampInt(level, 0, 10);
 
+    // draw 10 segments (grey = empty, blue = filled)
     int index = 10;
     while (index > 0) {
         index -= 1;
@@ -66,17 +69,19 @@ static int DrawVolumeBar(float y_value, int level) {
 }
 
 void SfxVolumeSettingBar(float y_value) {
+    // update/draw SFX bar
     sfx_level = DrawVolumeBar(y_value, sfx_level);
 }
 
 void MusicVolumeSettingBar(float y_value) {
+    // update/draw music bar
     music_level = DrawVolumeBar(y_value, music_level);
 }
 
 float GetSfxVolume(void) {
-	return (float)sfx_level / 10.0f;
+    return (float)sfx_level / 10.0f;   // convert 0..10 to 0.0..1.0
 }
 
 float GetMusicVolume(void) {
-	return (float)music_level / 10.0f;
+    return (float)music_level / 10.0f; // convert 0..10 to 0.0..1.0
 }

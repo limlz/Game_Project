@@ -164,7 +164,7 @@ void Game_Over_Update(void)
 		}
 		else { 
 			overlay_down = 1;
-			overlay_y += 1500 * (int)CP_System_GetDt();
+			overlay_y += 1500.0f * CP_System_GetDt();
 			overlay_y = (float)CP_Math_ClampInt((int)overlay_y, CP_System_GetWindowHeight() / 2, (int)(CP_System_GetWindowHeight()*1.5));
 			CP_Settings_Stroke(white);
 			CP_Settings_NoStroke();
