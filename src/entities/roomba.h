@@ -29,7 +29,7 @@ float GetRoombaSpeed(void);
 void ResetRoomba(void);
 
 // Maximum number of Roombas allowed in the scene
-#define MAX_ROOMBA 5
+#define MAX_ROOMBA 10
 
 // Internal Roomba representation (also usable by other modules if needed)
 typedef struct roomba {

@@ -2,7 +2,9 @@
 @file		roomba.c
 @Author		lim liang zhou (l.liangzhou@digipen.edu)
 @Co-authors	Nur Nadia Natasya Binte Mohd Taha (nurnadianatasya.b@digipen.edu)
-@brief		Roomba entity: purchase, movement, dirt targeting, scrubbing, idle.
+@brief		This file contains the function definitions for the Roomba entity,
+			including its initialization, purchasing, movement toward dirt,
+			scrubbing functionality, and idle behaviour when unassigned.
 
 Copyright © 2025 DigiPen, All rights reserved.
 *************************************************************************/
@@ -22,35 +24,42 @@ Copyright © 2025 DigiPen, All rights reserved.
 #define MAX_ROOMBA 4
 #endif
 
+// Just needs to be >= maximum number of dirts you ever spawn
 #ifndef MAX_DIRT
 #define MAX_DIRT 64
 #endif
 
 #define ROOMBA_PRICE         20
-#define ROOMBA_SCRUB_RADIUS  5.0f   // scrub when within this distance
+#define ROOMBA_SCRUB_RADIUS  5.0f   // Radius within which Roomba starts scrubbing
 
+// -----------------------------------------------------------------------------
+// Internal Roomba representation
+// -----------------------------------------------------------------------------
 typedef struct RoombaData
 {
 	float position_x;
 	float position_y;
-	float angle;               // used for debug arrow
-	int   current_dirt_index;  // target dirt (-1 = none)
-	int   currently_scrubbing; // 1 if scrubbing
-	int   current_frame;       // animation frame
-	float anim_timer;          // animation timer
+	float angle;
+	int   current_dirt_index;
+	int   currently_scrubbing;
+	int   current_frame;
+	float anim_timer;
 } RoombaData;
 
-static RoombaData roombas[MAX_ROOMBA]; // all roombas
+// ROOMBA SYSTEM STATE
+static RoombaData roombas[MAX_ROOMBA];
 
-int   roomba_width = 50;               // debug draw size
-int   roomba_currently_scrubbing = 0;  // any roomba scrubbing this frame?
-int   ham_purchased = 0;               // number of roombas owned
-int   roomba_strength = 3;             // scrub amount per tick
-float roomba_speed = 100.0f;           // movement speed
-float elapsed = 2.0f;                  // "not enough money" timer
-float frame_duration = 0.1f;           // seconds per anim frame
+int   roomba_width = 50;
+int   roomba_currently_scrubbing = 0;    // 1 if any Roomba is scrubbing this frame
+int   ham_purchased = 0;    // number of active Roombas
+int   roomba_strength = 3;
+float roomba_speed = 100.0f;
+float elapsed = 2.0f;
+float frame_duration = 0.1f; // seconds per frame
 
-/* ------------------ Getters / setters ------------------ */
+// -----------------------------------------------------------------------------
+// Getters / setters
+// -----------------------------------------------------------------------------
 int GetRoombaStrength(void)
 {
 	return roomba_strength;
@@ -82,12 +91,13 @@ float GetRoombaSpeed(void)
 	return roomba_speed;
 }
 
+// Returns number of Roombas purchased (0 means none)
 int RoombaPurchase(void)
 {
 	return ham_purchased;
 }
 
-// first roomba's target dirt (for debug UI)
+// For backward compatibility: use the first Roomba’s dirt index / position
 int GetClosestDirtIndex(void)
 {
 	if (ham_purchased > 0)
@@ -114,17 +124,17 @@ float GetRoombaY(void)
 	return 0.0f;
 }
 
-/* ------------------ Lifecycle ------------------ */
+// -----------------------------------------------------------------------------
+// Lifecycle
+// -----------------------------------------------------------------------------
 void ResetRoomba(void)
 {
-	// reset stats + count
 	ham_purchased = 0;
 	roomba_strength = 3;
 	roomba_speed = 100.0f;
 	roomba_currently_scrubbing = 0;
 	elapsed = 2.0f;
 
-	// clear all roomba state
 	for (int i = 0; i < MAX_ROOMBA; ++i)
 	{
 		roombas[i].position_x = 0.0f;
@@ -139,16 +149,19 @@ void ResetRoomba(void)
 
 void InitRoomba(void)
 {
+	// Just reset the system; Roombas will be placed when purchased
 	ResetRoomba();
 }
 
-/* ------------------ Purchasing ------------------ */
+// -----------------------------------------------------------------------------
+// Purchasing
+// -----------------------------------------------------------------------------
 void PurchaseRoomba(void)
 {
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_BASELINE);
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 
-	// show shop UI if limit not reached
+	// Allow purchasing until we hit MAX_ROOMBA
 	if (ham_purchased < MAX_ROOMBA)
 	{
 		CP_Image_Draw(front,
@@ -156,7 +169,6 @@ void PurchaseRoomba(void)
 			CP_System_GetWindowHeight() - 210,
 			200, 140, 255);
 
-		// show price text
 		char roomba_price[50];
 		CP_Font_Set(montserrat_light);
 		CP_Settings_TextSize(24.0f);
@@ -165,7 +177,6 @@ void PurchaseRoomba(void)
 			CP_System_GetWindowWidth() - 135,
 			CP_System_GetWindowHeight() - 120);
 
-		// click purchase area
 		if (IsAreaClicked(CP_System_GetWindowWidth() - 130,
 			CP_System_GetWindowHeight() - 250,
 			190, 150,
@@ -173,12 +184,11 @@ void PurchaseRoomba(void)
 			CP_Input_GetMouseY()) &&
 			CP_Input_MouseClicked())
 		{
-			// buy if enough money
 			if (GetCurrentMoney() >= ROOMBA_PRICE)
 			{
 				DecrementMoney(ROOMBA_PRICE);
 
-				// spawn new roomba at center
+				// Spawn a new Roomba at center
 				float start_x = CP_System_GetWindowWidth() / 2.0f;
 				float start_y = CP_System_GetWindowHeight() / 2.0f;
 
@@ -194,13 +204,13 @@ void PurchaseRoomba(void)
 			}
 			else
 			{
-				// start "not enough money" message timer
+				// Trigger "Not enough money!" message
 				elapsed = 0.0f;
 			}
 		}
 	}
 
-	// show message for 2 seconds after failed purchase
+	// Not enough money feedback timer
 	elapsed += CP_System_GetDt();
 	if (elapsed < 2.0f)
 	{
@@ -211,15 +221,19 @@ void PurchaseRoomba(void)
 	}
 }
 
-/* ------------------ Update & Draw ------------------ */
+// -----------------------------------------------------------------------------
+// Update & Draw
+// Multiple Roombas:
+//  - Nearest-neighbor global matching between Roombas and visible dirts
+//  - Automatic reassignment each frame
+//  - Roombas with no dirt target go to a rest area and wiggle/idly spin
+// -----------------------------------------------------------------------------
 void RoombaFunction(void)
 {
 	if (ham_purchased <= 0)
 		return;
 
-	// clamp counts to array sizes
 	int dirt_count = GetNumberOfDirt();
-
 	int maxR = ham_purchased;
 	if (maxR > MAX_ROOMBA)
 		maxR = MAX_ROOMBA;
@@ -230,7 +244,9 @@ void RoombaFunction(void)
 
 	float dt = CP_System_GetDt();
 
-	// distance table (clean dirt treated as far away)
+	// -----------------------------------------------------------------
+	// Build distance matrix for visible dirts only
+	// -----------------------------------------------------------------
 	float dist[MAX_ROOMBA][MAX_DIRT];
 	int has_any_visible_dirt = 0;
 
@@ -242,6 +258,7 @@ void RoombaFunction(void)
 			{
 				if (dirt_list[d].opacity <= 0)
 				{
+					// treat invisible/cleaned dirt as "infinitely far"
 					dist[r][d] = 999999.0f;
 				}
 				else
@@ -255,7 +272,7 @@ void RoombaFunction(void)
 		}
 	}
 
-	// greedy matching roombas to dirts
+	// Greedy global nearest-pair matching
 	int assigned_dirt_for_roomba[MAX_ROOMBA];
 	int assigned_roomba_for_dirt[MAX_DIRT];
 
@@ -305,7 +322,7 @@ void RoombaFunction(void)
 
 	roomba_currently_scrubbing = 0;
 
-	// idle positions around center
+	// Rest "home" area: around the CENTER of the screen in a small circle
 	float center_x = CP_System_GetWindowWidth() / 2.0f;
 	float center_y = CP_System_GetWindowHeight() / 2.0f;
 	float rest_radius = 40.0f;
@@ -317,13 +334,14 @@ void RoombaFunction(void)
 		roombas[r].current_dirt_index = target_index;
 		roombas[r].currently_scrubbing = 0;
 
-		// idle if game not running or no target
 		int is_game_running = CheckGameRunning() && DayIsInGameplay() && !IsTimerStopped();
 		int is_idle = (!is_game_running || target_index == -1);
 
 		if (!is_idle)
 		{
-			// move toward dirt or scrub if close
+			// -----------------------------------------------------------------
+			// WORK MODE: Move toward assigned dirt and scrub (no overshoot)
+			// -----------------------------------------------------------------
 			CP_Vector roomba_v = CP_Vector_Set(roombas[r].position_x, roombas[r].position_y);
 			CP_Vector dirt_v = CP_Vector_Set(
 				dirt_list[target_index].position_x,
@@ -332,15 +350,22 @@ void RoombaFunction(void)
 			CP_Vector dir = CP_Vector_Subtract(dirt_v, roomba_v);
 			CP_Vector up = CP_Vector_Set(0, 1);
 
+			// Distance to dirt center
 			float dist_to_dirt = CP_Vector_Distance(dirt_v, roomba_v);
+
+			// Update angle (used for debug)
 			roombas[r].angle = CP_Vector_AngleCW(up, CP_Vector_Negate(dir));
 
-			if (dist_to_dirt > ROOMBA_SCRUB_RADIUS)
+			const float scrub_radius = ROOMBA_SCRUB_RADIUS;
+
+			if (dist_to_dirt > scrub_radius)
 			{
 				dir = CP_Vector_Normalize(dir);
 
-				// clamp step to avoid overshoot
+				// Desired step this frame
 				float max_step = roomba_speed * dt;
+
+				// Clamp step so we never overshoot the dirt
 				if (max_step > dist_to_dirt)
 					max_step = dist_to_dirt;
 
@@ -352,7 +377,7 @@ void RoombaFunction(void)
 			}
 			else
 			{
-				// scrub dirt
+				// Scrub!
 				dirt_list[target_index].opacity -= roomba_strength;
 				dirt_list[target_index].opacity =
 					CP_Math_ClampInt(dirt_list[target_index].opacity, 0, 200);
@@ -366,7 +391,9 @@ void RoombaFunction(void)
 		}
 		else
 		{
-			// move to rest position + spin
+			// -----------------------------------------------------------------
+			// IDLE MODE: Go "home" to the center & wiggle around
+			// -----------------------------------------------------------------
 			float target_angle = angle_step * r;
 			CP_Vector rest_target = CP_Vector_Set(
 				center_x + cosf(target_angle) * rest_radius,
@@ -375,12 +402,12 @@ void RoombaFunction(void)
 			CP_Vector pos = CP_Vector_Set(roombas[r].position_x, roombas[r].position_y);
 			float dist_to_rest = CP_Vector_Distance(pos, rest_target);
 
+			// Walk to home spot
 			if (dist_to_rest > 3.0f)
 			{
 				CP_Vector dir = CP_Vector_Subtract(rest_target, pos);
 				dir = CP_Vector_Normalize(dir);
-
-				float speed = roomba_speed * 0.5f * dt;
+				float speed = roomba_speed * 0.5f * dt; // slower, lazy walk
 				CP_Vector move = CP_Vector_Scale(dir, speed);
 				pos = CP_Vector_Add(pos, move);
 
@@ -388,10 +415,11 @@ void RoombaFunction(void)
 				roombas[r].position_y = pos.y;
 			}
 
+			// Slow spin while idle (visible in debug)
 			roombas[r].angle += dt * 1.5f;
 		}
 
-		// update animation frame
+		// Animation timer
 		roombas[r].anim_timer += dt;
 		if (roombas[r].anim_timer >= frame_duration)
 		{
@@ -403,21 +431,32 @@ void RoombaFunction(void)
 		float draw_x = roombas[r].position_x;
 		float draw_y = roombas[r].position_y;
 
-		// normal draw vs debug draw
+		// Draw
 		if (!IsCurrentlyDebugging())
 		{
 			switch (roombas[r].current_frame)
 			{
-			case 0: CP_Image_Draw(jiggle1, draw_x - 50, draw_y + 30, 150, 150, 255); break;
-			case 1: CP_Image_Draw(jiggle2, draw_x - 50, draw_y + 30, 150, 150, 255); break;
-			case 2: CP_Image_Draw(jiggle3, draw_x - 50, draw_y + 30, 150, 150, 255); break;
+			case 0:
+				CP_Image_Draw(jiggle1, draw_x - 50,
+					draw_y + 30, 150, 150, 255);
+				break;
+			case 1:
+				CP_Image_Draw(jiggle2, draw_x - 50,
+					draw_y + 30, 150, 150, 255);
+				break;
+			case 2:
+				CP_Image_Draw(jiggle3, draw_x - 50,
+					draw_y + 30, 150, 150, 255);
+				break;
 			}
 		}
 		else
 		{
-			// debug: circle + facing triangle + target line
+			// Debug visualization
 			CP_Settings_Fill(roomba_color);
-			CP_Graphics_DrawCircle(roombas[r].position_x, roombas[r].position_y, roomba_width);
+			CP_Graphics_DrawCircle(roombas[r].position_x,
+				roombas[r].position_y,
+				roomba_width);
 
 			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 100));
 			CP_Graphics_DrawTriangleAdvanced(
