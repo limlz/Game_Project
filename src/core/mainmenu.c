@@ -35,6 +35,7 @@ int dir = 1;
 int rand_sub_text = 0;
 int show_controls = 0;
 
+
 void Main_Menu_Init(void)
 {
 	rand_sub_text = CP_Random_RangeInt(0, 9);
@@ -45,27 +46,41 @@ void Main_Menu_Init(void)
 	BubblesInit();
 }
 
+/*------------------------------------------
+Main Menu Update Function
+Handles menu interactions, UI rendering,
+button hover effects, animations, and transitions
+------------------------------------------*/
 void Main_Menu_Update(void)
-{
+{	
+	// Pop animation offsets for buttons (grow size on hover)
 	int play_pop = 0, exit_pop = 0, settings_pop = 0, controls_pop = 0, leaderboard_pop = 0, credits_pop = 0;
-	// Get mouse x y
+	
+	// Get mouse position each frame
 	mx = CP_Input_GetMouseX();
 	my = CP_Input_GetMouseY();
 
+	// Draw background colour
 	CP_Graphics_ClearBackground(CP_Color_Create(233, 239, 255, 255));
+
+	// Draw background image
 	CP_Image_Draw(background_image, (float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight(), 255);
 
+	// Calculate center positions for buttons
 	float center_x = CP_System_GetWindowWidth() * 0.5f;
 	float button_y = CP_System_GetWindowHeight() * 0.5f;
 
-	// Interactive aspect of ButtonBlue
+	// PLAY BUTTON (LEFT SIDE)
 	if (IsAreaClicked(center_x - OFFSET, button_y + MOVE_DOWN, 300, 150, mx, my)) {
 		play_pop = 10;
 		BubblesManual(mx, my);
+
+		// On click: start game
 		if (CP_Input_MouseClicked()) {
 			CP_Engine_SetNextGameState(Game_Init, Game_Update, Game_Exit);
 		}
 	}
+	// EXIT BUTTON (RIGHT SIDE)
 	else if (IsAreaClicked(center_x + OFFSET, button_y + MOVE_DOWN, 300, 150, mx, my)) {
 		exit_pop = 10;
 		BubblesManual(mx, my);
@@ -73,6 +88,7 @@ void Main_Menu_Update(void)
 			CP_Engine_Terminate();
 		}
 	}
+	// SETTINGS BUTTON (BOTTOM LEFT)
 	else if (IsAreaClicked(120.0, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
 		settings_pop = 10;
 		BubblesManual(mx, my);
@@ -90,6 +106,7 @@ void Main_Menu_Update(void)
 			CP_Engine_SetNextGameState(Settings_Init, Settings_Update, Settings_Exit);
 		}
 	}
+	// CONTROLS BUTTON (BOTTOM RIGHT)
 	else if (IsAreaClicked(CP_System_GetWindowWidth() - 120.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
 		controls_pop = 10;
 		BubblesManual(mx, my);
@@ -107,6 +124,7 @@ void Main_Menu_Update(void)
 			show_controls = 1;
 		}
 	}
+	// LEADERBOARD BUTTON (BOTTOM RIGHT)
 	else if (IsAreaClicked(CP_System_GetWindowWidth() - 240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
 		leaderboard_pop = 10;
 		BubblesManual(mx, my);
@@ -124,6 +142,7 @@ void Main_Menu_Update(void)
 			CP_Engine_SetNextGameState(Leaderboard_Init, Leaderboard_Update, Leaderboard_Exit);
 		}
 	}
+	// CREDITS BUTTON (BOTTOM LEFT)
 	else if (IsAreaClicked(240.0f, CP_System_GetWindowHeight() - 120.0f, 100.0f, 100.0f, mx, my)) {
 		credits_pop = 10;
 		BubblesManual(mx, my);
@@ -219,6 +238,7 @@ void Main_Menu_Update(void)
 							"From Grimy to Gleaming!",
 							"Wash, Rinse, Repeat - The Fun Never Ends!",
 							"Turn Dirty Dishes into Shiny Smiles!" };
+
 	if (CP_Input_MouseClicked()) {
 		rand_sub_text = CP_Random_RangeInt(0, 9);
 	}

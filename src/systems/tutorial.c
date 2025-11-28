@@ -24,14 +24,14 @@ Copyright © 2025 DigiPen, All rights reserved.
 
 #define TIME 3.0f
 
-int tutorial_need_answer     = 1; // starts game with tutorial question
-int start_tutorial           = 0; // if tutorial is active, show tutorial intro screen
-int is_tutorial_active       = 0; // if sponge tutorial is active, show sponge equip tutorial
-int tutorial_step            = 0; // which step of the tutorial the player is on
-int sponge_can_scrub         = 1; // if 1, sponge can scrub; if 0, sponge cannot scrub
-int text_placement           = 1;
-int standard_textbox_values  = 1; // if 1, use standard textbox positions; if 0, use custom positions
-int back_pop                 = 0;
+int tutorial_need_answer	= 1; // Flag: should the game ask player whether they want a tutorial?
+int start_tutorial			= 0; // Flag: tutorial intro screen currently active
+int is_tutorial_active		= 0; // Main tutorial sequence active
+int tutorial_step			= 0; // Tracks which step of the tutorial the player is currently on
+int sponge_can_scrub		= 1; // Controls whether the sponge is allowed to scrub
+int text_placement			= 1; // Controls textbox orientation and position
+int standard_textbox_values = 1; // If 1, use default textbox position based on hamsta
+int back_pop				= 0; // Used for button animation when clicking "Back"
 
 // Hamsta & textbox layout
 float hamsta_x       = 180.0f;
@@ -45,7 +45,7 @@ float textbox_x,	textbox_y,		textbox_x_below,	textbox_y_below;
 CP_Image pointer_arm;
 
 void TutorialStart(void) {
-
+	// Compute standard textbox positions unless custom ones are used
 	if (standard_textbox_values) {
         textbox_x       = hamsta_x + (width * 0.5f - 70.0f);
         textbox_y       = hamsta_y - 145.0f;
@@ -53,10 +53,12 @@ void TutorialStart(void) {
         textbox_y_below = hamsta_y + 110.0f;
 	}
 	else {
+		// Manual positioning for later tutorial stages
 		textbox_x = 1450.0f + (width * 0.5f - 70.0f);
 		textbox_y = 710.0f - 145.0f;
 	}
 	
+	// Adjust text draw position depending on placement style
 	if (text_placement == 1) //text above hamsta, left-aligned
 	{ 
 		draw_text_x		= (textbox_x - (width * 0.5f)) + 15.0f;
@@ -83,9 +85,10 @@ void TutorialStart(void) {
 
 	}
 	
-
+	// Draw tutorial visuals only if active
 	if (is_tutorial_active) 
-	{
+	{	
+		// Draw hamsta + pointer arm
 		CP_Image_Draw(hamsta, hamsta_x, hamsta_y, 150.0f, 150.0f, 255);
 		CP_Image_DrawAdvanced(pointer_arm, hamsta_x + 55.0f, hamsta_y, 180.0f, 150.0f, 255, ham_angle);
 		CP_Settings_Fill(white);
@@ -112,6 +115,7 @@ void TutorialStart(void) {
 		CP_Settings_TextSize(30.0f);
 		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_MIDDLE);
 
+		// --- Tutorial step-by-step logic ---
 		if (tutorial_step == 0) 
 		{
 			pointer_arm = arm_arrow_right;
@@ -296,10 +300,11 @@ void TutorialStart(void) {
 	void TutorialDayZero(void) 
 	{
 		TutorialStart();
-
 		if (start_tutorial) 
+			// Freeze gameplay while presenting intro
 		{
-			TimeStop();
+			/* Tutorial Day Zero – initial intro screen with character dialogue */
+			TimeStop(); // Freeze gameplay behind the tutorial overlay
 
 			float mid_x		= CP_System_GetWindowWidth() * 0.5f;
 			float mid_y		= CP_System_GetWindowHeight() * 0.5f;
@@ -309,6 +314,7 @@ void TutorialStart(void) {
 			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 175));
 			CP_Graphics_DrawRect(mid_x, mid_y, (float)CP_System_GetWindowWidth(), (float)CP_System_GetWindowHeight());
 
+			/* --- Background Overlay --- */
 			CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 155));
 			CP_Settings_Fill(CP_Color_Create(230, 230, 230, 255));
 			CP_Graphics_DrawCircle((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2, 600);
@@ -348,6 +354,7 @@ void TutorialYesorNo(void)
 	float mid_x = CP_System_GetWindowWidth() * 0.5f;
 	float mid_y = CP_System_GetWindowHeight() * 0.5f;
 
+	// Only show Yes/No screen if the tutorial needs player confirmation
 	if (tutorial_need_answer) 
 	{
 		TimeStop();

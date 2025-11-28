@@ -34,6 +34,7 @@ float FaucetGetCooldownBase(void);
 static const float FaucetCooldownReductionPerLevel = 1.0f;
 static const int   FaucetCooldownMaxLevel = 10;
 
+/* Droplet structure representing a single water particle. */
 typedef struct {
 	CP_Vector	position;
 	CP_Vector	velocity;
@@ -55,6 +56,7 @@ static float	rotation1 = 45.0f;
 static float	rotation2 = 90.0f;
 int				movement = 1;
 
+/* Draws all droplets visually on screen. */
 void DrawStream(void)
 {
 	for (int i = 0; i < MAX_DROPLETS; i++)
@@ -66,6 +68,7 @@ void DrawStream(void)
 	}
 }
 
+/* Handles drawing the faucet head and its rotation animation. */
 void DrawFaucet(void)
 {
 	float faucet_x = CP_System_GetWindowWidth() * 0.5f;
@@ -77,17 +80,22 @@ void DrawFaucet(void)
 	if (CP_Input_KeyTriggered(KEY_W))
 		faucet_on = 1;
 
+	/* Update rotation only during gameplay. */
 	if (CheckGameRunning() && DayIsInGameplay())
 	{
 		if (faucet_on == 1)
 		{
+			/* Rotate the faucet parts back and forth. */
 			rotation1 += 60.0f * CP_System_GetDt() * movement;
 			rotation2 += 60.0f * CP_System_GetDt() * movement;
 
+
+			/* Reached forward max — reverse direction. */
 			if (rotation1 >= rotation1_max && rotation2 >= rotation2_max)
-			{
 				movement = -1;
-			}
+
+
+			/* Returned to initial rotation — stop animation. */
 			if (movement == -1 && rotation1 <= 45.0f && rotation2 <= 90.0f)
 			{
 				movement = 1;
@@ -121,6 +129,7 @@ void InitStream(void)
 	}
 }
 
+/* Updates droplet motion while stream is active. */
 void UpdateStream(void)
 {
 	for (int i = 0; i < MAX_DROPLETS; i++)
@@ -133,9 +142,7 @@ void UpdateStream(void)
 	}
 }
 
-// function to stop the stream but ensure the droplets keep falling; to reset their position, 
-// with no velocity when they go off screen
-
+/* Makes droplets fall naturally but without new velocity after stream stops. */
 void StopStream(void)
 {
 	float center_x = CP_System_GetWindowWidth() * 0.5f;
@@ -145,13 +152,19 @@ void StopStream(void)
 	{
 		streamlist[i].position = CP_Vector_Add(streamlist[i].position, streamlist[i].velocity);
 
-		if (streamlist[i].position.y > CP_System_GetWindowHeight()) {
+
+		/* Reset droplet when completely off-screen */
+		if (streamlist[i].position.y > CP_System_GetWindowHeight())
+		{
 			streamlist[i].position.y = CP_Random_RangeFloat(-100.0f, 0.0f);
-			streamlist[i].position = CP_Vector_Set(CP_Random_RangeFloat(center_x - offset, center_x + offset),
+			streamlist[i].position = CP_Vector_Set(
+				CP_Random_RangeFloat(center_x - offset, center_x + offset),
 				CP_Random_RangeFloat((float)-CP_System_GetWindowHeight(), -20.0f));
+
+
+			/* No velocity added after stream stops */
 			streamlist[i].velocity = CP_Vector_Set(0, 0);
 		}
-
 	}
 }
 
@@ -164,6 +177,7 @@ static float	cooldown_left = 0.0f;
 static int		attack_ready = 1;
 int				opacity = 0;
 
+/* Draws faucet mini-icon, its cooldown overlay, and remaining cooldown number. */
 void DrawStreamTimer(void)
 {
 	float radius = 60.0f;
@@ -235,6 +249,7 @@ void DrawStreamTimer(void)
 
 static float	aoe_time_left = 0.0f;
 
+/* Applies damage to dirt when droplets collide within a radius. */
 void CleanDirtWithStream(void)
 {
 	if (CheckGameRunning() && DayIsInGameplay())
@@ -277,6 +292,7 @@ void CleanDirtWithStream(void)
 	}
 }
 
+/* Main handler for stream AOE attack (activation, duration, cooldown). */
 void AOEStream(void)
 {
 	DrawStreamTimer();
@@ -289,7 +305,7 @@ void AOEStream(void)
 		aoe_time_left = AOE_DURATION;
 	}
 
-	//set to 3 seconds for AOE attack
+	/* Manage AOE active time */
 	if (CheckGameRunning() && DayIsInGameplay())
 	{
 		if (stream_on == 1)
@@ -297,6 +313,8 @@ void AOEStream(void)
 			UpdateStream();
 			aoe_time_left -= CP_System_GetDt();
 
+
+			/* End AOE attack */
 			if (aoe_time_left <= 0.0f)
 			{
 				stream_on = 0;
@@ -306,6 +324,7 @@ void AOEStream(void)
 		}
 		else
 		{
+			/* Stream visually stops falling */
 			StopStream();
 		}
 	}
