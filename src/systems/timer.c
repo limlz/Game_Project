@@ -141,10 +141,16 @@ void TimerBlink(struct blinking_timer *blink) {
 	}
 }
 
+void EndMe(void) {
+	if (CP_Input_KeyDown(KEY_P)) {
+		timer = 0.1f;
+	}
+}
+
 void TimerInit() {
 	struct blinking_timer blink;
 	blink.speed = 200;
-	
+	EndMe();
 	TimeUpdate();
 	TimerBlink(&blink);
 
@@ -163,3 +169,5 @@ void TimerInit() {
 int IsTimerStopped(void) {
 	return is_timer_stopped;
 }
+
+
