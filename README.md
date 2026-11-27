@@ -27,7 +27,7 @@ Screens are driven through CProcessing's `CP_Engine_SetNextGameState`, each expo
 
 ## My contribution
 
-Largest contributor on the team by commit count (103 of 239). Files I authored:
+Files I authored:
 
 - `src/vfx/bubbles.c` — the bubble particle system: spawning, per-frame update and draw, driven from cursor position with a separate manual-spawn path for scripted moments
 - `src/entities/bubblegun.c`, `src/entities/dirt.c`, `src/entities/roomba.c`
